@@ -3,6 +3,7 @@
 //
 
 #include "Program.h"
+#include "Scrapper.h"
 
 
 Program::Program()
@@ -10,8 +11,8 @@ Program::Program()
     createMenus();
     menuPage.push(MAIN_MENU);
     this->graph = Graph();
-    //Scrapper().scrape(graph, "../files/stations.csv", "../files/network.csv");
-    //graph.calculateOrigins();
+    Scrapper().scrape(graph, "../files/real_graphs/graph1/nodes.csv", "../files/real_graphs/graph1/edges.csv");
+
 }
 
 void Program::run()
