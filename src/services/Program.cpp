@@ -5,11 +5,12 @@
 #include <future>
 #include "Program.h"
 #include "Scrapper.h"
+#include "actions/ChooseGraph.h"
 
 
 Program::Program()
 {
-    createMenus();
+
     menuPage.push(MAIN_MENU);
     int percentage=0;
     auto func = [&]( int *percentage)
@@ -25,7 +26,7 @@ Program::Program()
             currPercentage = percentage;
             curr = time(NULL);
             system("clear");
-            cout << "Loading graphs" << endl;
+            cout << "Loading graphs.txt" << endl;
             cout << currPercentage << "/100%";
             cout << "          " << curr - start << " s" << endl;
         }
@@ -34,6 +35,7 @@ Program::Program()
     percentage = -1;
 
     f.get();
+    createMenus();
 
 }
 
@@ -43,6 +45,8 @@ void Program::run()
     {
         if (menuPage.top() == POP_MENU)
         {
+            cout<< currentGraph->getNodes().size()<<endl;
+            cout<<currentGraph->name;
             menuPage.pop();
             menuPage.pop();
         }
@@ -57,20 +61,27 @@ void Program::createMenus()
 {
 
     Menu menu = Menu("../menus/main.txt");
-    menu.addMenuItem(new ChangeMenu(menuPage, TEST));
+    menu.addMenuItem(new ChangeMenu(menuPage, CHOOSE_GRAPH));
     menu.addMenuItem(new ChangeMenu(menuPage, POP_MENU));
     menus.push_back(menu);
-
-    Menu test = Menu("../menus/test.txt");
-    test.addMenuItem(new ChangeMenu(menuPage, MAIN_MENU));
-    test.addMenuItem(new ChangeMenu(menuPage, POP_MENU));
-    menus.push_back(test);
-
+    currentGraph=&this->graphs[0];
+    Menu graphMenu = Menu("../menus/graphs.txt");
+    graphMenu.addMenuItem(new ChooseGraph(this->currentGraph, toyGraphs[0]));
+    graphMenu.addMenuItem(new ChooseGraph(currentGraph, toyGraphs[1]));
+    graphMenu.addMenuItem(new ChooseGraph(currentGraph, toyGraphs[2]));
+    graphMenu.addMenuItem(new ChooseGraph(currentGraph, graphs[0]));
+    graphMenu.addMenuItem(new ChooseGraph(currentGraph, graphs[1]));
+    graphMenu.addMenuItem(new ChooseGraph(currentGraph, graphs[2]));
+    graphMenu.addMenuItem(new ChangeMenu(menuPage, POP_MENU));
+    menus.push_back(graphMenu);
 }
 
 void Program::loadGraphs(int *percentage) {
+
     *percentage=0;
     this->graphs[0] = Graph();
+    this->graphs[0].name="Ola";
+
     Scrapper().scrape(this->graphs[0], "../files/real_graphs/graph1/nodes.csv", "../files/real_graphs/graph1/edges.csv",0);
     *percentage=  15;
     this->graphs[1] = Graph();

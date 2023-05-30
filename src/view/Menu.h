@@ -13,7 +13,7 @@ using namespace std;
 enum menus
 {
     MAIN_MENU,
-    TEST,
+    CHOOSE_GRAPH,
     POP_MENU
 };
 

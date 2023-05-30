@@ -62,10 +62,10 @@ void Menu::execute()
 {
     draw();
     int option;
-    cout << "Choose an option: ";
+    cout << "ChooseGraph an option: ";
     while (!getInput(option))
     {
-        cout << "Invalid input! Choose a valid option: ";
+        cout << "Invalid input! ChooseGraph a valid option: ";
     }
     doAction(option - 1);
 }

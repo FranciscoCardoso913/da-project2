@@ -14,6 +14,7 @@ using namespace std;
 class Graph
 {
 public:
+    string name;
     ~Graph();
 
     /**
@@ -104,7 +105,8 @@ protected:
     // Station set
     vector<Line *> lines;
     double **distMatrix = nullptr; // dist matrix for Floyd-Warshall
-    int **pathMatrix = nullptr;    // path matrix for Floyd-Warshall
+    int **pathMatrix = nullptr;
+    // path matrix for Floyd-Warshall
 
 
     /**

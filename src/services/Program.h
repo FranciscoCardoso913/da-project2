@@ -6,6 +6,7 @@
 #include "../view/Menu.h"
 #include "actions/ChangeMenu.h"
 #include "actions/Action.h"
+#include "actions/ChooseGraph.h"
 
 class Program
 {
@@ -16,7 +17,7 @@ private:
     Graph toyGraphs[3];
     Graph graphs[3];
     Graph bigGraph;
-
+    Graph *currentGraph;
 public:
     /**
      * @brief Constructor of the class Program
