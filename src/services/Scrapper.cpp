@@ -4,10 +4,15 @@
 
 #include "Scrapper.h"
 
-void Scrapper::scrape(Graph &graph, string node_file, string line_file)
+void Scrapper::scrape(Graph &graph, string node_file, string line_file,int option)
 {
-    scrapeNodes(graph,node_file);
-    scrapeLines(graph,line_file);
+    if(option==0) {
+        scrapeNodes(graph, node_file);
+        scrapeLines(graph, line_file);
+    }
+    else{
+        scrapeLinesWithoutNodes( graph,  line_file);
+    }
 }
 
 void Scrapper::scrapeNodes(Graph &graph, string node_file)
@@ -78,4 +83,30 @@ void Scrapper::getValue(string &value, istringstream &data)
     }
     if (value == "-")
         value = "";
+}
+
+void Scrapper:: scrapeLinesWithoutNodes(Graph &graph,string &lines_file ){
+    vector<Line> lines;
+    ifstream file(lines_file);
+    string line;
+    string src,dst,w;
+    getline(file, line);
+
+    while (getline(file, line))
+    {
+        istringstream data(line);
+        getline(data, src, ',');
+        getline(data, dst, ',');
+        getline(data, w, ',');
+        auto v1 = graph.findNode(stoi(src));
+        auto v2 = graph.findNode(stoi(dst));
+        if (v1 == nullptr)
+            graph.addNode(new Node(stoi(src)));
+        if (v2 == nullptr)
+            graph.addNode(new Node(stoi(dst)));
+
+        graph.addBidirectionalLine(v1, v2, stod(w));
+        lines.push_back(
+                Line(graph.findNode(stoi(src)), graph.findNode(stoi(dst)), stod(w)));
+    }
 }

@@ -13,7 +13,9 @@ class Program
 private:
     vector<Menu> menus;
     stack<enum menus> menuPage;
-    Graph graph;
+    Graph toyGraphs[3];
+    Graph graphs[3];
+    Graph bigGraph;
 
 public:
     /**
@@ -33,6 +35,8 @@ public:
      * @brief Complexity O(1)
      */
     void run();
+
+    void loadGraphs(int *percentage);
     /**
      * @brief Destructor of program
      * @brief Complexity O(|A|) being A the actions;

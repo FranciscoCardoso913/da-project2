@@ -2,10 +2,8 @@
 #include "Graph.h"
 
 Node * Graph::findNode(const int &index) const {
-    for(auto node: nodes){
-        if(node->getIndex()==index) return node;
-    }
-    return nullptr;
+    if(index>=nodes.size()) return nullptr;
+    return nodes[index];
 }
 Line *Graph::findLine(const int &src, const int &dst) const
 {

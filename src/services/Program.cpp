@@ -2,6 +2,7 @@
 // Created by ze on 18-03-2023.
 //
 
+#include <future>
 #include "Program.h"
 #include "Scrapper.h"
 
@@ -10,8 +11,29 @@ Program::Program()
 {
     createMenus();
     menuPage.push(MAIN_MENU);
-    this->graph = Graph();
-    Scrapper().scrape(graph, "../files/real_graphs/graph1/nodes.csv", "../files/real_graphs/graph1/edges.csv");
+    int percentage=0;
+    auto func = [&]( int *percentage)
+    { loadGraphs(percentage);};
+    future<void> f = async(func, &percentage);
+    time_t start = ::time(NULL);
+    time_t curr = 0;
+    int currPercentage = percentage;
+    while (percentage < 100)
+    {
+        if ((time(NULL) - curr) > 0 or currPercentage +1  <= percentage)
+        {
+            currPercentage = percentage;
+            curr = time(NULL);
+            system("clear");
+            cout << "Loading graphs" << endl;
+            cout << currPercentage << "/100%";
+            cout << "          " << curr - start << " s" << endl;
+        }
+    }
+
+    percentage = -1;
+
+    f.get();
 
 }
 
@@ -35,14 +57,61 @@ void Program::createMenus()
 {
 
     Menu menu = Menu("../menus/main.txt");
-    menu.addMenuItem(new ChangeMenu(menuPage, graph, TEST));
-    menu.addMenuItem(new ChangeMenu(menuPage, graph, POP_MENU));
+    menu.addMenuItem(new ChangeMenu(menuPage, TEST));
+    menu.addMenuItem(new ChangeMenu(menuPage, POP_MENU));
     menus.push_back(menu);
 
     Menu test = Menu("../menus/test.txt");
-    test.addMenuItem(new ChangeMenu(menuPage, graph, MAIN_MENU));
-    test.addMenuItem(new ChangeMenu(menuPage, graph, POP_MENU));
+    test.addMenuItem(new ChangeMenu(menuPage, MAIN_MENU));
+    test.addMenuItem(new ChangeMenu(menuPage, POP_MENU));
     menus.push_back(test);
+
+}
+
+void Program::loadGraphs(int *percentage) {
+    *percentage=0;
+    this->graphs[0] = Graph();
+    Scrapper().scrape(this->graphs[0], "../files/real_graphs/graph1/nodes.csv", "../files/real_graphs/graph1/edges.csv",0);
+    *percentage=  15;
+    this->graphs[1] = Graph();
+    Scrapper().scrape(this->graphs[1], "../files/real_graphs/graph2/nodes.csv", "../files/real_graphs/graph2/edges.csv",0);
+    *percentage=40;
+    this->graphs[2] = Graph();
+    Scrapper().scrape(this->graphs[2], "../files/real_graphs/graph3/nodes.csv", "../files/real_graphs/graph3/edges.csv",0);
+    *percentage=70;
+    this->toyGraphs[0] = Graph();
+    Scrapper().scrape(this->toyGraphs[0], "", "../files/toy_graphs/shipping.csv",1);
+    *percentage=80;
+    this->toyGraphs[1] = Graph();
+    Scrapper().scrape(this->toyGraphs[1], "", "../files/toy_graphs/stadiums.csv",1);
+    *percentage=90;
+    this->toyGraphs[2] = Graph();
+    Scrapper().scrape(this->toyGraphs[2], "", "../files/toy_graphs/tourism.csv",1);
+    *percentage=100;
+    /*this->bigGraph=Graph();
+    Scrapper().scrape(this->bigGraph, "", "../files/Extra_Fully_Connected_Graphs/edges_25.csv",1);
+    *percentage=35;
+    Scrapper().scrape(this->bigGraph, "", "../files/Extra_Fully_Connected_Graphs/edges_50.csv",1);
+    *percentage=40;
+    Scrapper().scrape(this->bigGraph, "", "../files/Extra_Fully_Connected_Graphs/edges_75.csv",1);
+    *percentage=45;
+    Scrapper().scrape(this->bigGraph, "", "../files/Extra_Fully_Connected_Graphs/edges_100.csv",1);
+    *percentage=50;
+    Scrapper().scrape(this->bigGraph, "", "../files/Extra_Fully_Connected_Graphs/edges_200.csv",1);
+    *percentage=55;
+    Scrapper().scrape(this->bigGraph, "", "../files/Extra_Fully_Connected_Graphs/edges_300.csv",1);
+    *percentage=60;
+    Scrapper().scrape(this->bigGraph, "", "../files/Extra_Fully_Connected_Graphs/edges_400.csv",1);
+    *percentage=65;
+    Scrapper().scrape(this->bigGraph, "", "../files/Extra_Fully_Connected_Graphs/edges_500.csv",1);
+    *percentage=70;
+    Scrapper().scrape(this->bigGraph, "", "../files/Extra_Fully_Connected_Graphs/edges_600.csv",1);
+    *percentage=75;
+    Scrapper().scrape(this->bigGraph, "", "../files/Extra_Fully_Connected_Graphs/edges_700.csv",1);
+    *percentage=85;
+    Scrapper().scrape(this->bigGraph, "", "../files/Extra_Fully_Connected_Graphs/edges_800.csv",1);
+    *percentage=95;
+    Scrapper().scrape(this->bigGraph, "", "../files/Extra_Fully_Connected_Graphs/edges_900.csv",1);*/
 
 }
 

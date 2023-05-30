@@ -4,7 +4,7 @@
 
 #include "ChangeMenu.h"
 
-ChangeMenu::ChangeMenu(stack<menus> &currMenusPage, Graph &graph, menus nextMenu) : Action(graph)
+ChangeMenu::ChangeMenu(stack<menus> &currMenusPage, menus nextMenu)
 {
     this->nextMenu = nextMenu;
     this->menuPages = &currMenusPage;

@@ -20,7 +20,7 @@ public:
      * @param line_file the file containing the lines
      * @brief Complexity O(V+E) being V the number of stations and E the number of lines that exists
      */
-    void scrape(Graph &graph, string station_file, string line_file);
+    void scrape(Graph &graph, string station_file, string line_file,int option);
 
     /**
      * @brief Scrapes the information from the stations and stores it in the graph
@@ -45,6 +45,8 @@ public:
      * @brief Complexity O(1)
      */
     void getValue(string &value, istringstream &data);
+
+    void scrapeLinesWithoutNodes(Graph &graph,string &lines_value );
 };
 
 #endif // DA_PROJECT1_SCRAPPER_H

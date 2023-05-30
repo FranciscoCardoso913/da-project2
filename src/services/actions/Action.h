@@ -25,7 +25,7 @@ public:
      * @param graph graph with all the information of the stations and lines
      * @brief Complexity O(1)
      */
-    Action(Graph &graph);
+    Action();
 
     virtual void execute() = 0;
 };

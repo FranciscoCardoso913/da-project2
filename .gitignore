@@ -35,7 +35,7 @@
 cmake-build-debug/
 build/
 .vscode/
-
+files/
 #Doxygen files
 html/
 latex/

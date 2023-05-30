@@ -20,7 +20,7 @@ public:
      * @param nextMenu the page we want to go next
      * @brief Complexity O(1)
      */
-    ChangeMenu(stack<menus> &currMenusPage, Graph &graph, menus nextMenu);
+    ChangeMenu(stack<menus> &currMenusPage, menus nextMenu);
 
     /**
      * @brief Changes the current Menu page to another page

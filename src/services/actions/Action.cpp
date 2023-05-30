@@ -4,9 +4,9 @@
 
 #include "Action.h"
 
-Action::Action(Graph &graph)
+Action::Action()
 {
-    this->graph = &graph;
+
 }
 
 void Action::wait() const
