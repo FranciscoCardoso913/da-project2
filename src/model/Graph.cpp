@@ -3,13 +3,15 @@
 
 Node *Graph::findNode(const int &index) const
 {
-    if (index >= nodes.size())
+    if (index >= nodes.size() || index < 0)
         return nullptr;
     return nodes[index];
 }
 
 Edge *Graph::findEdge( Node *src,  Node *dst) const
 {
+    if(src==nullptr || dst==nullptr) return nullptr;
+
     for(auto edge: src->getAdj()){
         if(edge->getDest()==dst) return edge;
     }
