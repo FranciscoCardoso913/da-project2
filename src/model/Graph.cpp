@@ -1,10 +1,12 @@
 #include <stack>
+#include <climits>
 #include "Graph.h"
 
 Node *Graph::findNode(const int &index) const
 {
-    if (index >= nodes.size())
+    if (index >= nodes.size() || index<0)
         return nullptr;
+
     return nodes[index];
 }
 Line *Graph::findLine( Node *src,  Node *dst) const
@@ -17,7 +19,8 @@ Line *Graph::findLine( Node *src,  Node *dst) const
 
 bool Graph::addNode(Node *node)
 {
-    nodes.push_back(node);
+    while (node->getIndex()>=nodes.size())nodes.push_back(nullptr);
+    nodes[node->getIndex()]=node;
     return true;
 }
 
@@ -113,7 +116,7 @@ vector<Line > Graph:: minimumPerfectMatching (vector<int> oddNodes) {
 
     return perfectMatching;
 }
-vector<int> Graph:: findEulerianCircuit(vector<Line> edges ) {
+vector<int> Graph:: findEulerianCircuit(vector<Line> &edges ) {
     std::vector<int> circuit;
     std::vector<std::vector<int>> adjList(nodes.size());
 
@@ -158,26 +161,27 @@ double Graph:: calculateWeight(vector<int> tsp){
 }
 pair<vector<int>,int> Graph::christofidesSTP(){
     // Step 1: Find the minimum spanning tree
-    std::vector<Line> minimumSpanningTree = findMinimumSpanningTree();
+    /*std::vector<int> minimumSpanningTree = findMinimumSpanningTree();
+    cout<<"1";
 
     // Step 2: Find the set of vertices with odd degree in the minimum spanning tree
     vector<int> oddNodes=oddDegreeVertices(minimumSpanningTree);
-
+    cout<<"2";
     // Step 3: Find a minimum-weight perfect matching among the odd degree vertices
     std::vector<Line> perfectMatching = minimumPerfectMatching( oddNodes);
-
+    cout<<"3";
     // Step 4: Combine the minimum spanning tree and the perfect matching to form a multigraph
     std::vector<Line> multigraph;
     multigraph.insert(multigraph.end(), minimumSpanningTree.begin(), minimumSpanningTree.end());
     multigraph.insert(multigraph.end(), perfectMatching.begin(), perfectMatching.end());
-
+    cout<<"4";
     // Step 5: Find an Eulerian circuit in the multigraph
     std::vector<int> eulerianCircuit = findEulerianCircuit(multigraph);
-
+    cout<<"5";
     // Step 6: Convert the Eulerian circuit into a TSP tour
     vector<int> tspTour=tspTours(eulerianCircuit);
-
-    return {tspTour, calculateWeight(tspTour)};
+    cout<<"6";
+    return {tspTour, calculateWeight(tspTour)};*/
 }
 void deleteMatrix(int **m, int n)
 {
@@ -221,9 +225,43 @@ void Graph::mergeSets(vector<int> &parent, int x, int y)
     parent[xset] = yset;
 }
 
-vector<Line> Graph::findMinimumSpanningTree()
+vector<int> Graph::findMinimumSpanningTree()
 {
-    vector<Line> result;
+    priority_queue<Node, vector<Node>> pq;
+    vector<int> key(nodes.size(), INT_MAX);
+    vector<int> parent(nodes.size(), -1);
+    vector<bool> inMST(nodes.size(), false);
+
+    int src = 0;  // Start from vertex 0
+
+    pq.push(Node(src, 0));
+    key[src] = 0;
+
+    while (!pq.empty()) {
+        int u = pq.top().getIndex();
+        pq.pop();
+
+        inMST[u] = true;
+
+        for (auto node : this->nodes[u]->getAdj()) {
+            int v = node->getDest()->getIndex();
+            int weight = node->getCapacity();
+
+            if (!inMST[v] && weight < key[v]) {
+                key[v] = weight;
+                parent[v] = u;
+                pq.push(Node(v, key[v]));
+            }
+        }
+    }
+
+    // Store the MST in a vector
+    vector<int> mst;
+    for (int i = 1; i < nodes.size(); ++i)
+        mst.push_back(parent[i]);
+
+    return mst;
+    /*vector<Line> result;
     vector<int> parent(this->getNodes().size());
 
     for (int i = 0; i < this->getNodes().size(); i++)
@@ -238,8 +276,8 @@ vector<Line> Graph::findMinimumSpanningTree()
         Node *src = nextLine->getOrig();
         Node *dst = nextLine->getDest();
 
-        int x = findParent(parent, src->getIndex());
-        int y = findParent(parent, dst->getIndex());
+        int x = src->getIndex();
+        int y =dst->getIndex();
 
         if (x != y)
         {
@@ -248,5 +286,8 @@ vector<Line> Graph::findMinimumSpanningTree()
             edgeCount++;
         }
     }
-    return result;
+    return result;*/
+}
+vector<int> primMST(vector<vector<Node>>& graph, int numVertices) {
+
 }
