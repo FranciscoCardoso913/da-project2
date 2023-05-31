@@ -5,20 +5,20 @@ Node * Graph::findNode(const int &index) const {
     if(index>=nodes.size()) return nullptr;
     return nodes[index];
 }
-Line *Graph::findLine(const int &src, const int &dst) const
+Edge *Graph::findEdge(const int &src, const int &dst) const
 {
-    for (Line *line : lines)
+    for (Edge *edge : edges)
     {
-        if (line->getOrig()->getIndex() == src && line->getDest()->getIndex() == dst)
+        if (edge->getOrig()->getIndex() == src && edge->getDest()->getIndex() == dst)
         {
-            return line;
+            return edge;
         }
     }
-    for (Line *line : lines)
+    for (Edge *edge : edges)
     {
-        if (line->getOrig()->getIndex() == dst && line->getDest()->getIndex() == src)
+        if (edge->getOrig()->getIndex() == dst && edge->getDest()->getIndex() == src)
         {
-            return line;
+            return edge;
         }
     }
     return nullptr;
@@ -30,27 +30,27 @@ bool Graph::addNode(Node *node)
     return true;
 }
 
-bool Graph::addLine(Node *src, Node *dest, int w)
+bool Graph::addEdge(Node *src, Node *dest, int w)
 {
     if (src == nullptr || dest == nullptr)
         return false;
-    src->addLine(dest, w);
+    src->addEdge(dest, w);
     return true;
 }
 
 
-vector<Line *> Graph::getLineVector() const
+vector<Edge *> Graph::getEdgeVector() const
 {
-    return lines;
+    return edges;
 }
 
-bool Graph::addBidirectionalLine(Node *src, Node *dst, double w)
+bool Graph::addBidirectionalEdges(Node *src, Node *dst, double w)
 {
     if (src == nullptr || dst == nullptr)
         return false;
-    auto e1 = src->addLine(dst, w);
-    auto e2 = dst->addLine(src, w);
-    lines.push_back(e1);
+    auto e1 = src->addEdge(dst, w);
+    auto e2 = dst->addEdge(src, w);
+    edges.push_back(e1);
     e1->setReverse(e2);
     e2->setReverse(e1);
     return true;
@@ -66,9 +66,9 @@ void Graph::reset()
     {
         node->setVisited(false);
         node->setProcessing(false);
-        for (Line *line : node->getAdj())
+        for (Edge *edge : node->getAdj())
         {
-            line->setFlow(0);
+            edge->setFlow(0);
         }
     }
 }

@@ -1,62 +1,62 @@
-#include "NodesLine.h"
+#include "NodesEdges.h"
 #include "../view/DrawUtils.h"
 
 Node::Node(int index,double lon,double lat,string label) : index(index),lon(lon),lat(lat), label(label){};
 
 
 /*
- * Auxiliary function to add an outgoing Line to a Station (this),
- * with a given destination Station (d) and Line capacity (w).
+ * Auxiliary function to add an outgoing Edge to a Station (this),
+ * with a given destination Station (d) and Edge capacity (w).
  */
-Line *Node::addLine(Node *d, double w)
+Edge *Node::addEdge(Node *d, double w)
 {
-    auto newLine = new Line(this, d, w);
-    adj.push_back(newLine);
-    d->incoming.push_back(newLine);
-    return newLine;
+    auto newEdge = new Edge(this, d, w);
+    adj.push_back(newEdge);
+    d->incoming.push_back(newEdge);
+    return newEdge;
 }
 
 int Node::getIndex() const {
     return this->index;
 }
 /*
- * Auxiliary function to remove an outgoing Line (with a given destination (d))
+ * Auxiliary function to remove an outgoing Edge (with a given destination (d))
  * from a Station (this).
- * Returns true if successful, and false if such Line does not exist.
+ * Returns true if successful, and false if such Edge does not exist.
  */
-bool Node::removeLine(int index)
+bool Node::removeEdge(int index)
 {
-    bool removedLine = false;
+    bool removedEdge = false;
     auto it = adj.begin();
     while (it != adj.end())
     {
-        Line *Line = *it;
-        Node *dest = Line->getDest();
+        Edge *Edge = *it;
+        Node *dest = Edge->getDest();
         if (dest->getIndex() == index)
         {
             it = adj.erase(it);
-            deleteLine(Line);
-            removedLine = true; // allows for multiple Lines to connect the same pair of vertices (multigraph)
+            deleteEdge(Edge);
+            removedEdge = true; // allows for multiple Edges to connect the same pair of vertices (multigraph)
         }
         else
         {
             it++;
         }
     }
-    return removedLine;
+    return removedEdge;
 }
 
 /*
- * Auxiliary function to remove an outgoing Line of a Station.
+ * Auxiliary function to remove an outgoing Edge of a Station.
  */
-void Node::removeOutgoingLines()
+void Node::removeOutgoingEdges()
 {
     auto it = adj.begin();
     while (it != adj.end())
     {
-        Line *Line = *it;
+        Edge *Edge = *it;
         it = adj.erase(it);
-        deleteLine(Line);
+        deleteEdge(Edge);
     }
 }
 
@@ -65,7 +65,7 @@ bool Node::operator<(Node Station) const
     return this->index < Station.getIndex();
 }
 
-std::vector<Line *> Node::getAdj() const
+std::vector<Edge *> Node::getAdj() const
 {
     return this->adj;
 }
@@ -85,12 +85,12 @@ double Node::getDist() const
     return this->dist;
 }
 
-Line *Node::getPath() const
+Edge *Node::getPath() const
 {
     return this->path;
 }
 
-std::vector<Line *> Node::getIncoming() const
+std::vector<Edge *> Node::getIncoming() const
 {
     return this->incoming;
 }
@@ -110,17 +110,17 @@ void Node::setDist(double dist)
     this->dist = dist;
 }
 
-void Node::setPath(Line *path)
+void Node::setPath(Edge *path)
 {
     this->path = path;
 }
 
 
 
-void Node::deleteLine(Line *Line)
+void Node::deleteEdge(Edge *Edge)
 {
-    Node *dest = Line->getDest();
-    // Remove the corresponding Line from the incoming list
+    Node *dest = Edge->getDest();
+    // Remove the corresponding Edge from the incoming list
     auto it = dest->incoming.begin();
     while (it != dest->incoming.end())
     {
@@ -133,7 +133,7 @@ void Node::deleteLine(Line *Line)
             it++;
         }
     }
-    delete Line;
+    delete Edge;
 }
 
 

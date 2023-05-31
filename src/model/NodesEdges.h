@@ -1,5 +1,5 @@
-#ifndef DA_TP_CLASSES_Station_Line
-#define DA_TP_CLASSES_Station_Line
+#ifndef DA_PROJECT1_NODES_EDGES
+#define DA_PROJECT1_NODES_EDGES
 
 #include <iostream>
 #include <vector>
@@ -10,7 +10,7 @@
 
 using namespace std;
 
-class Line;
+class Edge;
 
 #define INF std::numeric_limits<int>::max()
 
@@ -23,7 +23,7 @@ public:
      * @param district the district of the station
      * @param municipality the municipality of the station
      * @param township the township of the station
-     * @param station_line the line of the station
+     * @param station_edge the edge of the station
      */
     Node(int position, double lon=0,double lat=0,string label="");
 
@@ -38,10 +38,10 @@ public:
     bool operator<(Node node) const; // // required by MutablePriorityQueue
 
     /**
-     * @return Vector of Adjacent Lines to the Station
+     * @return Vector of Adjacent Edges to the Station
      * @brief Complexity O(1)
      */
-    std::vector<Line *> getAdj() const;
+    std::vector<Edge *> getAdj() const;
 
     int getIndex()const;
 
@@ -68,17 +68,17 @@ public:
 
     /**
      * @brief Get the last connected Path to this Station
-     * @return Line* pointer to line that forms the path
+     * @return Edge* pointer to edge that forms the path
      * @brief Complexity O(1)
      */
-    Line *getPath() const;
+    Edge *getPath() const;
 
     /**
-     * @brief Get the vector of incoming Lines to the Station
-     * @return vector of pointers to station's incoming lines
+     * @brief Get the vector of incoming Edges to the Station
+     * @return vector of pointers to station's incoming edges
      * @brief Complexity O(1)
      */
-    std::vector<Line *> getIncoming() const;
+    std::vector<Edge *> getIncoming() const;
 
 
 
@@ -122,38 +122,38 @@ public:
      * @param path last connected path
      * @brief Complexity O(1)
      */
-    void setPath(Line *path);
+    void setPath(Edge *path);
 
     /**
-     * @brief Change the value of the station's line
-     * @param _station_line new value of the station's line
+     * @brief Change the value of the station's edge
+     * @param _station_edge new value of the station's edge
      * @brief Complexity O(1)
      */
-    void setStationLine(string _station_line);
+    void setStationEdge(string _station_edge);
 
     /**
-     * @brief Auxiliary function to add an outgoing Line to a Station
+     * @brief Auxiliary function to add an outgoing Edge to a Station
      * @param dest Destination Station
-     * @param w  Line capacity
+     * @param w  Edge capacity
      * @param s  Service
-     * @return Line*
+     * @return Edge*
      * @brief Complexity O(1)
      */
-    Line *addLine(Node *dest, double w);
+    Edge *addEdge(Node *dest, double w);
 
     /**
-     * @brief Auxiliary function to remove an outgoing Line to a Station
+     * @brief Auxiliary function to remove an outgoing Edge to a Station
      * @param destName Station name
-     * @return true if successful, and false if such Line does not exist.
+     * @return true if successful, and false if such Edge does not exist.
      * @brief Complexity O(n)
      */
-    bool removeLine(int dest);
+    bool removeEdge(int dest);
 
     /**
-     * @brief Removes all outgoing lines of Station
+     * @brief Removes all outgoing edges of Station
      * @brief Complexity O(n)
      */
-    void removeOutgoingLines();
+    void removeOutgoingEdges();
 
 protected:
 
@@ -161,29 +161,29 @@ protected:
    double lon,lat;
    string label;
     // identifier
-    std::vector<Line *> adj; // outgoing Lines
+    std::vector<Edge *> adj; // outgoing Edges
 
     // auxiliary fields
     bool disabled = false;
     bool visited = false;    // used by DFS, BFS, Prim ...
     bool processing = false; // used by isDAG (in addition to the visited attribute)
     int dist = 0;
-    Line *path = nullptr;
+    Edge *path = nullptr;
 
-    std::vector<Line *> incoming; // incoming Lines
+    std::vector<Edge *> incoming; // incoming Edges
 
     /**
-     * @brief Deletes the Line from the Station's Adjacent and Incoming Lines
-     * @param Line
-     * @brief Complexity O(L) being L the number of Lines incoming to the Destination Station
+     * @brief Deletes the Edge from the Station's Adjacent and Incoming Edges
+     * @param Edge
+     * @brief Complexity O(L) being L the number of Edges incoming to the Destination Station
      */
-    void deleteLine(Line *Line);
+    void deleteEdge(Edge *Edge);
 };
 
-class Line
+class Edge
 {
 public:
-    Line(Node *orig, Node *dest, double w);
+    Edge(Node *orig, Node *dest, double w);
 
     /**
      * @return pointer to Destination's station
@@ -192,7 +192,7 @@ public:
     Node *getDest() const;
 
     /**
-     * @return Line Capacity
+     * @return Edge Capacity
      * @brief Complexity O(1)
      */
     int getCapacity() const;
@@ -204,19 +204,19 @@ public:
     Node *getOrig() const;
 
     /**
-     * @return Pointer to Reverse Line from Destination to Origin
+     * @return Pointer to Reverse Edge from Destination to Origin
      * @brief Complexity O(1)
      */
-    Line *getReverse() const;
+    Edge *getReverse() const;
 
     /**
-     * @return True if Line is Disabled, false otherwise
+     * @return True if Edge is Disabled, false otherwise
      * @brief Complexity O(1)
      */
     bool isDisabled() const;
 
     /**
-     * @return Current Flow passing in the Line
+     * @return Current Flow passing in the Edge
      * @brief Complexity O(1)
      */
     int getFlow() const;
@@ -230,14 +230,14 @@ public:
     void setDisabled(bool _disabled);
 
     /**
-     * @brief Changes Line's reverse line to the line passed into _reverse
-     * @param _reverse Reverse Line to be attributed
+     * @brief Changes Edge's reverse edge to the edge passed into _reverse
+     * @param _reverse Reverse Edge to be attributed
      * @brief Complexity O(1)
      */
-    void setReverse(Line *_reverse);
+    void setReverse(Edge *_reverse);
 
     /**
-     * @brief Sets current line's flow to _flow
+     * @brief Sets current edge's flow to _flow
      * @param _flow desired flow to be attributed
      * @brief Complexity O(1)
      */
@@ -245,14 +245,14 @@ public:
 
 
     /**
-     * @brief Sets current line's capacity to _capacity
+     * @brief Sets current edge's capacity to _capacity
      * @param _capacity desired capacity to be attributed
      * @brief Complexity O(1)
      */
     void setCapacity(int _capacity);
 
     /**
-     * @brief Prints the information of the Line
+     * @brief Prints the information of the Edge
      * @brief Complexity O(1)
      */
     void print(int i);
@@ -260,11 +260,11 @@ public:
 private:
 
     Node *dest;           // destination Station
-    double capacity;         // Line capacity, can also be used for capacity
-    bool disabled = false;   // is the line disabled?
+    double capacity;         // Edge capacity, can also be used for capacity
+    bool disabled = false;   // is the edge disabled?
     Node *orig;           // Origin station
-    Line *reverse = nullptr; // Opposite Line
+    Edge *reverse = nullptr; // Opposite Edge
     double flow;             // for flow-related problems
 };
 
-#endif /* DA_TP_CLASSES_Station_Line */
+#endif /* DA_PROJECT1_NODES_EDGES */

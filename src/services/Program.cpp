@@ -6,6 +6,7 @@
 #include "Program.h"
 #include "Scrapper.h"
 #include "actions/ChooseGraph.h"
+#include "actions/Backtracking.h"
 
 
 Program::Program()
@@ -62,6 +63,7 @@ void Program::createMenus()
 
     Menu menu = Menu("../menus/main.txt");
     menu.addMenuItem(new ChangeMenu(menuPage, CHOOSE_GRAPH));
+    menu.addMenuItem(new Backtracking(this->currentGraph))
     menu.addMenuItem(new ChangeMenu(menuPage, POP_MENU));
     menus.push_back(menu);
     currentGraph=&this->graphs[0];
