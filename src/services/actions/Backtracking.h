@@ -15,13 +15,17 @@ public:
      * @brief Constructor of the class Backtracking
      * @param graph
      */
-    Backtracking(Graph &graph);
+    Backtracking(Graph *graph);
 
 
     void execute() override;
 
 
-    void backtracking_tsp(Graph graph, int srcNode, int currNode, int n, int graphSize, int count, int cost, int &minCost);
+    void backtracking_tsp(int srcNode, int currNode, unsigned int graphSize, unsigned int count, unsigned int cost, unsigned int &minCost, vector<int> currPath, vector<int> &path);
+
+private:
+
+    Graph *graph;
 
 };
 

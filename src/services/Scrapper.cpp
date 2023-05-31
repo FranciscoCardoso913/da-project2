@@ -40,7 +40,7 @@ void Scrapper::scrapeEdges(Graph &graph, string edges_file)
     string src,dst,w;
     getline(file, line);
 
-    while (getline(file, line))edge
+    while (getline(file, line))
     {
         istringstream data(line);
         getline(data, src, ',');
