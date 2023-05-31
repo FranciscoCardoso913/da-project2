@@ -18,7 +18,7 @@ public:
     void execute() override;
 
 
-    void backtracking_tsp(int srcNode, int currNode, unsigned int graphSize, unsigned int count, unsigned int cost, unsigned int &minCost, vector<int> currPath, vector<int> &path);
+    void backtracking_tsp(int srcNode, int currNode, unsigned int graphSize, unsigned int count, double cost, double &minCost, vector<int> currPath, vector<int> &path);
 
 private:
 

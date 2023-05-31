@@ -3,17 +3,15 @@
 
 Backtracking::Backtracking(Graph *&graph):  graph(&graph) {};
 
-void Backtracking::backtracking_tsp(int srcNode, int currNode, unsigned int graphSize, unsigned int count, unsigned int cost,
-                                   unsigned int &minCost, vector<int> currPath , vector<int> &path) {
+void Backtracking::backtracking_tsp(int srcNode, int currNode, unsigned int graphSize, unsigned int count, double cost,
+                                   double &minCost, vector<int> currPath , vector<int> &path) {
 
 
     if (count == graphSize && (*graph)->findEdge((*graph)->findNode(currPath[count-1]), (*graph)->findNode(srcNode))!=nullptr) {
 
         Edge *finalEdge = (*graph)->findEdge((*graph)->findNode(currPath[count-1]), (*graph)->findNode(srcNode));
 
-        cout << "Final Edge: " << finalEdge->getCapacity() << endl;
-
-        int finalCost = finalEdge->getCapacity();
+        double finalCost = finalEdge->getCapacity();
 
         if ((cost + finalCost) < minCost) {
             minCost = cost+finalCost;
@@ -54,22 +52,26 @@ void Backtracking::backtracking_tsp(int srcNode, int currNode, unsigned int grap
 
 void Backtracking::execute() {
 
-    unsigned int minCost=std::numeric_limits<unsigned int>::max();
+    double minCost = std::numeric_limits<double>::max();
     int graphSize = (*graph)->getNodes().size();
 
-    cout << "(*Graph) Size: " << graphSize << endl;
-
     string source;
-
-    cout << "Insert the Source Station: ";
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
-    getline(cin, source);
+    while (true) {
+        cout << "Insert the Source Station: ";
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        getline(cin, source);
+        if (source.empty()) {
+            cout << "Invalid Input! \n";
+        } else {
+            break;
+        }
+    }
     int srcNode = stoi(source);
 
     Node *sourceNode = (*graph)->findNode(srcNode);
 
     if (sourceNode == nullptr) {
-        cout << " Source doesn't exist";
+        cout << " Source doesn't exist! \n";
         return;
     }
 
@@ -93,5 +95,6 @@ void Backtracking::execute() {
     for (int i = 0; i < path.size(); i++) {
         cout << path[i] << " ";
     }
+    cout << endl;
 
 }

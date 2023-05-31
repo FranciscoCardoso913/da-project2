@@ -104,10 +104,14 @@ void Scrapper:: scrapeEdgesWithoutNodes(Graph &graph,string &edges_file ){
         getline(data, w, ',');
         auto v1 = graph.findNode(stoi(src));
         auto v2 = graph.findNode(stoi(dst));
-        if (v1 == nullptr)
-            graph.addNode(new Node(stoi(src)));
+        if (v1 == nullptr) {
+                v1=new Node(stoi(src));
+                graph.addNode(v1);
+
+        }
         if (v2 == nullptr)
-            graph.addNode(new Node(stoi(dst)));
+            v2=new Node(stoi(dst));
+            graph.addNode(v2);
 
         graph.addBidirectionalEdges(v1, v2, stod(w));
         edges.push_back(

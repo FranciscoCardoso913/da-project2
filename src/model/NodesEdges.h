@@ -195,7 +195,7 @@ public:
      * @return Edge Capacity
      * @brief Complexity O(1)
      */
-    int getCapacity() const;
+    double getCapacity() const;
 
     /**
      * @return pointer to Origin's Station

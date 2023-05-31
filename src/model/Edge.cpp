@@ -8,7 +8,7 @@ Node *Edge::getDest() const
     return this->dest;
 }
 
-int Edge::getCapacity() const
+double Edge::getCapacity() const
 {
     return this->capacity;
 }

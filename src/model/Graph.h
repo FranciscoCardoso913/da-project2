@@ -134,7 +134,7 @@ public:
      *
      * @brief O(E log V), where E is the number of edges in the graph and V is the number of nodes.
      */
-    vector<Edge> findMinimumSpanningTree();
+    vector<int> findMinimumSpanningTree();
 
     pair<vector<int>,int> christofidesSTP();
 
