@@ -53,7 +53,7 @@ public:
      * @brief Complexity O(1)
      */
 
-    bool addLine( Node *src, Node *dest, int w);
+    bool addLine(Node *src, Node *dest, int w);
 
     /**
      * @param src Station Source
@@ -72,7 +72,6 @@ public:
      * @brief Complexity O(1)
      */
     vector<Node *> getNodes() const;
-
 
     /**
      * @brief Sets the attributes visited and processing of the station to false and the flow of the lines to 0
@@ -100,6 +99,43 @@ public:
      */
     int bfs(Node *station);
 
+    /**
+     * @brief Find the parent node of a given node in the disjoint set.
+     *
+     * This function finds the parent node of a given node in the disjoint set using path compression.
+     *
+     * @param parent The vector representing the parent nodes in the disjoint set.
+     * @param i The index of the node to find the parent for.
+     * @return The index of the parent node.
+     *
+     * @brief O(log n), where n is the number of nodes in the disjoint set.
+     */
+    int findParent(vector<int> &parent, int i);
+
+    /**
+     * @brief Merge two sets in the disjoint set.
+     *
+     * This function merges two sets in the disjoint set using union by rank.
+     *
+     * @param parent The vector representing the parent nodes in the disjoint set.
+     * @param x The index of the first node to merge.
+     * @param y The index of the second node to merge.
+     *
+     * @brief O(log n), where n is the number of nodes in the disjoint set.
+     */
+    void mergeSets(vector<int> &parent, int x, int y);
+
+    /**
+     * @brief Find the minimum spanning tree (MST) of the graph.
+     *
+     * This function finds the minimum spanning tree of the graph using Kruskal's algorithm.
+     *
+     * @return A vector of Line objects representing the edges in the minimum spanning tree.
+     *
+     * @brief O(E log V), where E is the number of edges in the graph and V is the number of nodes.
+     */
+    vector<Line> findMinimumSpanningTree();
+
 protected:
     vector<Node *> nodes;
     // Station set
@@ -107,7 +143,6 @@ protected:
     double **distMatrix = nullptr; // dist matrix for Floyd-Warshall
     int **pathMatrix = nullptr;
     // path matrix for Floyd-Warshall
-
 
     /**
      * @brief deletes the graph

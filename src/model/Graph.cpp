@@ -1,8 +1,10 @@
 #include <stack>
 #include "Graph.h"
 
-Node * Graph::findNode(const int &index) const {
-    if(index>=nodes.size()) return nullptr;
+Node *Graph::findNode(const int &index) const
+{
+    if (index >= nodes.size())
+        return nullptr;
     return nodes[index];
 }
 Line *Graph::findLine(const int &src, const int &dst) const
@@ -38,7 +40,6 @@ bool Graph::addLine(Node *src, Node *dest, int w)
     return true;
 }
 
-
 vector<Line *> Graph::getLineVector() const
 {
     return lines;
@@ -56,7 +57,8 @@ bool Graph::addBidirectionalLine(Node *src, Node *dst, double w)
     return true;
 }
 
-vector<Node *> Graph::getNodes() const {
+vector<Node *> Graph::getNodes() const
+{
 
     return nodes;
 }
@@ -72,7 +74,6 @@ void Graph::reset()
         }
     }
 }
-
 
 void deleteMatrix(int **m, int n)
 {
@@ -100,5 +101,48 @@ Graph::~Graph()
 {
     deleteMatrix(distMatrix, nodes.size());
     deleteMatrix(pathMatrix, nodes.size());
+}
 
+int Graph::findParent(vector<int> &parent, int i)
+{
+    if (parent[i] == i)
+        return i;
+    return findParent(parent, parent[i]);
+}
+
+void Graph::mergeSets(vector<int> &parent, int x, int y)
+{
+    int xset = findParent(parent, x);
+    int yset = findParent(parent, y);
+    parent[xset] = yset;
+}
+
+vector<Line> Graph::findMinimumSpanningTree()
+{
+    vector<Line> result;
+    vector<int> parent(this->getNodes().size());
+
+    for (int i = 0; i < this->getNodes().size(); i++)
+        parent[i] = i;
+
+    int edgeCount = 0;
+    int index = 0;
+
+    while (edgeCount < this->getNodes().size() - 1)
+    {
+        Line *nextLine = this->getLineVector()[index++];
+        Node *src = nextLine->getOrig();
+        Node *dst = nextLine->getDest();
+
+        int x = findParent(parent, src->getIndex());
+        int y = findParent(parent, dst->getIndex());
+
+        if (x != y)
+        {
+            result.emplace_back(src, dst, nextLine->getCapacity());
+            mergeSets(parent, x, y);
+            edgeCount++;
+        }
+    }
+    return result;
 }
