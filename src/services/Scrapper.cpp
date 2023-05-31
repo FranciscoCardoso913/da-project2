@@ -55,7 +55,11 @@ void Scrapper::scrapeEdges(Graph &graph, string edges_file)
 
         graph.addBidirectionalEdges(v1, v2, stod(w));
         edges.push_back(
-                Edge(graph.findNode(stoi(src)), graph.findNode(stoi(dst)), stod(w)));
+            Edge(graph.findNode(stoi(src)), graph.findNode(stoi(dst)), stod(w))
+        );
+        edges.push_back(
+            Edge(graph.findNode(stoi(dst)), graph.findNode(stoi(src)), stod(w))
+        );
     }
 }
 
@@ -107,6 +111,10 @@ void Scrapper:: scrapeEdgesWithoutNodes(Graph &graph,string &edges_file ){
 
         graph.addBidirectionalEdges(v1, v2, stod(w));
         edges.push_back(
-                Edge(graph.findNode(stoi(src)), graph.findNode(stoi(dst)), stod(w)));
+                Edge(graph.findNode(stoi(src)), graph.findNode(stoi(dst)), stod(w))
+                    );
+        edges.push_back(
+                Edge(graph.findNode(stoi(dst)), graph.findNode(stoi(src)), stod(w))
+        );
     }
 }

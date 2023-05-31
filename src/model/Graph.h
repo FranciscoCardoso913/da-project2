@@ -32,8 +32,7 @@ public:
      * @return if the Edge is found returns a pointer to that Edge, otherwise returns nullptr
      * @brief Complexity O(E) being E the number of edges
      */
-
-    Edge *findEdge(const int &src, const int &dst) const;
+    Edge * findEdge( Node *src,  Node *dst) const;
 
     /**
      * @brief Adds a Station with a given content or info to a graph.
@@ -52,7 +51,6 @@ public:
      * @return true if successful, and false if the source or destination Station does not exist.
      * @brief Complexity O(1)
      */
-
     bool addEdge( Node *src, Node *dest, int w);
 
     /**
@@ -73,7 +71,6 @@ public:
      */
     vector<Node *> getNodes() const;
 
-
     /**
      * @brief Sets the attributes visited and processing of the station to false and the flow of the edges to 0
      * @brief Complexity O(V+E) being V the number of stations and E the number of edges
@@ -85,6 +82,8 @@ public:
      * @brief Complexity O(1)
      */
     vector<Edge *> getEdgeVector() const;
+
+    void mergeSets(vector<int> &parent, int x, int y);
 
     /**
      * @brief Removes the last station inserted in the StationSet
@@ -100,6 +99,45 @@ public:
      */
     int bfs(Node *station);
 
+    /**
+     * @brief Find the parent node of a given node in the disjoint set.
+     *
+     * This function finds the parent node of a given node in the disjoint set using path compression.
+     *
+     * @param parent The vector representing the parent nodes in the disjoint set.
+     * @param i The index of the node to find the parent for.
+     * @return The index of the parent node.
+     *
+     * @brief O(log n), where n is the number of nodes in the disjoint set.
+     */
+    int findParent(vector<int> &parent, int i);
+
+    /**
+     * @brief Merge two sets in the disjoint set.
+     *
+     * This function merges two sets in the disjoint set using union by rank.
+     *
+     * @param parent The vector representing the parent nodes in the disjoint set.
+     * @param x The index of the first node to merge.
+     * @param y The index of the second node to merge.
+     *
+     * @brief O(log n), where n is the number of nodes in the disjoint set.
+     */
+
+
+    /**
+     * @brief Find the minimum spanning tree (MST) of the graph.
+     *
+     * This function finds the minimum spanning tree of the graph using Kruskal's algorithm.
+     *
+     * @return A vector of Line objects representing the edges in the minimum spanning tree.
+     *
+     * @brief O(E log V), where E is the number of edges in the graph and V is the number of nodes.
+     */
+    vector<Edge> findMinimumSpanningTree();
+
+    pair<vector<int>,int> christofidesSTP();
+
 protected:
     vector<Node *> nodes;
     // Station set
@@ -108,12 +146,18 @@ protected:
     int **pathMatrix = nullptr;
     // path matrix for Floyd-Warshall
 
-
     /**
      * @brief deletes the graph
      * @brief Complexity (V+E) being V the number of stations and E the number of edges
      */
     void deleteGraph();
+
+
+    vector<int > oddDegreeVertices(vector<Edge> edges)const ;
+    vector<Edge > minimumPerfectMatching (vector<int> nodes) ;
+    vector<int>  findEulerianCircuit(vector<Edge> edges ) ;
+    vector<int> tspTours(vector<int> &eulerianCircuit);
+    double calculateWeight(vector<int> tsp);
 };
 
 void deleteMatrix(int **m, int n);

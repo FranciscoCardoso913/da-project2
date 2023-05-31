@@ -1,6 +1,3 @@
-//
-// Created by ze on 31-05-2023.
-//
 
 #ifndef DA_PROJECT2_BACKTRACKING_H
 #define DA_PROJECT2_BACKTRACKING_H

@@ -1,3 +1,4 @@
-Choose the Graph you want to use
 Backtracking Method
+Algorithm
+Choose graph
 Quit

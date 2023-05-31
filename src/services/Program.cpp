@@ -7,6 +7,7 @@
 #include "Scrapper.h"
 #include "actions/ChooseGraph.h"
 #include "actions/Backtracking.h"
+#include "actions/Christofide.h"
 
 
 Program::Program()
@@ -46,8 +47,7 @@ void Program::run()
     {
         if (menuPage.top() == POP_MENU)
         {
-            cout<< currentGraph->getNodes().size()<<endl;
-            cout<<currentGraph->name;
+
             menuPage.pop();
             menuPage.pop();
         }
@@ -62,11 +62,12 @@ void Program::createMenus()
 {
 
     Menu menu = Menu("../menus/main.txt");
-    menu.addMenuItem(new ChangeMenu(menuPage, CHOOSE_GRAPH));
     menu.addMenuItem(new Backtracking(this->currentGraph));
+    menu.addMenuItem(new Christofide(this->currentGraph));
+    menu.addMenuItem(new ChangeMenu(menuPage, CHOOSE_GRAPH));
     menu.addMenuItem(new ChangeMenu(menuPage, POP_MENU));
     menus.push_back(menu);
-    currentGraph=&this->graphs[0];
+
     Menu graphMenu = Menu("../menus/graphs.txt");
     graphMenu.addMenuItem(new ChooseGraph(this->currentGraph, toyGraphs[0]));
     graphMenu.addMenuItem(new ChooseGraph(currentGraph, toyGraphs[1]));
@@ -86,6 +87,7 @@ void Program::loadGraphs(int *percentage) {
 
     Scrapper().scrape(this->graphs[0], "../files/real_graphs/graph1/nodes.csv", "../files/real_graphs/graph1/edges.csv",0);
     *percentage=  15;
+    currentGraph=&this->graphs[0];
     this->graphs[1] = Graph();
     Scrapper().scrape(this->graphs[1], "../files/real_graphs/graph2/nodes.csv", "../files/real_graphs/graph2/edges.csv",0);
     *percentage=40;

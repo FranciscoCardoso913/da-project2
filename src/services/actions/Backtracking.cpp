@@ -1,30 +1,23 @@
-//
-// Created by ze on 31-05-2023.
-//
 
 #include "Backtracking.h"
 
-Backtracking::Backtracking(Graph *graph) : Action() {
-
-    cout << "Backtracking" << endl;
-    this->graph = graph;
-
-}
+Backtracking::Backtracking(Graph *graph):  graph(graph) {};
 
 void Backtracking::backtracking_tsp(int srcNode, int currNode, unsigned int graphSize, unsigned int count, unsigned int cost,
                                    unsigned int &minCost, vector<int> currPath , vector<int> &path) {
 
-    if (count == graphSize){
+    if (count == graphSize+1){
 
-        int finalCost = graph->findEdge(currPath[count-1], srcNode)->getCapacity();
+        int finalCost = graph->findEdge(graph->findNode(currPath[count-1]), graph->findNode(srcNode))->getCapacity();
 
         if ((cost + finalCost) < minCost) {
             minCost = cost+finalCost;
 
-            for(int i = 0; i < count; i++) {
-                path[i] = currPath[i];
+            path.clear();
+            for(int i = 0; i < count-1; i++) {
+                path.push_back(currPath[i]);
             }
-            path[count] = srcNode;
+            path.push_back(srcNode);
 
         }
 
@@ -40,9 +33,11 @@ void Backtracking::backtracking_tsp(int srcNode, int currNode, unsigned int grap
 
             currPath.push_back(i);
 
-            backtracking_tsp(srcNode, i, graphSize, count+1, cost + graph->findEdge(currNode,i)->getCapacity(), minCost, currPath, path);
+            backtracking_tsp(srcNode, i, graphSize, count+1, cost + graph->findEdge(graph->findNode(currNode),graph->findNode(i))->getCapacity(), minCost, currPath, path);
 
             graph->findNode(i)->setVisited(false);
+
+            currPath.pop_back();
         }
     }
 
@@ -82,7 +77,6 @@ void Backtracking::execute() {
 
     backtracking_tsp(srcNode, 0, graphSize, 0, 0, minCost, currPath, path);
 
-
-
+    cout << "Minimum Cost: " << minCost << endl;
 
 }
