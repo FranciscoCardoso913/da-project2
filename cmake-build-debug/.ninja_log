@@ -48,3 +48,12 @@
 810	862	1685461278031904953	da_project2	cf2436da7556c35a
 1	799	1685461343649330757	CMakeFiles/da_project2.dir/src/services/Program.cpp.o	978b95db660eba6e
 799	854	1685461343705998079	da_project2	cf2436da7556c35a
+2	486	1685539433646932719	CMakeFiles/da_project2.dir/src/services/actions/ChangeMenu.cpp.o	6b656ed8db768db4
+1	532	1685539433693599626	CMakeFiles/da_project2.dir/src/services/actions/Action.cpp.o	c9ee9f722b5b3db2
+0	603	1685539433763599986	CMakeFiles/da_project2.dir/src/main.cpp.o	f930566208a11f0a
+1	637	1685539433796933490	CMakeFiles/da_project2.dir/src/model/Graph.cpp.o	52fdaf1e5c88b2b6
+1	665	1685539433826933645	CMakeFiles/da_project2.dir/src/view/Menu.cpp.o	99f2b8025d64a734
+486	961	1685539434123601835	CMakeFiles/da_project2.dir/src/services/Scrapper.cpp.o	4da0a11936c171db
+532	989	1685539434150268639	CMakeFiles/da_project2.dir/src/services/actions/ChooseGraph.cpp.o	a69446f4fd3a8cc6
+1	1115	1685539434276935956	CMakeFiles/da_project2.dir/src/services/Program.cpp.o	978b95db660eba6e
+1115	1181	1685539434340269614	da_project2	cf2436da7556c35a
