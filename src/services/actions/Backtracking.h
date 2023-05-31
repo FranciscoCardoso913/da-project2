@@ -12,7 +12,7 @@ public:
      * @brief Constructor of the class Backtracking
      * @param graph
      */
-    Backtracking(Graph *graph);
+    Backtracking(Graph *&graph);
 
 
     void execute() override;
@@ -22,7 +22,7 @@ public:
 
 private:
 
-    Graph *graph;
+    Graph **graph;
 
 };
 

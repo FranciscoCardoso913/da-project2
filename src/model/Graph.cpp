@@ -3,7 +3,7 @@
 
 Node *Graph::findNode(const int &index) const
 {
-    if (index >= nodes.size() || index < 0)
+    if (index >= nodes.size())
         return nullptr;
     return nodes[index];
 }
