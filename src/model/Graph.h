@@ -119,6 +119,8 @@ protected:
 
     vector<int > oddDegreeVertices(vector<Line> lines)const ;
     vector<Line > minimumPerfectMatching (vector<int> nodes) ;
+    vector<int>  findEulerianCircuit(vector<Line> edges ) ;
+    vector<int> tspTours(vector<int> &eulerianCircuit);
 };
 
 void deleteMatrix(int **m, int n);

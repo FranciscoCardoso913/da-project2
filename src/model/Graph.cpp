@@ -111,6 +111,42 @@ vector<Line > Graph:: minimumPerfectMatching (vector<int> oddNodes) {
 
     return perfectMatching;
 }
+vector<int> Graph:: findEulerianCircuit(vector<Line> edges ) {
+    std::vector<int> circuit;
+    std::vector<std::vector<int>> adjList(nodes.size());
+
+    for (const auto& edge : edges) {
+        adjList[edge.getOrig()->getIndex()].push_back(edge.getDest()->getIndex());
+        adjList[edge.getDest()->getIndex()].push_back(edge.getOrig()->getIndex());
+    }
+    int currVertex = 0;
+    circuit.push_back(currVertex);
+
+    while (!adjList[currVertex].empty()) {
+        int nextVertex = adjList[currVertex].back();
+        adjList[currVertex].pop_back();
+
+        auto it = std::find(adjList[nextVertex].begin(), adjList[nextVertex].end(), currVertex);
+        adjList[nextVertex].erase(it);
+
+        circuit.push_back(nextVertex);
+        currVertex = nextVertex;
+    }
+
+    return circuit;
+}
+vector<int> Graph:: tspTours(vector<int> &eulerianCircuit){
+    std::vector<int> tspTour;
+    reset();
+    for (int node : eulerianCircuit) {
+        if (!findNode(node)->isVisited()) {
+            tspTour.push_back(node);
+            findNode(node)->setVisited(true);
+        }
+    }
+
+    return tspTour;
+}
 
 
 void deleteMatrix(int **m, int n)
