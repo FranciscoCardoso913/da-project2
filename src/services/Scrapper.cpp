@@ -55,7 +55,11 @@ void Scrapper::scrapeLines(Graph &graph, string lines_file)
 
         graph.addBidirectionalLine(v1, v2, stod(w));
         lines.push_back(
-            Line(graph.findNode(stoi(src)), graph.findNode(stoi(dst)), stod(w)));
+            Line(graph.findNode(stoi(src)), graph.findNode(stoi(dst)), stod(w))
+            );
+        lines.push_back(
+                Line(graph.findNode(stoi(dst)), graph.findNode(stoi(src)), stod(w))
+        );
     }
 }
 
@@ -107,6 +111,10 @@ void Scrapper:: scrapeLinesWithoutNodes(Graph &graph,string &lines_file ){
 
         graph.addBidirectionalLine(v1, v2, stod(w));
         lines.push_back(
-                Line(graph.findNode(stoi(src)), graph.findNode(stoi(dst)), stod(w)));
+                Line(graph.findNode(stoi(src)), graph.findNode(stoi(dst)), stod(w))
+                    );
+        lines.push_back(
+                Line(graph.findNode(stoi(dst)), graph.findNode(stoi(src)), stod(w))
+        );
     }
 }

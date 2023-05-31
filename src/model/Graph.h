@@ -33,7 +33,7 @@ public:
      * @brief Complexity O(E) being E the number of lines
      */
 
-    Line *findLine(const int &src, const int &dst) const;
+    Line * findLine( Node *src,  Node *dst) const;
 
     /**
      * @brief Adds a Station with a given content or info to a graph.
@@ -84,6 +84,7 @@ public:
      * @brief Complexity O(1)
      */
     vector<Line *> getLineVector() const;
+    void mergeSets(vector<int> &parent, int x, int y);
 
     /**
      * @brief Removes the last station inserted in the StationSet
@@ -149,6 +150,12 @@ protected:
      * @brief Complexity (V+E) being V the number of stations and E the number of lines
      */
     void deleteGraph();
+
+
+    vector<int > oddDegreeVertices(vector<Line> lines)const ;
+    vector<Line > minimumPerfectMatching (vector<int> nodes) ;
+    vector<int>  findEulerianCircuit(vector<Line> edges ) ;
+    vector<int> tspTours(vector<int> &eulerianCircuit);
 };
 
 void deleteMatrix(int **m, int n);
