@@ -149,7 +149,36 @@ vector<int> Graph:: tspTours(vector<int> &eulerianCircuit){
 
     return tspTour;
 }
+double Graph:: calculateWeight(vector<int> tsp){
+    int weight=0;
+    for(int i=0; i<tsp.size()-1;i++){
+        weight+= findLine(findNode(tsp[i]), findNode(tsp[i+1]))->getCapacity();
+    }
+    return weight;
+}
+pair<vector<int>,int> Graph::christofidesSTP(){
+    // Step 1: Find the minimum spanning tree
+    std::vector<Line> minimumSpanningTree = findMinimumSpanningTree();
 
+    // Step 2: Find the set of vertices with odd degree in the minimum spanning tree
+    vector<int> oddNodes=oddDegreeVertices(minimumSpanningTree);
+
+    // Step 3: Find a minimum-weight perfect matching among the odd degree vertices
+    std::vector<Line> perfectMatching = minimumPerfectMatching( oddNodes);
+
+    // Step 4: Combine the minimum spanning tree and the perfect matching to form a multigraph
+    std::vector<Line> multigraph;
+    multigraph.insert(multigraph.end(), minimumSpanningTree.begin(), minimumSpanningTree.end());
+    multigraph.insert(multigraph.end(), perfectMatching.begin(), perfectMatching.end());
+
+    // Step 5: Find an Eulerian circuit in the multigraph
+    std::vector<int> eulerianCircuit = findEulerianCircuit(multigraph);
+
+    // Step 6: Convert the Eulerian circuit into a TSP tour
+    vector<int> tspTour=tspTours(eulerianCircuit);
+
+    return {tspTour, calculateWeight(tspTour)};
+}
 void deleteMatrix(int **m, int n)
 {
     if (m != nullptr)

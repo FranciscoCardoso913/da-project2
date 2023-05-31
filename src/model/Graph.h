@@ -124,7 +124,7 @@ public:
      *
      * @brief O(log n), where n is the number of nodes in the disjoint set.
      */
-    void mergeSets(vector<int> &parent, int x, int y);
+
 
     /**
      * @brief Find the minimum spanning tree (MST) of the graph.
@@ -136,6 +136,8 @@ public:
      * @brief O(E log V), where E is the number of edges in the graph and V is the number of nodes.
      */
     vector<Line> findMinimumSpanningTree();
+
+    pair<vector<int>,int> christofidesSTP();
 
 protected:
     vector<Node *> nodes;
@@ -156,6 +158,7 @@ protected:
     vector<Line > minimumPerfectMatching (vector<int> nodes) ;
     vector<int>  findEulerianCircuit(vector<Line> edges ) ;
     vector<int> tspTours(vector<int> &eulerianCircuit);
+    double calculateWeight(vector<int> tsp);
 };
 
 void deleteMatrix(int **m, int n);
