@@ -434,14 +434,9 @@ void Graph::completeRealEdges() {
 
 void Graph::completeToyEdges() {
 
+    while(edges.size()<nodes.size()) edges.push_back(vector<Edge*>(nodes.size(), nullptr));
     for (int i = 0; i < nodes.size(); i++ ) {
-        for (int j = i + 1; j < nodes.size(); j++) {
-            if (findEdge(nodes[i], nodes[j]) == NULL) {
-                while (i >= edges.size()) edges.push_back(vector<Edge*> (nodes.size(), NULL));
-                while (j >= edges[i].size()) edges[i].push_back(NULL);
-            }
-
-        }
+        while (edges[i].size()<nodes.size()) edges[i].push_back(nullptr);
     }
 
 }
