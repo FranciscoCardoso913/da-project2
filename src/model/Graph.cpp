@@ -7,16 +7,18 @@
 
 Node *Graph::findNode(const int &index) const
 {
-    if (index >= nodes.size() || index < 0)
+    if (index >= nodes.size())
         return nullptr;
 
     return nodes[index];
 }
 
-Line *Graph::findLine(Node *src, Node *dst) const
+Edge *Graph::findEdge( Node *src,  Node *dst) const
 {
+    if (src == nullptr || dst == nullptr)
+        return nullptr;
 
-    return lines[src->getIndex()][dst->getIndex()];
+    return edges[src->getIndex()][dst->getIndex()];
 }
 
 bool Graph::addNode(Node *node)
@@ -27,31 +29,33 @@ bool Graph::addNode(Node *node)
     return true;
 }
 
-Line* Graph::addLine(Node *src, Node *dest, double w)
+Edge* Graph::addEdge(Node *src, Node *dest, double w)
 {
-    if (src == nullptr || dest == nullptr)
-        return nullptr;
-    while (src->getIndex() >= lines.size())
-        lines.push_back(vector<Line*> (nodes.size(), nullptr));
-    while (dest->getIndex()>= lines[src->getIndex()].size())
-        lines[src->getIndex()].push_back(nullptr);
-    Line* line=src->addLine(dest, w);
-    lines[src->getIndex()][dest->getIndex()]=line;
-    return line;
+
+        if (src == nullptr || dest == nullptr)
+            return nullptr;
+        while (src->getIndex() >= edges.size())
+            edges.push_back(vector<Edge*> (nodes.size(), nullptr));
+        while (dest->getIndex()>= edges[src->getIndex()].size())
+            edges[src->getIndex()].push_back(nullptr);
+        Edge* edge=src->addEdge(dest, w);
+        edges[src->getIndex()][dest->getIndex()]=edge;
+        return edge;
+
 }
 
-
-vector<vector <Line *>> Graph::getLineVector() const
+vector<vector<Edge *>> Graph::getEdgeVector() const
 {
-    return lines;
+    return edges;
 }
 
-bool Graph::addBidirectionalLine(Node *src, Node *dst, double w)
+bool Graph::addBidirectionalEdge(Node *src, Node *dst, double w)
 {
     if (src == nullptr || dst == nullptr)
         return false;
-    auto e1 = addLine(src,dst,w);
-    auto e2 = addLine(dst,src,w);
+
+    auto e1 = addEdge(src,dst,w);
+    auto e2 = addEdge(dst,src,w);
     e1->setReverse(e2);
     e2->setReverse(e1);
     return true;
@@ -68,19 +72,18 @@ void Graph::reset()
     {
         node->setVisited(false);
         node->setProcessing(false);
-        for (Line *line : node->getAdj())
+        for (Edge *edge : node->getAdj())
         {
-            line->setFlow(0);
+            edge->setFlow(0);
         }
     }
 }
 
-vector<int> Graph::oddDegreeVertices( vector<Line> &lines) const
-{
+vector<int> Graph::oddDegreeVertices(vector<Edge> &edges) const {
     vector<int> oddDegreeVertices;
     vector<int> degreeCount(nodes.size(), 0);
-    for (const auto &edge : lines)
-    {
+    for (const auto& edge : edges) {
+
         degreeCount[edge.getOrig()->getIndex()]++;
         degreeCount[edge.getDest()->getIndex()]++;
     }
@@ -94,9 +97,10 @@ vector<int> Graph::oddDegreeVertices( vector<Line> &lines) const
     return oddDegreeVertices;
 }
 
-vector<Line> Graph::minimumPerfectMatching(vector<int> oddNodes)
+
+vector<Edge> Graph::minimumPerfectMatching(vector<int> oddNodes)
 {
-    vector<Line> perfectMatching;
+    vector<Edge> perfectMatching;
     reset();
     for (int i = 0; i < oddNodes.size() ; i += 1)
     {
@@ -106,17 +110,17 @@ vector<Line> Graph::minimumPerfectMatching(vector<int> oddNodes)
         for(int j=0; j<oddNodes.size();j++) {
             Node *dest = findNode(oddNodes[j]);
             if(!src->isProcessing() and !dest->isProcessing() and src->getIndex()!=dest->getIndex()) {
-                Line* line=findLine(src, findNode(oddNodes[min]));
-                if(line== nullptr) continue;
-                int weight = line->getCapacity();
+                Edge* edge=findEdge(src, findNode(oddNodes[min]));
+                if(edge== nullptr) continue;
+                int weight = edge->getCapacity();
                 if(weight<min_weight) min=j;
             }
         }
         if(min!=-1){
-            Line* line= findLine(src, findNode(oddNodes[min]));
-            if(line== nullptr) continue;
-            double weight = line->getCapacity();
-            perfectMatching.push_back(Line(src, findNode(oddNodes[min]), weight));
+            Edge* edge= findEdge(src, findNode(oddNodes[min]));
+            if(edge== nullptr) continue;
+            double weight = edge->getCapacity();
+            perfectMatching.push_back(Edge(src, findNode(oddNodes[min]), weight));
             src->setProcessing(true);
             findNode(oddNodes[min])->setProcessing(true);
         }
@@ -137,25 +141,26 @@ vector<Line> Graph::minimumPerfectMatching(vector<int> oddNodes)
         int minWeight = INT_MAX;
         int closestVertex = -1;
 
+
         for (int i = 0; i < oddNodes.size(); i++)
         {
-            Line* line=findLine(findNode(oddNodes[unmatchedVertex]), findNode(oddNodes[i]));
-            if(line== nullptr) continue;
-            if (oddNodes[i] != unmatchedVertex && line->getCapacity() < minWeight)
+            Edge* edge=findEdge(findNode(oddNodes[unmatchedVertex]), findNode(oddNodes[i]));
+            if(edge== nullptr) continue;
+            if (oddNodes[i] != unmatchedVertex && edge->getCapacity() < minWeight)
             {
 
-                minWeight = line->getCapacity();
+                minWeight = edge->getCapacity();
                 closestVertex = oddNodes[i];
             }
         }
 
-        perfectMatching.push_back(Line(findNode(oddNodes[unmatchedVertex]), findNode(closestVertex), minWeight));
+        perfectMatching.push_back(Edge(findNode(oddNodes[unmatchedVertex]), findNode(closestVertex), minWeight));
     }
-    cout<<"ola?";
     return perfectMatching;
 }
 
-vector<int> Graph::findEulerianCircuit( vector<Line> &edges)
+
+vector<int> Graph::findEulerianCircuit( vector<Edge> &edges)
 {
     vector<int> circuit;
     vector<vector<int>> adjList(nodes.size());
@@ -205,24 +210,26 @@ double Graph::calculateWeight( vector<int> &tsp)
     double max=0;
     for (int i = 0; i < tsp.size() - 1; i++)
     {
-        weight += findLine(findNode(tsp[i]), findNode(tsp[i + 1]))->getCapacity();
+        weight += findEdge(findNode(tsp[i]), findNode(tsp[i + 1]))->getCapacity();
     }
     return weight;
 }
 
+
 pair<vector<int>, double> Graph::christofidesTSP()
 {
     // Step 1: Find the minimum spanning tree
-    vector<Line> minimumSpanningTree = findMinimumSpanningTree();
+    vector<Edge> minimumSpanningTree = findMinimumSpanningTree();
 
     // Step 2: Find the set of vertices with odd degree in the minimum spanning tree
     vector<int> oddNodes = oddDegreeVertices(minimumSpanningTree);
 
     // Step 3: Find a minimum-weight perfect matching among the odd degree vertices
-    vector<Line> perfectMatching = minimumPerfectMatching(oddNodes);
+
+    vector<Edge> perfectMatching = minimumPerfectMatching(oddNodes);
 
     // Step 4: Combine the minimum spanning tree and the perfect matching to form a multigraph
-    vector<Line> multigraph;
+    vector<Edge> multigraph;
     multigraph.insert(multigraph.end(), minimumSpanningTree.begin(), minimumSpanningTree.end());
     multigraph.insert(multigraph.end(), perfectMatching.begin(), perfectMatching.end());
 
@@ -234,7 +241,7 @@ pair<vector<int>, double> Graph::christofidesTSP()
 
     return make_pair(tspTour, calculateWeight(tspTour));
 }
-vector<Line> Graph::findMinimumSpanningTree() {
+vector<Edge> Graph::findMinimumSpanningTree() {
     // Reset auxiliary info
     for (auto v : nodes) {
         v->setDist(INF);
@@ -275,14 +282,14 @@ vector<Line> Graph::findMinimumSpanningTree() {
         cout << node->getIndex() << ":" << node->getDist() << endl;
     }
 
-    vector<Line> res;
+    vector<Edge> res;
     for (auto node : nodes) {
         if (node->getPath() != nullptr) {
             res.push_back(*node->getPath());
         }
     }
-    for(auto line:res){
-        cout<<line.getOrig()->getIndex()<<"-"<<line.getDest()->getIndex()<<endl;
+    for(auto edge:res){
+        cout<<edge.getOrig()->getIndex()<<"-"<<edge.getDest()->getIndex()<<endl;
     }
 
     return res;
@@ -323,7 +330,7 @@ double toRadians(double degrees) {
 
 // Function to calculate the Euclidean distance between two nodes
 double Graph:: calculateDistance( Node* node1,  Node* node2) {
-    Line * line=findLine(node1,node2);
+    Edge * line=findEdge(node1,node2);
     if(line!= nullptr) return line->getCapacity();
     double lat2=node2->lat;
     double lat1= node1->lat;
@@ -341,6 +348,7 @@ double Graph:: calculateDistance( Node* node1,  Node* node2) {
     double c = 2 * asin(sqrt(a));
     return rad * c;
 }
+
 
 // Function to find the nearest unvisited neighbor of a node
 Node* Graph:: findNearestNeighbor( Node* node,  vector<Node*>& unvisitedNodes) {
@@ -404,4 +412,31 @@ pair<vector<Node*>,double> Graph:: tspTriangularApproximation() {
     }
 
     return {tspTour, weight};
+}
+
+void Graph::completeRealEdges() {
+
+    for (int i = 0; i < nodes.size(); i++) {
+        for (int j = i + 1; j < nodes.size(); j++) {
+            if (findEdge(nodes[i], nodes[j]) == NULL) {
+                double dist = calculateDistance(nodes[i], nodes[j]);
+                Edge *edge = new Edge(nodes[i], nodes[j], dist);
+                nodes[i]->addEdge(nodes[j], dist);
+                nodes[j]->addEdge(nodes[i], dist);
+                edges[i][j] = edge;
+                edges[j][i] = edge;
+            }
+
+        }
+    }
+
+}
+
+void Graph::completeToyEdges() {
+
+    while(edges.size()<nodes.size()) edges.push_back(vector<Edge*>(nodes.size(), nullptr));
+    for (int i = 0; i < nodes.size(); i++ ) {
+        while (edges[i].size()<nodes.size()) edges[i].push_back(nullptr);
+    }
+
 }

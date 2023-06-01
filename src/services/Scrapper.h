@@ -14,13 +14,13 @@ class Scrapper
 {
 public:
     /**
-     * @brief Scrapes the information from the stations and the lines from the files and stores it in the graph
+     * @brief Scrapes the information from the stations and the edges from the files and stores it in the graph
      * @param graph graph were all the information is going to be stored
      * @param station_file the file containing the stations
-     * @param line_file the file containing the lines
-     * @brief Complexity O(V+E) being V the number of stations and E the number of lines that exists
+     * @param edge_file the file containing the edges
+     * @brief Complexity O(V+E) being V the number of stations and E the number of edges that exists
      */
-    void scrape(Graph &graph, string station_file, string line_file,int option);
+    void scrape(Graph &graph, string station_file, string edge_file,int option);
 
     /**
      * @brief Scrapes the information from the stations and stores it in the graph
@@ -31,22 +31,22 @@ public:
     void scrapeNodes(Graph &graph, string station_file);
 
     /**
-     * @brief Scrapes the information from the lines and stores it in the graph
+     * @brief Scrapes the information from the edges and stores it in the graph
      * @param graph graph were all the information is going to be stored
-     * @param line_file the file containing the lines
-     * @brief Complexity O(E) being E the number of lines that exists
+     * @param edge_file the file containing the edges
+     * @brief Complexity O(E) being E the number of edges that exists
      */
-    void scrapeLines(Graph &graph, string line_file);
+    void scrapeEdges(Graph &graph, string edge_file);
 
     /**
      * @brief Gets the data from the files checking for error and special cases
      * @param value where the data is going to be stored
-     * @param data the line of the file containing the information
+     * @param data the edge of the file containing the information
      * @brief Complexity O(1)
      */
     void getValue(string &value, istringstream &data);
 
-    void scrapeLinesWithoutNodes(Graph &graph,string &lines_value );
+    void scrapeEdgesWithoutNodes(Graph &graph,string &edges_value );
 };
 
 #endif // DA_PROJECT1_SCRAPPER_H

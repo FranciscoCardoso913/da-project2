@@ -7,7 +7,7 @@
 #include <limits>
 #include <algorithm>
 #include <set>
-#include "NodesLine.h"
+#include "NodesEdges.h"
 
 using namespace std;
 
@@ -26,14 +26,13 @@ public:
     Node *findNode(const int &position) const;
 
     /**
-     * @brief Auxiliary function to find a Line with a given source and destination.
-     * @param src the source of the line we want to find
-     * @param dst the destiny of the line we want to find
-     * @return if the Line is found returns a pointer to that Line, otherwise returns nullptr
-     * @brief Complexity O(E) being E the number of lines
+     * @brief Auxiliary function to find a Edge with a given source and destination.
+     * @param src the source of the edge we want to find
+     * @param dst the destiny of the edge we want to find
+     * @return if the Edge is found returns a pointer to that Edge, otherwise returns nullptr
+     * @brief Complexity O(E) being E the number of edges
      */
-
-    Line * findLine( Node *src,  Node *dst) const;
+    Edge * findEdge( Node *src,  Node *dst) const;
 
     /**
      * @brief Adds a Station with a given content or info to a graph.
@@ -44,28 +43,27 @@ public:
     bool addNode(Node *node);
 
     /**
-     * @brief Adds an Line to a graph, given the contents of the source and destination stations and the Line capacity (w).
+     * @brief Adds an Edge to a graph, given the contents of the source and destination stations and the Edge capacity (w).
      * @param src Station Source
      * @param dest Station Destination
-     * @param w Capacity of the Lines
-     * @param service Type of Trains that will use the Line
+     * @param w Capacity of the Edges
+     * @param service Type of Trains that will use the Edge
      * @return true if successful, and false if the source or destination Station does not exist.
      * @brief Complexity O(1)
      */
-
-    Line*  addLine(Node *src, Node *dest, double w);
+    Edge*  addEdge(Node *src, Node *dest, double w);
 
     /**
      * @param src Station Source
      * @param dest Station Destination
-     * @param w Capacity of the Lines
-     * @param service Type of Trains that will use the Line
+     * @param w Capacity of the Edges
+     * @param service Type of Trains that will use the Edge
      * @return False if one of the Stations does not exist, true otherwise.
      * @brief Complexity O(log N) being N the number of stations.
-     * @brief Adds two lines at the same time, one in each direction, between the source and destination stations, with the given capacity (w).
+     * @brief Adds two edges at the same time, one in each direction, between the source and destination stations, with the given capacity (w).
      * complexity O(1)
      */
-    bool addBidirectionalLine(Node *src, Node *dst, double w);
+    bool addBidirectionalEdge(Node *src, Node *dst, double w);
 
     /**
      * @return the vector with all the stations
@@ -74,29 +72,28 @@ public:
     vector<Node *> getNodes() const;
 
     /**
-     * @brief Sets the attributes visited and processing of the station to false and the flow of the lines to 0
-     * @brief Complexity O(V+E) being V the number of stations and E the number of lines
+     * @brief Sets the attributes visited and processing of the station to false and the flow of the edges to 0
+     * @brief Complexity O(V+E) being V the number of stations and E the number of edges
      */
     void reset();
 
     /**
-     * @return Vector with all the lines
+     * @return Vector with all the edges
      * @brief Complexity O(1)
      */
-    vector<vector <Line *>> getLineVector() const;
-    void mergeSets(vector<int> &parent, int x, int y);
+    vector<vector <Edge *>> getEdgeVector() const;
 
     /**
      * @brief Removes the last station inserted in the StationSet
      * @brief Complexity O(1)
      */
-    void removeLastStation();
+    void removeLastNode();
 
     /**
      * @param string origin - origin station's name
      * @param string destination - destination station's name
      * @brief Finds the shortest Path between two stations.
-     * @brief Complexity O(V+E) being V the number of stations and E the number of lines
+     * @brief Complexity O(V+E) being V the number of stations and E the number of edges
      */
     int bfs(Node *station);
 
@@ -124,6 +121,7 @@ public:
      *
      * @brief O(log n), where n is the number of nodes in the disjoint set.
      */
+    void mergeSets(vector<int> &parent, int x, int y);
 
 
     /**
@@ -135,29 +133,34 @@ public:
      *
      * @brief O(E log V), where E is the number of edges in the graph and V is the number of nodes.
      */
-    vector<Line> findMinimumSpanningTree();
+    vector<Edge> findMinimumSpanningTree();
 
     pair<vector<int>, double> christofidesTSP();
 
     pair<vector<Node*>,double>  tspTriangularApproximation() ;
+
+    void completeRealEdges();
+
+    void completeToyEdges();
+
 protected:
     vector<Node *> nodes;
-    // Station set
-    vector<vector<Line *>> lines;
+    vector<vector<Edge *>> edges;
     double **distMatrix = nullptr; // dist matrix for Floyd-Warshall
     int **pathMatrix = nullptr;
     // path matrix for Floyd-Warshall
 
     /**
      * @brief deletes the graph
-     * @brief Complexity (V+E) being V the number of stations and E the number of lines
+     * @brief Complexity (V+E) being V the number of stations and E the number of edges
      */
     void deleteGraph();
 
 
-    vector<int> oddDegreeVertices( vector<Line> &lines) const;
-    vector<Line > minimumPerfectMatching (vector<int> nodes) ;
-    vector<int> findEulerianCircuit( vector<Line> &edges);
+
+    vector<int> oddDegreeVertices( vector<Edge> &edges) const;
+    vector<Edge> minimumPerfectMatching (vector<int> nodes) ;
+    vector<int> findEulerianCircuit( vector<Edge> &edges);
     vector<int> tspTours(vector<int> &eulerianCircuit);
     double calculateWeight(vector<int> &tsp);
     double calculateDistance( Node* node1,  Node* node2) ;

@@ -4,27 +4,27 @@
 
 #include "Scrapper.h"
 
-void Scrapper::scrape(Graph &graph, string node_file, string line_file,int option)
+void Scrapper::scrape(Graph &graph, string node_file, string edge_file,int option)
 {
     if(option==0) {
         scrapeNodes(graph, node_file);
-        scrapeLines(graph, line_file);
+        scrapeEdges(graph, edge_file);
     }
     else{
-        scrapeLinesWithoutNodes( graph,  line_file);
+        scrapeEdgesWithoutNodes( graph,  edge_file);
     }
 }
 
 void Scrapper::scrapeNodes(Graph &graph, string node_file)
 {
     ifstream file(node_file);
-    string line;
+    string edge;
     string id,lon,lat;
 
-    getline(file, line);
-    while (getline(file, line))
+    getline(file, edge);
+    while (getline(file, edge))
     {
-        istringstream data(line);
+        istringstream data(edge);
         getline(data, id, ',');
         getline(data, lon, ',');
         getline(data, lat, ',');
@@ -32,10 +32,10 @@ void Scrapper::scrapeNodes(Graph &graph, string node_file)
     }
 }
 
-void Scrapper::scrapeLines(Graph &graph, string lines_file)
+void Scrapper::scrapeEdges(Graph &graph, string edges_file)
 {
-    vector<Line> lines;
-    ifstream file(lines_file);
+    vector<Edge> edges;
+    ifstream file(edges_file);
     string line;
     string src,dst,w;
     getline(file, line);
@@ -53,12 +53,12 @@ void Scrapper::scrapeLines(Graph &graph, string lines_file)
         if (v2 == nullptr)
             cout << dst << " Not found" << endl;
 
-        graph.addBidirectionalLine(v1, v2, stod(w));
-        lines.push_back(
-            Line(graph.findNode(stoi(src)), graph.findNode(stoi(dst)), stod(w))
-            );
-        lines.push_back(
-                Line(graph.findNode(stoi(dst)), graph.findNode(stoi(src)), stod(w))
+        graph.addBidirectionalEdge(v1, v2, stod(w));
+        edges.push_back(
+            Edge(graph.findNode(stoi(src)), graph.findNode(stoi(dst)), stod(w))
+        );
+        edges.push_back(
+            Edge(graph.findNode(stoi(dst)), graph.findNode(stoi(src)), stod(w))
         );
     }
 }
@@ -89,9 +89,9 @@ void Scrapper::getValue(string &value, istringstream &data)
         value = "";
 }
 
-void Scrapper:: scrapeLinesWithoutNodes(Graph &graph,string &lines_file ){
-    vector<Line> lines;
-    ifstream file(lines_file);
+void Scrapper:: scrapeEdgesWithoutNodes(Graph &graph,string &edges_file ){
+    vector<Edge> edges;
+    ifstream file(edges_file);
     string line;
     string src,dst,w;
     getline(file, line);
@@ -113,12 +113,12 @@ void Scrapper:: scrapeLinesWithoutNodes(Graph &graph,string &lines_file ){
             v2=new Node(stoi(dst));
             graph.addNode(v2);
 
-        graph.addBidirectionalLine(v1, v2, stod(w));
-        lines.push_back(
-                Line(graph.findNode(stoi(src)), graph.findNode(stoi(dst)), stod(w))
+        graph.addBidirectionalEdge(v1, v2, stod(w));
+        edges.push_back(
+                Edge(graph.findNode(stoi(src)), graph.findNode(stoi(dst)), stod(w))
                     );
-        lines.push_back(
-                Line(graph.findNode(stoi(dst)), graph.findNode(stoi(src)), stod(w))
+        edges.push_back(
+                Edge(graph.findNode(stoi(dst)), graph.findNode(stoi(src)), stod(w))
         );
     }
 }
