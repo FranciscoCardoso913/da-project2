@@ -154,11 +154,12 @@ public:
      * @brief Complexity O(n)
      */
     void removeOutgoingLines();
-
+    int queueIndex;
+    double lon,lat;
 protected:
 
    int index;
-   double lon,lat;
+
    string label;
     // identifier
     std::vector<Line *> adj; // outgoing Lines

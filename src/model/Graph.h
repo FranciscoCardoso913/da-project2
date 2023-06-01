@@ -53,7 +53,7 @@ public:
      * @brief Complexity O(1)
      */
 
-    bool addLine(Node *src, Node *dest, int w);
+    Line*  addLine(Node *src, Node *dest, double w);
 
     /**
      * @param src Station Source
@@ -83,7 +83,7 @@ public:
      * @return Vector with all the lines
      * @brief Complexity O(1)
      */
-    vector<Line *> getLineVector() const;
+    vector<vector <Line *>> getLineVector() const;
     void mergeSets(vector<int> &parent, int x, int y);
 
     /**
@@ -137,12 +137,13 @@ public:
      */
     vector<Line> findMinimumSpanningTree();
 
-    pair<vector<int>,int> christofidesSTP();
+    pair<vector<int>, double> christofidesTSP();
 
+    pair<vector<Node*>,double>  tspTriangularApproximation() ;
 protected:
     vector<Node *> nodes;
     // Station set
-    vector<Line *> lines;
+    vector<vector<Line *>> lines;
     double **distMatrix = nullptr; // dist matrix for Floyd-Warshall
     int **pathMatrix = nullptr;
     // path matrix for Floyd-Warshall
@@ -154,11 +155,13 @@ protected:
     void deleteGraph();
 
 
-    vector<int > oddDegreeVertices(vector<Line> lines)const ;
+    vector<int> oddDegreeVertices( vector<Line> &lines) const;
     vector<Line > minimumPerfectMatching (vector<int> nodes) ;
-    vector<int>  findEulerianCircuit(vector<Line> edges ) ;
+    vector<int> findEulerianCircuit( vector<Line> &edges);
     vector<int> tspTours(vector<int> &eulerianCircuit);
-    double calculateWeight(vector<int> tsp);
+    double calculateWeight(vector<int> &tsp);
+    double calculateDistance( Node* node1,  Node* node2) ;
+    Node* findNearestNeighbor( Node* node,  vector<Node*>& unvisitedNodes) ;
 };
 
 void deleteMatrix(int **m, int n);

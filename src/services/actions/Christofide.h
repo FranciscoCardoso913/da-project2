@@ -14,7 +14,7 @@ using namespace std;
 class Christofide : public Action
 {
 private:
-    Graph *  graph;
+    Graph **  graph;
 
 
 public:

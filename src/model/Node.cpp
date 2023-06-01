@@ -62,7 +62,7 @@ void Node::removeOutgoingLines()
 
 bool Node::operator<(Node Station) const
 {
-    return this->index < Station.getIndex();
+    return this->queueIndex < Station.queueIndex;
 }
 
 std::vector<Line *> Node::getAdj() const
