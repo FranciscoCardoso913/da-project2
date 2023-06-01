@@ -51,7 +51,7 @@ public:
      * @return true if successful, and false if the source or destination Station does not exist.
      * @brief Complexity O(1)
      */
-    bool addEdge( Node *src, Node *dest, int w);
+    Edge*  addEdge(Node *src, Node *dest, double w);
 
     /**
      * @param src Station Source
@@ -63,7 +63,7 @@ public:
      * @brief Adds two edges at the same time, one in each direction, between the source and destination stations, with the given capacity (w).
      * complexity O(1)
      */
-    bool addBidirectionalEdges(Node *src, Node *dst, double w);
+    bool addBidirectionalEdge(Node *src, Node *dst, double w);
 
     /**
      * @return the vector with all the stations
@@ -81,9 +81,7 @@ public:
      * @return Vector with all the edges
      * @brief Complexity O(1)
      */
-    vector<Edge *> getEdgeVector() const;
-
-    void mergeSets(vector<int> &parent, int x, int y);
+    vector<vector <Edge *>> getEdgeVector() const;
 
     /**
      * @brief Removes the last station inserted in the StationSet
@@ -123,6 +121,7 @@ public:
      *
      * @brief O(log n), where n is the number of nodes in the disjoint set.
      */
+    void mergeSets(vector<int> &parent, int x, int y);
 
 
     /**
@@ -134,14 +133,14 @@ public:
      *
      * @brief O(E log V), where E is the number of edges in the graph and V is the number of nodes.
      */
-    vector<int> findMinimumSpanningTree();
+    vector<Edge> findMinimumSpanningTree();
 
-    pair<vector<int>,int> christofidesSTP();
+    pair<vector<int>, double> christofidesTSP();
 
+    pair<vector<Node*>,double>  tspTriangularApproximation() ;
 protected:
     vector<Node *> nodes;
-    // Station set
-    vector<Edge *> edges;
+    vector<vector<Edge *>> edges;
     double **distMatrix = nullptr; // dist matrix for Floyd-Warshall
     int **pathMatrix = nullptr;
     // path matrix for Floyd-Warshall
@@ -153,11 +152,14 @@ protected:
     void deleteGraph();
 
 
-    vector<int > oddDegreeVertices(vector<Edge> edges)const ;
-    vector<Edge > minimumPerfectMatching (vector<int> nodes) ;
-    vector<int>  findEulerianCircuit(vector<Edge> edges ) ;
+
+    vector<int> oddDegreeVertices( vector<Edge> &edges) const;
+    vector<Edge> minimumPerfectMatching (vector<int> nodes) ;
+    vector<int> findEulerianCircuit( vector<Edge> &edges);
     vector<int> tspTours(vector<int> &eulerianCircuit);
-    double calculateWeight(vector<int> tsp);
+    double calculateWeight(vector<int> &tsp);
+    double calculateDistance( Node* node1,  Node* node2) ;
+    Node* findNearestNeighbor( Node* node,  vector<Node*>& unvisitedNodes) ;
 };
 
 void deleteMatrix(int **m, int n);

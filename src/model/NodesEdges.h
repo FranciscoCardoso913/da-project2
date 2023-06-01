@@ -155,10 +155,13 @@ public:
      */
     void removeOutgoingEdges();
 
+    int queueIndex;
+    double lon,lat;
+
 protected:
 
    int index;
-   double lon,lat;
+
    string label;
     // identifier
     std::vector<Edge *> adj; // outgoing Edges

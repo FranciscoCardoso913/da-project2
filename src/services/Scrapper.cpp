@@ -53,7 +53,7 @@ void Scrapper::scrapeEdges(Graph &graph, string edges_file)
         if (v2 == nullptr)
             cout << dst << " Not found" << endl;
 
-        graph.addBidirectionalEdges(v1, v2, stod(w));
+        graph.addBidirectionalEdge(v1, v2, stod(w));
         edges.push_back(
             Edge(graph.findNode(stoi(src)), graph.findNode(stoi(dst)), stod(w))
         );
@@ -113,7 +113,7 @@ void Scrapper:: scrapeEdgesWithoutNodes(Graph &graph,string &edges_file ){
             v2=new Node(stoi(dst));
             graph.addNode(v2);
 
-        graph.addBidirectionalEdges(v1, v2, stod(w));
+        graph.addBidirectionalEdge(v1, v2, stod(w));
         edges.push_back(
                 Edge(graph.findNode(stoi(src)), graph.findNode(stoi(dst)), stod(w))
                     );

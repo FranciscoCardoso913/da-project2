@@ -32,14 +32,16 @@ void Backtracking::backtracking_tsp(int srcNode, int currNode, unsigned int grap
     for (int i = 0; i < graphSize; i++) {
 
         Node *node = (*graph)->findNode(i);
+        Node *currentNode = (*graph)->findNode(currNode);
+        Edge *edge = (*graph)->findEdge(currentNode,node);
 
-        if(!node->isVisited() && (*graph)->findEdge((*graph)->findNode(currNode),node)!=nullptr) {
+        if(!node->isVisited() && edge!=NULL) {
 
             node->setVisited(true);
 
             currPath.push_back(i);
 
-            backtracking_tsp(srcNode, i, graphSize, count+1, cost + (*graph)->findEdge((*graph)->findNode(currNode),(*graph)->findNode(i))->getCapacity(), minCost, currPath, path);
+            backtracking_tsp(srcNode, i, graphSize, count+1, cost + edge->getCapacity(), minCost, currPath, path);
 
             node->setVisited(false);
 

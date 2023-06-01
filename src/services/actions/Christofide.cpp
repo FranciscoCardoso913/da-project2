@@ -4,14 +4,16 @@
 
 #include "Christofide.h"
 
-Christofide::Christofide(Graph *&currentGraph) :graph(currentGraph){};
+Christofide::Christofide(Graph *&currentGraph) :graph(&currentGraph){};
 
 void Christofide::execute() {
-    pair<vector<int>,int>res=  graph->christofidesSTP();
-    for(int x:res.first){
+    /*pair<vector<int>,double>res=  (*graph)->christofidesTSP();
+    for(auto x:res.first){
         cout<<x<<'-';
     }
-    cout<<'\n';
-    cout<<"Weight : "<<res.second<<endl;
-    wait();
+    cout<<endl<<res.second;
+
+    wait();*/
+    cout<<"Res"<<(*graph)->tspTriangularApproximation().second;
+
 }
