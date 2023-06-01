@@ -138,6 +138,11 @@ public:
     pair<vector<int>, double> christofidesTSP();
 
     pair<vector<Node*>,double>  tspTriangularApproximation() ;
+
+    void completeRealEdges();
+
+    void completeToyEdges();
+
 protected:
     vector<Node *> nodes;
     vector<vector<Edge *>> edges;

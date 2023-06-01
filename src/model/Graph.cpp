@@ -413,3 +413,35 @@ pair<vector<Node*>,double> Graph:: tspTriangularApproximation() {
 
     return {tspTour, weight};
 }
+
+void Graph::completeRealEdges() {
+
+    for (int i = 0; i < nodes.size(); i++) {
+        for (int j = i + 1; j < nodes.size(); j++) {
+            if (findEdge(nodes[i], nodes[j]) == NULL) {
+                double dist = calculateDistance(nodes[i], nodes[j]);
+                Edge *edge = new Edge(nodes[i], nodes[j], dist);
+                nodes[i]->addEdge(nodes[j], dist);
+                nodes[j]->addEdge(nodes[i], dist);
+                edges[i][j] = edge;
+                edges[j][i] = edge;
+            }
+
+        }
+    }
+
+}
+
+void Graph::completeToyEdges() {
+
+    for (int i = 0; i < nodes.size(); i++ ) {
+        for (int j = i + 1; j < nodes.size(); j++) {
+            if (findEdge(nodes[i], nodes[j]) == NULL) {
+                while (i >= edges.size()) edges.push_back(vector<Edge*> (nodes.size(), NULL));
+                while (j >= edges[i].size()) edges[i].push_back(NULL);
+            }
+
+        }
+    }
+
+}

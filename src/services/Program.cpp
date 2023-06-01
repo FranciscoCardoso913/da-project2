@@ -83,25 +83,29 @@ void Program::loadGraphs(int *percentage) {
 
     *percentage=0;
     this->graphs[0] = Graph();
-    this->graphs[0].name="Ola";
-
     Scrapper().scrape(this->graphs[0], "../files/real_graphs/graph1/nodes.csv", "../files/real_graphs/graph1/edges.csv",0);
+    //this->graphs[0].completeRealEdges();
     *percentage=  15;
     currentGraph=&this->graphs[0];
     this->graphs[1] = Graph();
     Scrapper().scrape(this->graphs[1], "../files/real_graphs/graph2/nodes.csv", "../files/real_graphs/graph2/edges.csv",0);
+    //this->graphs[1].completeRealEdges();
     *percentage=40;
     this->graphs[2] = Graph();
     Scrapper().scrape(this->graphs[2], "../files/real_graphs/graph3/nodes.csv", "../files/real_graphs/graph3/edges.csv",0);
+    //this->graphs[2].completeRealEdges();
     *percentage=70;
     this->toyGraphs[0] = Graph();
     Scrapper().scrape(this->toyGraphs[0], "", "../files/toy_graphs/shipping.csv",1);
+    this->toyGraphs[0].completeToyEdges();
     *percentage=80;
     this->toyGraphs[1] = Graph();
     Scrapper().scrape(this->toyGraphs[1], "", "../files/toy_graphs/stadiums.csv",1);
+    this->toyGraphs[1].completeToyEdges();
     *percentage=90;
     this->toyGraphs[2] = Graph();
     Scrapper().scrape(this->toyGraphs[2], "", "../files/toy_graphs/tourism.csv",1);
+    this->toyGraphs[2].completeToyEdges();
     *percentage=100;
     /*this->bigGraph=Graph();
     Scrapper().scrape(this->bigGraph, "", "../files/Extra_Fully_Connected_Graphs/edges_25.csv",1);
