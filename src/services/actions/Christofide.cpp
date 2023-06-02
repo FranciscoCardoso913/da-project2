@@ -14,6 +14,6 @@ void Christofide::execute() {
     cout<<endl<<res.second;
 
     wait();*/
-    cout<<"Res"<<(*graph)->tspTriangularApproximation().second;
+    //cout<<"Res"<<(*graph)->tspTriangularApproximation().second;
 
 }

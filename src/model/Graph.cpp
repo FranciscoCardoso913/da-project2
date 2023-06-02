@@ -79,6 +79,30 @@ void Graph::reset()
     }
 }
 
+vector<Node*> Graph::dfs(Node* station) {
+
+    reset();
+
+    vector<Node*> dfs;
+    stack<Node*> stack;
+    stack.push(station);
+    station->setProcessing(true);
+    while (!stack.empty()) {
+        Node* current = stack.top();
+        stack.pop();
+        current->setVisited(true);
+        dfs.push_back(current);
+        for (Edge* edge : current->getMST()) {
+            Node* next = edge->getDest();
+            if (!next->isVisited() && !next->isProcessing()) {
+                next->setProcessing(true);
+                stack.push(next);
+            }
+        }
+    }
+    return dfs;
+}
+
 vector<int> Graph::oddDegreeVertices(vector<Edge> &edges) const {
     vector<int> oddDegreeVertices;
     vector<int> degreeCount(nodes.size(), 0);
@@ -364,55 +388,6 @@ Node* Graph:: findNearestNeighbor( Node* node,  vector<Node*>& unvisitedNodes) {
     return nearestNeighbor;
 }
 
-// Triangular Approximation Heuristic for TSP
-pair<vector<Node*>,double> Graph:: tspTriangularApproximation() {
-    // Create a vector to store the TSP tour
-    vector<Node*> tspTour;
-
-    // Get the nodes from the graph
-
-
-    // Choose a starting node (can be any node)
-    Node* startNode = nodes[0];
-    Node* currentNode = startNode;
-
-    // Mark the starting node as visited
-    currentNode->setVisited(true);
-
-    // Add the starting node to the TSP tour
-    tspTour.push_back(currentNode);
-
-    // Create a vector to store the unvisited nodes
-    vector<Node*> unvisitedNodes(nodes.begin() + 1, nodes.end());
-
-    // Repeat until all nodes are visited
-    while (!unvisitedNodes.empty()) {
-
-        // Find the nearest unvisited neighbor of the current node
-        Node* nearestNeighbor = findNearestNeighbor(currentNode, unvisitedNodes);
-
-        // Mark the nearest neighbor as visited
-        nearestNeighbor->setVisited(true);
-
-        // Add the nearest neighbor to the TSP tour
-        tspTour.push_back(nearestNeighbor);
-
-        // Set the nearest neighbor as the current node
-        currentNode = nearestNeighbor;
-
-        // Remove the nearest neighbor from the unvisited nodes
-        unvisitedNodes.erase(find(unvisitedNodes.begin(), unvisitedNodes.end(), currentNode));
-    }
-
-    // Add the start node to complete the tour
-    tspTour.push_back(startNode);
-    double weight=0;
-    for(int i=0; i<tspTour.size()-1;i++){
-        weight+= calculateDistance(tspTour[i], tspTour[i+1]);
-    }
-
-    return {tspTour, weight};
-}
 
 void Graph::completeRealEdges() {
 

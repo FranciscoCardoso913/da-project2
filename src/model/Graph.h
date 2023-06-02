@@ -90,12 +90,12 @@ public:
     void removeLastNode();
 
     /**
-     * @param string origin - origin station's name
-     * @param string destination - destination station's name
-     * @brief Finds the shortest Path between two stations.
-     * @brief Complexity O(V+E) being V the number of stations and E the number of edges
+     * @param station starting station
+     * @brief dfs algorithm to find the Hamiltonian Path
+     * @brief Complexity:O(n) being n the number of edges
+     * @return vector with the Hamiltonian Path
      */
-    int bfs(Node *station);
+    vector<Node*> dfs(Node *station);
 
     /**
      * @brief Find the parent node of a given node in the disjoint set.

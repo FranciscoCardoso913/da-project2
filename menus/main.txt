@@ -1,4 +1,5 @@
 Backtracking Method
+Triangular Approximation Method
 Algorithm
 Choose graph
 Quit

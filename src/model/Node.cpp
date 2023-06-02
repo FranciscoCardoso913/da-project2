@@ -16,6 +16,11 @@ Edge *Node::addEdge(Node *d, double w)
     return newEdge;
 }
 
+bool Node::addMSTEdge(Edge *mstEdge) {
+    mst.push_back(mstEdge);
+    return 1;
+}
+
 int Node::getIndex() const {
     return this->index;
 }
@@ -68,6 +73,11 @@ bool Node::operator<(Node Station) const
 std::vector<Edge *> Node::getAdj() const
 {
     return this->adj;
+}
+
+std::vector<Edge *> Node::getMST() const
+{
+    return this->mst;
 }
 
 bool Node::isVisited() const
