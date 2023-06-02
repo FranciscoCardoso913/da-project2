@@ -91,11 +91,11 @@ public:
 
     /**
      * @param station starting station
+     * @param path vector with the path
      * @brief dfs algorithm to find the Hamiltonian Path
-     * @brief Complexity:O(n) being n the number of edges
-     * @return vector with the Hamiltonian Path
+     * @brief Complexity
      */
-    vector<Node*> dfs(Node *station);
+    void dfs(Node* station, vector<Node*> &path) const;
 
     /**
      * @brief Find the parent node of a given node in the disjoint set.

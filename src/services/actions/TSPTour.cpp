@@ -17,12 +17,19 @@ void TSPTour::execute() {
             dest->addMSTEdge(edge->getReverse());
         }
 
-        vector<Node*> HamiltonianPath = (*graph)->dfs(sourceNode);
+
+
+        vector<Node*> HamiltonianPath;
+
+        (*graph)->reset();
+
+        (*graph)->dfs(sourceNode, HamiltonianPath);
+
         HamiltonianPath.push_back(sourceNode);
 
         double cost = 0;
 
-        for(int i = 0; i < HamiltonianPath.size()-2; i++) {
+        for(int i = 0; i < HamiltonianPath.size()-1; i++) {
             Edge* edge = (*graph)->findEdge(HamiltonianPath[i], HamiltonianPath[i+1]);
             cost += edge->getCapacity();
         }

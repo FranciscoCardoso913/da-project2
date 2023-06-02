@@ -79,28 +79,19 @@ void Graph::reset()
     }
 }
 
-vector<Node*> Graph::dfs(Node* station) {
+void Graph::dfs(Node* station, vector<Node*> &path) const {
 
-    reset();
+    station->setVisited(true);
+    path.push_back(station);
 
-    vector<Node*> dfs;
-    stack<Node*> stack;
-    stack.push(station);
-    station->setProcessing(true);
-    while (!stack.empty()) {
-        Node* current = stack.top();
-        stack.pop();
-        current->setVisited(true);
-        dfs.push_back(current);
-        for (Edge* edge : current->getMST()) {
-            Node* next = edge->getDest();
-            if (!next->isVisited() && !next->isProcessing()) {
-                next->setProcessing(true);
-                stack.push(next);
-            }
+    for (Edge* edge : station->getMST()) {
+        Node* nextStation = edge->getDest();
+        if (!nextStation->isVisited()) {
+            dfs(nextStation, path);
         }
     }
-    return dfs;
+
+
 }
 
 vector<int> Graph::oddDegreeVertices(vector<Edge> &edges) const {
@@ -385,25 +376,6 @@ Node* Graph:: findNearestNeighbor( Node* node,  vector<Node*>& unvisitedNodes) {
         }
     }
     return nearestNeighbor;
-}
-
-
-void Graph::completeRealEdges() {
-
-    for (int i = 0; i < nodes.size(); i++) {
-        for (int j = i + 1; j < nodes.size(); j++) {
-            if (findEdge(nodes[i], nodes[j]) == NULL) {
-                double dist = calculateDistance(nodes[i], nodes[j]);
-                Edge *edge = new Edge(nodes[i], nodes[j], dist);
-                nodes[i]->addEdge(nodes[j], dist);
-                nodes[j]->addEdge(nodes[i], dist);
-                edges[i][j] = edge;
-                edges[j][i] = edge;
-            }
-
-        }
-    }
-
 }
 
 void Graph::completeToyEdges() {
