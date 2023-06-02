@@ -72,13 +72,13 @@ void DrawPaths::draw( Path path, int page) const
     cout << "\033[0m";
     int extra_space = 10;
     extra_space-= to_string(page).length();
-    extra_space-= to_string((path.first.size())/10 ).length();
+    extra_space-= to_string((path.first.size()-1)/10 +1).length();
     string display;
     display =
         "┌\033[40m───────────────────────────────────────────────────────────────────────────\033[0m┐ \n"
         "│\033[40m                                    TSP                                    \033[0m│\n"
         "├\033[40m───────────────────────────────────────────────────────────────────────────\033[0m┤\n"
-        "│\033[40m                             Page(" +
+        "│\033[40m                              Page(" +
         to_string(page) + "/" +
         to_string((path.first.size()-1)/10 +1) + ")";
     for (int i = 0; i < extra_space; i++)
@@ -94,10 +94,10 @@ void DrawPaths::draw( Path path, int page) const
     {
         string to_name;
         page_height++;
-        if(i>=path.first.size()) break;
+        if(i+1>=path.first.size()) break;
         string from_name = to_string(path.first[i]);
-        if(i+1>=path.first.size()) to_name= to_string(path.first[0]);
-        else to_name=  to_string(path.first[i+1]);
+
+        to_name=  to_string(path.first[i+1]);
         int special_chars = specialChars(from_name);
 
         if (page_height % 2 == 0)

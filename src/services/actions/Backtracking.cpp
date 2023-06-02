@@ -1,5 +1,6 @@
 
 #include "Backtracking.h"
+#include "../../view/DrawPaths.h"
 
 Backtracking::Backtracking(Graph *&graph):  graph(&graph) {};
 
@@ -91,12 +92,7 @@ void Backtracking::execute() {
 
     backtracking_tsp(srcNode, srcNode, graphSize, 1, 0, minCost, currPath, path);
 
-    cout << "Minimum Cost: " << minCost << endl;
-
-    cout << "Path: ";
-    for (int i = 0; i < path.size(); i++) {
-        cout << path[i] << " ";
-    }
-    cout << endl;
+    DrawPaths().pageController(make_pair(path,minCost));
+  
 
 }
