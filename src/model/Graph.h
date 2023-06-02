@@ -10,7 +10,7 @@
 #include "NodesEdges.h"
 
 using namespace std;
-
+typedef  pair<vector<int>,double> Path;
 class Graph
 {
 public:
