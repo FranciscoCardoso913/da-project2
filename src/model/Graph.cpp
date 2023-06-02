@@ -192,15 +192,15 @@ vector<int> Graph::findEulerianCircuit(vector<Edge> &edges)
     return circuit;
 }
 
-vector<int> Graph::tspTours(vector<int> &eulerianCircuit)
+vector<Node*> Graph::tspTours(vector<int> &eulerianCircuit)
 {
-    vector<int> tspTour;
+    vector<Node*> tspTour;
     reset();
     for (int node : eulerianCircuit)
     {
         if (!findNode(node)->isVisited())
         {
-            tspTour.push_back(node);
+            tspTour.push_back(nodes[node]);
             findNode(node)->setVisited(true);
         }
     }
@@ -208,18 +208,18 @@ vector<int> Graph::tspTours(vector<int> &eulerianCircuit)
     return tspTour;
 }
 
-double Graph::calculateWeight(vector<int> &tsp)
+double Graph::calculateWeight(vector<Node*> &tsp)
 {
     double weight = 0.0;
     double max = 0;
     for (int i = 0; i < tsp.size() - 1; i++)
     {
-        weight += findEdge(findNode(tsp[i]), findNode(tsp[i + 1]))->getCapacity();
+        weight += findEdge(findNode(tsp[i]->getIndex()), findNode(tsp[i + 1]->getIndex()))->getCapacity();
     }
     return weight;
 }
 
-pair<vector<int>, double> Graph::christofidesTSP()
+pair<vector<Node*>, double> Graph::christofidesTSP()
 {
     // Step 1: Find the minimum spanning tree
     vector<Edge> minimumSpanningTree = findMinimumSpanningTree();
@@ -240,7 +240,7 @@ pair<vector<int>, double> Graph::christofidesTSP()
     vector<int> eulerianCircuit = findEulerianCircuit(multigraph);
 
     // Step 6: Convert the Eulerian circuit into a TSP tour
-    vector<int> tspTour = tspTours(eulerianCircuit);
+    vector<Node*> tspTour = tspTours(eulerianCircuit);
 
     return make_pair(tspTour, calculateWeight(tspTour));
 }
@@ -273,9 +273,9 @@ vector<Edge> Graph::findMinimumSpanningTree()
             if (!w->isVisited())
             {
                 auto oldDist = w->getDist();
-                if (e->getOrig()->getDist() + e->getCapacity() < oldDist)
+                if ( e->getCapacity() < oldDist)
                 {
-                    w->setDist(e->getOrig()->getDist() + e->getCapacity());
+                    w->setDist( e->getCapacity());
                     w->setPath(e);
                     if (oldDist == INF)
                     {
@@ -482,9 +482,9 @@ double Graph::calculateTourCost(vector<Node *> &tour)
 vector<pair<int, int>> Graph::generate2OptMoves(int size)
 {
     vector<pair<int, int>> moves;
-    for (int i = 0; i < size - 1; i++)
+    for (int i = 1; i < size - 1; i++)
     {
-        for (int j = i + 2; j < size - 1; j++)
+        for (int j = i +1; j < size - 1; j++)
         {
             moves.push_back({i, j});
         }
@@ -513,8 +513,8 @@ pair<vector<Node *>, double> Graph::LinKernighan()
     vector<pair<int, int>> moves = generate2OptMoves(tour.size());
 
     bool improvement = true;
-
-    while (improvement)
+    int max_improve=20;
+    while (improvement and max_improve>0)
     {
         for (const auto &move : moves)
         {
@@ -532,7 +532,9 @@ pair<vector<Node *>, double> Graph::LinKernighan()
                 bestCost = cost;
                 bestTour = tour;
                 improvement = true;
+                max_improve--;
                 break;
+
             }
 
             apply2OptMove(tour, move);

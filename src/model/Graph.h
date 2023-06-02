@@ -135,7 +135,7 @@ public:
      */
     vector<Edge> findMinimumSpanningTree();
 
-    pair<vector<int>, double> christofidesTSP();
+    pair<vector<Node*>, double> christofidesTSP();
 
     pair<vector<Node*>,double>  tspTriangularApproximation() ;
 
@@ -169,8 +169,8 @@ protected:
     vector<int> oddDegreeVertices( vector<Edge> &edges) const;
     vector<Edge> minimumPerfectMatching (vector<int> nodes) ;
     vector<int> findEulerianCircuit( vector<Edge> &edges);
-    vector<int> tspTours(vector<int> &eulerianCircuit);
-    double calculateWeight(vector<int> &tsp);
+    vector<Node*> tspTours(vector<int> &eulerianCircuit);
+    double calculateWeight(vector<Node*> &tsp);
     double calculateDistance( Node* node1,  Node* node2) ;
     Node* findNearestNeighbor( Node* node,  vector<Node*>& unvisitedNodes) ;
 };
