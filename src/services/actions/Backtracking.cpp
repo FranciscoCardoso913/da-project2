@@ -93,6 +93,6 @@ void Backtracking::execute() {
     backtracking_tsp(srcNode, srcNode, graphSize, 1, 0, minCost, currPath, path);
 
     DrawPaths().pageController(make_pair(path,minCost));
-  
+
 
 }

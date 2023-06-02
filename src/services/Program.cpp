@@ -8,6 +8,7 @@
 #include "actions/ChooseGraph.h"
 #include "actions/Backtracking.h"
 #include "actions/Christofide.h"
+#include "actions/NearestNeighbor.h"
 
 
 Program::Program()
@@ -64,6 +65,7 @@ void Program::createMenus()
     Menu menu = Menu("../menus/main.txt");
     menu.addMenuItem(new Backtracking(this->currentGraph));
     menu.addMenuItem(new Christofide(this->currentGraph));
+    menu.addMenuItem(new NearestNeighbor(this->currentGraph));
     menu.addMenuItem(new ChangeMenu(menuPage, CHOOSE_GRAPH));
     menu.addMenuItem(new ChangeMenu(menuPage, POP_MENU));
     menus.push_back(menu);

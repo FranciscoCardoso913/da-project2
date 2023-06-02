@@ -137,7 +137,7 @@ public:
 
     pair<vector<int>, double> christofidesTSP();
 
-    pair<vector<Node*>,double>  tspTriangularApproximation() ;
+    pair<vector<int>,double>  nearestNeighborTSP() ;
 
     void completeRealEdges();
 

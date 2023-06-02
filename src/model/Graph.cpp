@@ -365,7 +365,7 @@ Node* Graph:: findNearestNeighbor( Node* node,  vector<Node*>& unvisitedNodes) {
 }
 
 // Triangular Approximation Heuristic for TSP
-pair<vector<Node*>,double> Graph:: tspTriangularApproximation() {
+pair<vector<int>,double> Graph:: nearestNeighborTSP() {
     // Create a vector to store the TSP tour
     vector<Node*> tspTour;
 
@@ -406,12 +406,15 @@ pair<vector<Node*>,double> Graph:: tspTriangularApproximation() {
 
     // Add the start node to complete the tour
     tspTour.push_back(startNode);
+    vector<int> results;
     double weight=0;
+    results.push_back(tspTour[0]->getIndex());
     for(int i=0; i<tspTour.size()-1;i++){
+        results.push_back(tspTour[i+1]->getIndex());
         weight+= calculateDistance(tspTour[i], tspTour[i+1]);
     }
 
-    return {tspTour, weight};
+    return {results, weight};
 }
 
 void Graph::completeRealEdges() {
