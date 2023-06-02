@@ -143,6 +143,14 @@ public:
 
     void completeToyEdges();
 
+    double calculateTourCost(vector<Node*> &tour);
+
+    vector<pair<int, int>> generate2OptMoves(int size);
+
+    void apply2OptMove(vector<Node*> &tour, pair<int, int> move);
+
+    pair<vector<Node*>, double> LinKernighan();
+
 protected:
     vector<Node *> nodes;
     vector<vector<Edge *>> edges;
