@@ -239,11 +239,11 @@ double Graph::calculateWeight( vector<int> &tsp)
     return weight;
 }
 
-
+/*
 pair<vector<int>, double> Graph::christofidesTSP()
 {
     // Step 1: Find the minimum spanning tree
-    vector<Edge> minimumSpanningTree = findMinimumSpanningTree();
+    vector<Edge*> minimumSpanningTree = findMinimumSpanningTree();
 
     // Step 2: Find the set of vertices with odd degree in the minimum spanning tree
     vector<int> oddNodes = oddDegreeVertices(minimumSpanningTree);
@@ -264,8 +264,8 @@ pair<vector<int>, double> Graph::christofidesTSP()
     vector<int> tspTour = tspTours(eulerianCircuit);
 
     return make_pair(tspTour, calculateWeight(tspTour));
-}
-vector<Edge> Graph::findMinimumSpanningTree() {
+}*/
+vector<Edge*> Graph::findMinimumSpanningTree(Node* source) {
     // Reset auxiliary info
     for (auto v : nodes) {
         v->setDist(INF);
@@ -273,13 +273,12 @@ vector<Edge> Graph::findMinimumSpanningTree() {
         v->setVisited(false);
     }
 
-    // start with an arbitrary vertex
-    Node* s = nodes.front();
-    s->setDist(0);
+
+    source->setDist(0);
 
     // initialize priority queue
     MutablePriorityQueue<Node> q;
-    q.insert(s);
+    q.insert(source);
 
     // process vertices in the priority queue
     while (!q.empty()) {
@@ -306,14 +305,14 @@ vector<Edge> Graph::findMinimumSpanningTree() {
         cout << node->getIndex() << ":" << node->getDist() << endl;
     }
 
-    vector<Edge> res;
+    vector<Edge*> res;
     for (auto node : nodes) {
         if (node->getPath() != nullptr) {
-            res.push_back(*node->getPath());
+            res.push_back(node->getPath());
         }
     }
     for(auto edge:res){
-        cout<<edge.getOrig()->getIndex()<<"-"<<edge.getDest()->getIndex()<<endl;
+        cout<<edge->getOrig()->getIndex()<<"-"<<edge->getDest()->getIndex()<<endl;
     }
 
     return res;

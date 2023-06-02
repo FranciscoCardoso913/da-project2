@@ -5,18 +5,18 @@ TSPTour::TSPTour(Graph *&graph) : graph(&graph) {}
 void TSPTour::execute() {
 
 
-        vector<Edge> mst = (*graph)->findMinimumSpanningTree();
+        Node* sourceNode = (*graph)->findNode(0);
+        vector<Edge*> mst = (*graph)->findMinimumSpanningTree(sourceNode);
 
         for(auto edge : mst) {
-            Node* orig = edge.getOrig();
-            Node* dest = edge.getDest();
+            Node* orig = edge->getOrig();
+            Node* dest = edge->getDest();
 
-            orig->addMSTEdge(&edge);
-            Edge reverseEdge = Edge(dest, orig, edge.getCapacity());
-            dest->addMSTEdge(&reverseEdge);
+
+            orig->addMSTEdge(edge);
+            dest->addMSTEdge(edge->getReverse());
         }
 
-        Node* sourceNode = (*graph)->findNode(0);
         vector<Node*> HamiltonianPath = (*graph)->dfs(sourceNode);
         HamiltonianPath.push_back(sourceNode);
 

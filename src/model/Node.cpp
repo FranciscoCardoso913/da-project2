@@ -95,7 +95,7 @@ double Node::getDist() const
     return this->dist;
 }
 
-Edge *Node::getPath() const
+Edge* Node::getPath() const
 {
     return this->path;
 }
