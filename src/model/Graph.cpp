@@ -110,7 +110,7 @@ vector<Edge> Graph::minimumPerfectMatching(vector<int> oddNodes)
         for(int j=0; j<oddNodes.size();j++) {
             Node *dest = findNode(oddNodes[j]);
             if(!src->isProcessing() and !dest->isProcessing() and src->getIndex()!=dest->getIndex()) {
-                Edge* edge=findEdge(src, findNode(oddNodes[min]));
+                Edge* edge=findEdge(src, dest);
                 if(edge== nullptr) continue;
                 int weight = edge->getCapacity();
                 if(weight<min_weight) min=j;
@@ -160,30 +160,40 @@ vector<Edge> Graph::minimumPerfectMatching(vector<int> oddNodes)
 }
 
 
-vector<int> Graph::findEulerianCircuit( vector<Edge> &edges)
+vector<int> Graph::findEulerianCircuit( vector<Edge> &edges_)
 {
     vector<int> circuit;
-    vector<vector<int>> adjList(nodes.size());
-
-    for (const auto &edge : edges)
-    {
-        adjList[edge.getOrig()->getIndex()].push_back(edge.getDest()->getIndex());
-        adjList[edge.getDest()->getIndex()].push_back(edge.getOrig()->getIndex());
+    circuit.push_back(edges_[0].getOrig()->getIndex());
+    circuit.push_back(edges_[0].getDest()->getIndex());
+    int current_node=edges_[0].getDest()->getIndex();
+    edges_.erase(edges_.begin());
+    bool cond=false;
+    while (!edges_.empty()){
+        cond= false;
+        for(int i=0; i<edges_.size();i++){
+            int node=edges_[i].getOrig()->getIndex();
+            if(node==current_node){
+                cond= true;
+                circuit.push_back(edges_[i].getDest()->getIndex());
+                current_node=edges_[i].getDest()->getIndex();
+                edges_.erase(edges_.begin()+i);
+            }
+        }
+        if(cond) continue;
+        for(int i=0; i<edges_.size();i++){
+            int node=edges_[i].getDest()->getIndex();
+            if(node==current_node){
+                cond= true;
+                circuit.push_back(edges_[i].getOrig()->getIndex());
+                current_node=edges_[i].getOrig()->getIndex();
+                edges_.erase(edges_.begin()+i);
+            }
+        }
+        if(!cond){
+            cout<<"Path not found"<<endl;
+        }
     }
-    int currVertex = 0;
-    circuit.push_back(currVertex);
 
-    while (!adjList[currVertex].empty())
-    {
-        int nextVertex = adjList[currVertex].back();
-        adjList[currVertex].pop_back();
-
-        auto it = find(adjList[nextVertex].begin(), adjList[nextVertex].end(), currVertex);
-        adjList[nextVertex].erase(it);
-
-        circuit.push_back(nextVertex);
-        currVertex = nextVertex;
-    }
 
     return circuit;
 }

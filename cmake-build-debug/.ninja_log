@@ -33,3 +33,16 @@
 305	370	1685701915107646767	da_project2	dddb97037ca1a4e0
 1	301	1685702063149313509	CMakeFiles/da_project2.dir/src/view/DrawPaths.cpp.o	23d63ad27c9b7433
 301	366	1685702063212647549	da_project2	dddb97037ca1a4e0
+1	571	1685724939856932106	CMakeFiles/da_project2.dir/src/services/actions/Action.cpp.o	c9ee9f722b5b3db2
+1	626	1685724939913599359	CMakeFiles/da_project2.dir/src/main.cpp.o	f930566208a11f0a
+1	659	1685724939943599669	CMakeFiles/da_project2.dir/src/services/actions/ChangeMenu.cpp.o	6b656ed8db768db4
+1	753	1685724940040267336	CMakeFiles/da_project2.dir/src/view/Menu.cpp.o	99f2b8025d64a734
+659	1015	1685724940300270026	CMakeFiles/da_project2.dir/src/services/actions/Christofide.cpp.o	c27800cb50e7e78e
+627	1113	1685724940400271061	CMakeFiles/da_project2.dir/src/services/actions/ChooseGraph.cpp.o	a69446f4fd3a8cc6
+571	1192	1685724940476938521	CMakeFiles/da_project2.dir/src/services/Scrapper.cpp.o	4da0a11936c171db
+1	1243	1685724940526939038	CMakeFiles/da_project2.dir/src/model/Graph.cpp.o	52fdaf1e5c88b2b6
+753	1279	1685724940563606084	CMakeFiles/da_project2.dir/src/services/actions/Backtracking.cpp.o	fc852dfa90241bbd
+1015	1430	1685724940716941004	CMakeFiles/da_project2.dir/src/view/DrawPaths.cpp.o	23d63ad27c9b7433
+1114	1432	1685724940716941004	CMakeFiles/da_project2.dir/src/services/actions/NearestNeighbor.cpp.o	639825d8017ef5
+1	1470	1685724940753608050	CMakeFiles/da_project2.dir/src/services/Program.cpp.o	978b95db660eba6e
+1470	1544	1685724940830275510	da_project2	dddb97037ca1a4e0
