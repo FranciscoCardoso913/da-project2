@@ -1,8 +1,8 @@
-#include "TSPTour.h"
+#include "TriangularApproximation.h"
 
-TSPTour::TSPTour(Graph *&graph) : graph(&graph) {}
+TriangularApproximation::TriangularApproximation(Graph *&graph) : graph(&graph) {}
 
-void TSPTour::execute() {
+void TriangularApproximation::execute() {
 
 
         Node* sourceNode = (*graph)->findNode(0);
