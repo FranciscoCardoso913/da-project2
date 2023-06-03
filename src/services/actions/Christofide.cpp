@@ -20,7 +20,9 @@ void Christofide::execute() {
 
     auto func = [&]( bool * run, double * solution,pair<vector<Node *>, double> *initialTour )
     {
+        if(!*run) return ;
         (*graph)->greddyImprovement(run,solution,*initialTour);
+        if(!*run) return ;
         (*graph)->LinKernighan(run , solution,*initialTour);
         *run= false;
     };

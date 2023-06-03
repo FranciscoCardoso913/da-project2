@@ -82,7 +82,6 @@ void Program::createMenus()
 void Program::loadGraphs(int *percentage) {
 
     *percentage=0;
-    this->graphs[0] = Graph();
     //Scrapper().scrape(this->graphs[0], "../files/real_graphs/graph1/nodes.csv", "../files/Extra_Fully_Connected_Graphs/edges_25.csv",1);
     //this->graphs[0].completeRealEdges();
     this->graphs[0] = Graph();
