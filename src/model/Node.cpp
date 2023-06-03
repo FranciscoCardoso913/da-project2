@@ -156,5 +156,11 @@ bool Node::isDisabled() const
 {
     return this->disabled;
 }
+double Node::getLon()const{return this->lon;}
+double Node::getLat() const{return this->lat;}
+int Node:: getTSPIndex() const{return this->tspIndex;}
+void Node::setTSPIndex(int TSPIndex){
+    this->tspIndex=TSPIndex;
+}
 
 
