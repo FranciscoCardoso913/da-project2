@@ -10,7 +10,7 @@
 #include "NodesEdges.h"
 
 using namespace std;
-typedef  pair<vector<int>,double> Path;
+typedef pair<vector<int>, double> Path;
 class Graph
 {
 public:
@@ -32,7 +32,7 @@ public:
      * @return if the Edge is found returns a pointer to that Edge, otherwise returns nullptr
      * @brief Complexity O(E) being E the number of edges
      */
-    Edge * findEdge( Node *src,  Node *dst) const;
+    Edge *findEdge(Node *src, Node *dst) const;
 
     /**
      * @brief Adds a Station with a given content or info to a graph.
@@ -51,7 +51,7 @@ public:
      * @return true if successful, and false if the source or destination Station does not exist.
      * @brief Complexity O(1)
      */
-    Edge*  addEdge(Node *src, Node *dest, double w);
+    Edge *addEdge(Node *src, Node *dest, double w);
 
     /**
      * @param src Station Source
@@ -81,7 +81,7 @@ public:
      * @return Vector with all the edges
      * @brief Complexity O(1)
      */
-    vector<vector <Edge *>> getEdgeVector() const;
+    vector<vector<Edge *>> getEdgeVector() const;
 
     /**
      * @brief Removes the last station inserted in the StationSet
@@ -95,7 +95,7 @@ public:
      * @brief dfs algorithm to find the Hamiltonian Path
      * @brief Complexity
      */
-    void dfs(Node* station, vector<Node*> &path) const;
+    void dfs(Node *station, vector<Node *> &path) const;
 
     /**
      * @brief Find the parent node of a given node in the disjoint set.
@@ -123,7 +123,6 @@ public:
      */
     void mergeSets(vector<int> &parent, int x, int y);
 
-
     /**
      * @brief Find the minimum spanning tree (MST) of the graph.
      *
@@ -133,30 +132,51 @@ public:
      *
      * @brief O(E log V), where E is the number of edges in the graph and V is the number of nodes.
      */
-    vector<Edge*> findMinimumSpanningTree(Node* source);
+    vector<Edge *> findMinimumSpanningTree(Node *source);
 
-    pair<vector<Node*>, double> christofidesTSP();
+    pair<vector<Node *>, double> christofidesTSP();
 
-
-    pair<vector<Node*>,double>  nearestNeighborTSP() ;
-    void greddyImprovement(bool * run,double * solution, pair<vector<Node *>, double> &tsp );
-
+    pair<vector<Node *>, double> nearestNeighborTSP();
+    void greddyImprovement(bool *run, double *solution, pair<vector<Node *>, double> &tsp);
 
     void completeRealEdges();
 
     void completeToyEdges();
 
+    /**
+     * Calculates the cost of a tour.
+     * @param tour The tour represented as a vector of Node pointers.
+     * @return The cost of the tour.
+     * @brief O(n), where n is the size of the tour.
+     */
+    double calculateTourCost(vector<Node *> &tour);
 
-    double calculateTourCost(vector<Node*> &tour);
-
+    /**
+     * Generates a list of 2-opt moves for a tour of a given size.
+     * @param size The size of the tour.
+     * @return A vector of pairs representing 2-opt moves.
+     * @brief O(n^2), where n is the size.
+     */
     vector<pair<int, int>> generate2OptMoves(int size);
 
-    void apply2OptMove(vector<Node*> &tour, pair<int, int> move);
+    /**
+     * Applies a 2-opt move to a tour.
+     * @param tour The tour represented as a vector of Node pointers.
+     * @param move The 2-opt move represented as a pair of indices (i, j).
+     * @complexity O(n), where n is the size of the tour.
+     */
+    void apply2OptMove(vector<Node *> &tour, pair<int, int> move);
 
-    void LinKernighan(bool * run, double * solution,pair<vector<Node *>, double> &initialTour );
+    /**
+     * Performs the Lin-Kernighan algorithm to optimize a tour.
+     * @param run A boolean flag indicating whether the algorithm should continue running.
+     * @param solution A pointer to store the best solution (minimum cost).
+     * @param initialTour The initial tour represented as a pair of a vector of Node pointers and its cost.
+     * @brief O(n^3), where n is the size of the initial tour.
+     */
+    void LinKernighan(bool *run, double *solution, pair<vector<Node *>, double> &initialTour);
 
-    double calculateDistance( Node* node1,  Node* node2) ;
-
+    double calculateDistance(Node *node1, Node *node2);
 
 protected:
     vector<Node *> nodes;
@@ -171,17 +191,14 @@ protected:
      */
     void deleteGraph();
 
+    vector<int> oddDegreeVertices(vector<Edge *> &edges) const;
+    vector<Edge *> minimumPerfectMatching(vector<int> nodes);
+    vector<int> findEulerianCircuit(vector<Edge *> &edges);
+    vector<Node *> tspTours(vector<int> &eulerianCircuit);
 
+    double calculateWeight(vector<Node *> &tsp);
 
-
-    vector<int> oddDegreeVertices( vector<Edge*> &edges) const;
-    vector<Edge*> minimumPerfectMatching (vector<int> nodes) ;
-    vector<int> findEulerianCircuit( vector<Edge*> &edges);
-    vector<Node*> tspTours(vector<int> &eulerianCircuit);
-
-    double calculateWeight(vector<Node*> &tsp);
-
-    Node* findNearestNeighbor( Node* node,  vector<Node*>& unvisitedNodes) ;
+    Node *findNearestNeighbor(Node *node, vector<Node *> &unvisitedNodes);
 };
 
 void deleteMatrix(int **m, int n);
