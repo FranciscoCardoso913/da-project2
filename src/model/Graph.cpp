@@ -502,19 +502,19 @@ void Graph::apply2OptMove(vector<Node *> &tour, pair<int, int> move)
     }
 }
 
-pair<vector<Node *>, double> Graph::LinKernighan()
+pair<vector<Node *>, double> Graph::LinKernighan(bool *run, double * solution)
 {
     pair<vector<Node *>, double> initialTour = this->tspTriangularApproximation();
     vector<Node *> tour = initialTour.first;
 
     vector<Node *> bestTour = tour;
     double bestCost = initialTour.second;
-
+    *solution=bestCost;
     vector<pair<int, int>> moves = generate2OptMoves(tour.size());
 
     bool improvement = true;
-    int max_improve=20;
-    while (improvement and max_improve>0)
+    int max_improve=100;
+    while (improvement and *run)
     {
         for (const auto &move : moves)
         {
@@ -531,6 +531,7 @@ pair<vector<Node *>, double> Graph::LinKernighan()
             {
                 bestCost = cost;
                 bestTour = tour;
+                *solution=bestCost;
                 improvement = true;
                 max_improve--;
                 break;

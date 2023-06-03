@@ -149,7 +149,7 @@ public:
 
     void apply2OptMove(vector<Node*> &tour, pair<int, int> move);
 
-    pair<vector<Node*>, double> LinKernighan();
+    pair<vector<Node*>, double> LinKernighan(bool * run, double *solution);
 
 protected:
     vector<Node *> nodes;
