@@ -187,7 +187,7 @@ vector<Edge*> Graph::minimumPerfectMatching(vector<int> oddNodes)
 
 
 
-// Helper function to find the Eulerian circuit using Hierholzer's algorithm
+
 void findEulerianCircuitHelper(int node, unordered_map<int, vector<Edge*>>& adjacencyList, vector<int>& circuit)
 
 
@@ -201,7 +201,6 @@ void findEulerianCircuitHelper(int node, unordered_map<int, vector<Edge*>>& adja
     circuit.push_back(node);
 }
 
-// Function to find the Eulerian circuit in a graph represented by a list of edges
 vector<int> Graph:: findEulerianCircuit(vector<Edge*>& edges)
 {
     // Create an adjacency list to represent the graph
@@ -274,13 +273,13 @@ pair<vector<Node*>, double> Graph::christofidesTSP()
     vector<Edge*> multigraph;
     multigraph.insert(multigraph.end(), minimumSpanningTree.begin(), minimumSpanningTree.end());
     multigraph.insert(multigraph.end(), perfectMatching.begin(), perfectMatching.end());
-
+    int size= multigraph.size();
     // Step 5: Find an Eulerian circuit in the multigraph
     vector<int> eulerianCircuit = findEulerianCircuit(multigraph);
-
+    size= eulerianCircuit.size();
     // Step 6: Convert the Eulerian circuit into a TSP tour
     vector<Node*> tspTour = tspTours(eulerianCircuit);
-
+    size= tspTour.size();
 
     return make_pair(tspTour, calculateWeight(tspTour));
 
@@ -349,11 +348,30 @@ void deleteMatrix(double **m, int n)
         delete[] m;
     }
 }
-
+void Graph::deleteGraph() {
+    for (auto node : nodes)
+    {
+        node->removeOutgoingEdges();
+        node->getAdj().clear();
+    }
+    for (auto node : nodes)
+    {
+        delete node;
+    }
+    nodes.clear();
+    for(auto edges_: edges){
+        for(auto edge: edges_){
+            delete edge;
+        }
+        edges_.clear();
+    }
+    edges.clear();
+}
 Graph::~Graph()
 {
     deleteMatrix(distMatrix, nodes.size());
     deleteMatrix(pathMatrix, nodes.size());
+    deleteGraph();
 }
 constexpr double EARTH_RADIUS = 6371000.0;
 
@@ -385,13 +403,14 @@ double Graph::calculateDistance(Node *node1, Node *node2)
     return rad * c;
 }
 
-// Function to find the nearest unvisited neighbor of a node
-Node *Graph::findNearestNeighbor(Node *node, vector<Node *> &unvisitedNodes)
+
+Node *Graph::findNearestNeighbor(Node *node)
 {
     double minDistance = numeric_limits<double>::max();
     Node *nearestNeighbor = nullptr;
-    for (Node *neighbor : unvisitedNodes)
+    for (Node *neighbor : nodes)
     {
+        if(neighbor->isVisited()) continue;
         double distance = calculateDistance(node, neighbor);
         if (distance < minDistance)
         {
@@ -403,49 +422,35 @@ Node *Graph::findNearestNeighbor(Node *node, vector<Node *> &unvisitedNodes)
 }
 
 
-// Triangular Approximation Heuristic for TSP
+
 
 pair<vector<Node *>, double> Graph::nearestNeighborTSP()
 {
-    // Create a vector to store the TSP tour
+    reset();
     vector<Node *> tspTour;
 
-    // Get the nodes from the graph
-
-    // Choose a starting node (can be any node)
     Node *startNode = nodes[0];
     Node *currentNode = startNode;
 
-    // Mark the starting node as visited
     currentNode->setVisited(true);
 
-    // Add the starting node to the TSP tour
     tspTour.push_back(currentNode);
+    int unvisitedNodes=nodes.size()-1;
 
-    // Create a vector to store the unvisited nodes
-    vector<Node *> unvisitedNodes(nodes.begin() + 1, nodes.end());
-
-    // Repeat until all nodes are visited
-    while (!unvisitedNodes.empty())
+    while (unvisitedNodes>0)
     {
 
-        // Find the nearest unvisited neighbor of the current node
-        Node *nearestNeighbor = findNearestNeighbor(currentNode, unvisitedNodes);
+        Node *nearestNeighbor = findNearestNeighbor(currentNode);
 
-        // Mark the nearest neighbor as visited
         nearestNeighbor->setVisited(true);
 
-        // Add the nearest neighbor to the TSP tour
         tspTour.push_back(nearestNeighbor);
 
-        // Set the nearest neighbor as the current node
         currentNode = nearestNeighbor;
 
-        // Remove the nearest neighbor from the unvisited nodes
-        unvisitedNodes.erase(find(unvisitedNodes.begin(), unvisitedNodes.end(), currentNode));
+        unvisitedNodes--;
     }
 
-    // Add the start node to complete the tour
     tspTour.push_back(startNode);
     double weight = 0;
     for (int i = 0; i < tspTour.size() - 1; i++)
@@ -458,7 +463,7 @@ pair<vector<Node *>, double> Graph::nearestNeighborTSP()
     return tsp;
 
 }
-void Graph::greddyImprovement(bool* run,double *solution,pair<vector<Node*>,double> &tsp){
+void Graph::greedyImprovement(bool* run,double *solution,pair<vector<Node*>,double> &tsp){
     vector<Edge> edgesVector;
     for(auto edges_ : edges){
         for(auto edge: edges_){
@@ -512,6 +517,8 @@ void Graph::greddyImprovement(bool* run,double *solution,pair<vector<Node*>,doub
         }
         weightAfter+= findEdge(tsp.first[edge.getOrig()->tspIndex +1],tsp.first[edge.getDest()->tspIndex +1 ])->getCapacity();
         double diff= weightAfter-weightBefore;
+
+
 
         if(diff<0) {
                 swap(tsp.first[edge.getOrig()->tspIndex + 1], tsp.first[edge.getDest()->tspIndex]);
@@ -599,7 +606,6 @@ void Graph::LinKernighan(bool *run, double * solution,pair<vector<Node *>, doubl
     vector<pair<int, int>> moves = generate2OptMoves(tour.size());
 
     bool improvement = true;
-    int max_improve=100;
     while (improvement and *run)
     {
         for (const auto &move : moves)
@@ -619,7 +625,6 @@ void Graph::LinKernighan(bool *run, double * solution,pair<vector<Node *>, doubl
                 bestTour = tour;
                 *solution=bestCost;
                 improvement = true;
-                max_improve--;
                 break;
 
             }

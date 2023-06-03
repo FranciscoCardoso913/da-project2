@@ -9,22 +9,18 @@ class DrawPaths
 {
 public:
     /**
-     * @brief Displays a table with a path from one station to another, the max flow and it's cost
-     * @param maxFlow the max flow from the two stations
-     * @param cost the cost of the max flow
-     * @param path vector with all paths
-     * @param page the current path to display
-     * @brief Complexity O(P) being P the lines from the path
+     * @brief Displays a table with a path to achieve the TSP, the weight of the path
+     * @param path Path to draw
+     * @param page the current page to display
+     * @brief Complexity O(1)
      */
     void draw( Path path, int page) const;
 
     /**
-     * @brief Displays all the paths from one station to another with pagination,
+     * @brief Displays all the edges from the with pagination,
      * (one path per page) and lets you navigate between them
-     * @param maxFlow the max flow from the two stations
-     * @param cost the cost of the max flow
-     * @param path vector with all paths
-     * @brief Complexity O(P) being P the lines from the paths
+     * @param path the path to draw
+     * @brief Complexity O(1)
      */
     void pageController( Path path) const;
 };

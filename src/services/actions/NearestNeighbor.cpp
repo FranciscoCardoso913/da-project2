@@ -32,7 +32,7 @@ void NearestNeighbor::execute() {
     auto func = [&]( bool * run, double * solution,pair<vector<Node *>, double> *initial_solution )
     {
         if(!*run) return ;
-        (*graph)->greddyImprovement(run,solution,*initial_solution);
+        (*graph)->greedyImprovement(run,solution,*initial_solution);
         if(!*run) return ;
         (*graph)->LinKernighan(run , solution,*initial_solution);
         *run= false;
@@ -44,7 +44,7 @@ void NearestNeighbor::execute() {
     double currSolution = 0;
     while (run)
     {
-        if ((time(NULL) - curr) > 0 or currSolution   != solution)
+        if ((time(NULL) - curr) > 0 )
         {
 
 
