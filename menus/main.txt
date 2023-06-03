@@ -1,5 +1,6 @@
 Backtracking Method
 Triangular Approximation Method
-Algorithm
+Nearest Neighbor Algorithm
+Christofide Algorithm
 Choose graph
 Quit

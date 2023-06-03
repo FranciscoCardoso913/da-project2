@@ -131,11 +131,10 @@ vector<Edge*> Graph::minimumPerfectMatching(vector<int> oddNodes)
         for (int j = 0; j < oddNodes.size(); j++)
         {
             Node *dest = findNode(oddNodes[j]);
-            if (!src->isProcessing() and !dest->isProcessing() and src->getIndex() != dest->getIndex())
-            {
-                Edge *edge = findEdge(src, findNode(oddNodes[min]));
-                if (edge == nullptr)
-                    continue;
+            if(!src->isProcessing() and !dest->isProcessing() and src->getIndex()!=dest->getIndex()) {
+                Edge* edge=findEdge(src, dest);
+                if(edge== nullptr) continue;
+
                 int weight = edge->getCapacity();
                 if (weight < min_weight)
                     min = j;
@@ -191,6 +190,7 @@ vector<Edge*> Graph::minimumPerfectMatching(vector<int> oddNodes)
 // Helper function to find the Eulerian circuit using Hierholzer's algorithm
 void findEulerianCircuitHelper(int node, unordered_map<int, vector<Edge*>>& adjacencyList, vector<int>& circuit)
 
+
 {
     while (!adjacencyList[node].empty())
     {
@@ -223,6 +223,7 @@ vector<int> Graph:: findEulerianCircuit(vector<Edge*>& edges)
 
     return circuit;
 }
+
 
 
 vector<Node*> Graph::tspTours(vector<int> &eulerianCircuit)
@@ -403,7 +404,8 @@ Node *Graph::findNearestNeighbor(Node *node, vector<Node *> &unvisitedNodes)
 
 
 // Triangular Approximation Heuristic for TSP
-pair<vector<Node *>, double> Graph::tspTriangularApproximation()
+
+pair<vector<Node *>, double> Graph::nearestNeighborTSP()
 {
     // Create a vector to store the TSP tour
     vector<Node *> tspTour;
@@ -454,6 +456,7 @@ pair<vector<Node *>, double> Graph::tspTriangularApproximation()
     pair<vector<Node*>,double> tsp={tspTour, weight};
 
     return tsp;
+
 }
 void Graph::greddyImprovement(bool* run,double *solution,pair<vector<Node*>,double> &tsp){
     vector<Edge> edgesVector;
@@ -465,7 +468,7 @@ void Graph::greddyImprovement(bool* run,double *solution,pair<vector<Node*>,doub
     sort(edgesVector.begin(),edgesVector.end(),[](Edge a, Edge b){
         return a.getCapacity() > b.getCapacity();
     });
-    int i=edgesVector.size();
+
     while (!edgesVector.empty() and *run){
 
 
@@ -521,6 +524,7 @@ void Graph::greddyImprovement(bool* run,double *solution,pair<vector<Node*>,doub
         }
 
     }
+
 }
 
 void Graph::completeRealEdges()

@@ -10,7 +10,7 @@
 #include "NodesEdges.h"
 
 using namespace std;
-
+typedef  pair<vector<int>,double> Path;
 class Graph
 {
 public:
@@ -137,8 +137,10 @@ public:
 
     pair<vector<Node*>, double> christofidesTSP();
 
-    pair<vector<Node*>,double>  tspTriangularApproximation() ;
+
+    pair<vector<Node*>,double>  nearestNeighborTSP() ;
     void greddyImprovement(bool * run,double * solution, pair<vector<Node *>, double> &tsp );
+
 
     void completeRealEdges();
 

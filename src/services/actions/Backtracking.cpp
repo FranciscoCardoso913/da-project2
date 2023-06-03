@@ -1,6 +1,10 @@
 
 #include "Backtracking.h"
+
+#include "../../view/DrawPaths.h"
+
 #include "../../view/DrawUtils.h"
+
 
 Backtracking::Backtracking(Graph *&graph):  graph(&graph) {};
 
@@ -92,12 +96,9 @@ void Backtracking::execute() {
 
     backtracking_tsp(srcNode, srcNode, graphSize, 1, 0, minCost, currPath, path);
 
-    system("clear");
-    cout << "\033[0m";
-    cout << drawHeader(112, "Triangular Approximation") << endl;
-    cout << "Cost: " << minCost << endl;
-    cout << drawFooter(112);
 
-    wait();
+    DrawPaths().pageController(make_pair(path,minCost));
+
+
 
 }
