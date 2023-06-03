@@ -1,4 +1,5 @@
 #include "TriangularApproximation.h"
+#include "../../view/DrawUtils.h"
 
 TriangularApproximation::TriangularApproximation(Graph *&graph) : graph(&graph) {}
 
@@ -37,9 +38,13 @@ void TriangularApproximation::execute() {
             else cost += edge->getCapacity();
         }
 
+        system("clear");
+        cout << "\033[0m";
+        cout << drawHeader(112, "Triangular Approximation") << endl;
         cout << "Cost: " << cost << endl;
+        cout << drawFooter(112);
 
-        cout << endl;
+        wait();
 
 
 }
