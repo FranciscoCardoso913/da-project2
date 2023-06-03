@@ -124,11 +124,11 @@ public:
     /**
      * @brief Find the minimum spanning tree (MST) of the graph.
      *
-     * This function finds the minimum spanning tree of the graph using Kruskal's algorithm.
+     * This function finds the minimum spanning tree of the graph using Prim's algorithm.
      *
-     * @return A vector of Line objects representing the edges in the minimum spanning tree.
+     * @return A vector of Edges which representing the edges in the minimum spanning tree.
      *
-     * @brief O(E log V), where E is the number of edges in the graph and V is the number of nodes.
+     * @brief O((E+V)log V), where E is the number of edges in the graph and V is the number of nodes.
      */
     vector<Edge*> findMinimumSpanningTree(Node* source);
 
