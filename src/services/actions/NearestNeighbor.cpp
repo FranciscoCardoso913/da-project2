@@ -13,10 +13,18 @@
 NearestNeighbor::NearestNeighbor(Graph *&graph) :graph(&graph){}
 
 void NearestNeighbor::execute() {
-    bool run=true;
+    bool run=false;
+
     double solution=0;
+    ::system("clear");
+    cout<<"Calculating solution:\n";
     pair<vector<Node*>,double> initial_solution= (*graph)->nearestNeighborTSP();
     solution=initial_solution.second;
+    cout<<"Solution obtained:"<<solution<<endl;
+    cout<<"Upgrade Solution? [y/n]";
+    string res;
+    cin>>res;
+    if(res=="y" || res=="Y") run= true;
     int original_flags = fcntl(STDIN_FILENO, F_GETFL, 0);
     int flags = fcntl(STDIN_FILENO, F_GETFL, 0);
     fcntl(STDIN_FILENO, F_SETFL, flags | O_NONBLOCK);

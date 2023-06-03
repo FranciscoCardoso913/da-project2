@@ -21,3 +21,5 @@
 0	351	1685820838705173511	CMakeFiles/da_project2.dir/src/services/actions/TriangularApproximation.cpp.o	1e00ce227da58632
 0	850	1685820839201844838	CMakeFiles/da_project2.dir/src/model/Graph.cpp.o	52fdaf1e5c88b2b6
 850	920	1685820839271845494	da_project2	f921dd23c7ff0396
+0	692	1685821450569243206	CMakeFiles/da_project2.dir/src/services/actions/NearestNeighbor.cpp.o	639825d8017ef5
+692	763	1685821450642577507	da_project2	f921dd23c7ff0396
