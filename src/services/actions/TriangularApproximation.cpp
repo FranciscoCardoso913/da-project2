@@ -31,14 +31,14 @@ void TriangularApproximation::execute() {
 
         for(int i = 0; i < HamiltonianPath.size()-1; i++) {
             Edge* edge = (*graph)->findEdge(HamiltonianPath[i], HamiltonianPath[i+1]);
-            cost += edge->getCapacity();
+            if (edge == nullptr) {
+                cost += (*graph)->calculateDistance(HamiltonianPath[i], HamiltonianPath[i+1]);
+            }
+            else cost += edge->getCapacity();
         }
 
         cout << "Cost: " << cost << endl;
-        cout << "Path";
-        for (int i = 0; i < HamiltonianPath.size(); i++) {
-            cout << " -> " << HamiltonianPath[i]->getIndex();
-        }
+
         cout << endl;
 
 

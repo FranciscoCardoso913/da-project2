@@ -65,9 +65,9 @@ void Node::removeOutgoingEdges()
     }
 }
 
-bool Node::operator<(Node Station) const
+bool Node::operator<(Node node) const
 {
-    return this->queueIndex < Station.queueIndex;
+    return this->dist < node.dist;
 }
 
 std::vector<Edge *> Node::getAdj() const

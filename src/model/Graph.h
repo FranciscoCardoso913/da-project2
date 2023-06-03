@@ -143,6 +143,8 @@ public:
 
     void completeToyEdges();
 
+    double calculateDistance( Node* node1,  Node* node2) ;
+
 protected:
     vector<Node *> nodes;
     vector<vector<Edge *>> edges;
@@ -163,7 +165,6 @@ protected:
     vector<int> findEulerianCircuit( vector<Edge> &edges);
     vector<int> tspTours(vector<int> &eulerianCircuit);
     double calculateWeight(vector<int> &tsp);
-    double calculateDistance( Node* node1,  Node* node2) ;
     Node* findNearestNeighbor( Node* node,  vector<Node*>& unvisitedNodes) ;
 };
 

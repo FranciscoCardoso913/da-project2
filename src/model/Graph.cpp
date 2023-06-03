@@ -1,6 +1,7 @@
 #include <stack>
 #include <climits>
 #include <valarray>
+#include <cfloat>
 #include "Graph.h"
 #include "MutablePriorityQueue.h"
 
@@ -257,19 +258,22 @@ pair<vector<int>, double> Graph::christofidesTSP()
     return make_pair(tspTour, calculateWeight(tspTour));
 }*/
 vector<Edge*> Graph::findMinimumSpanningTree(Node* source) {
-    // Reset auxiliary info
+
+    if (nodes.empty()) return vector<Edge*>();
+
+    MutablePriorityQueue<Node> q;
+
+
     for (auto v : nodes) {
         v->setDist(INF);
         v->setPath(nullptr);
         v->setVisited(false);
+        q.insert(v);
     }
-
 
     source->setDist(0);
 
-    // initialize priority queue
-    MutablePriorityQueue<Node> q;
-    q.insert(source);
+    q.decreaseKey(source);
 
     // process vertices in the priority queue
     while (!q.empty()) {
@@ -277,23 +281,12 @@ vector<Edge*> Graph::findMinimumSpanningTree(Node* source) {
         v->setVisited(true);
         for (auto& e : v->getAdj()) {
             Node* w = e->getDest();
-            if (!w->isVisited()) {
-                auto oldDist = w->getDist();
-                if (e->getOrig()->getDist() + e->getCapacity() < oldDist) {
-                    w->setDist(e->getOrig()->getDist()+ e->getCapacity());
-                    w->setPath(e);
-                    if (oldDist == INF) {
-                        q.insert(w);
-                    } else {
-                        q.decreaseKey(w);
-                    }
-                }
+            if (!w->isVisited() && e->getCapacity() < w->getDist()) {
+                w->setDist(e->getCapacity());
+                w->setPath(e);
+                q.decreaseKey(w);
             }
         }
-    }
-
-    for (auto node : nodes) {
-        cout << node->getIndex() << ":" << node->getDist() << endl;
     }
 
     vector<Edge*> res;
@@ -301,9 +294,6 @@ vector<Edge*> Graph::findMinimumSpanningTree(Node* source) {
         if (node->getPath() != nullptr) {
             res.push_back(node->getPath());
         }
-    }
-    for(auto edge:res){
-        cout<<edge->getOrig()->getIndex()<<"-"<<edge->getDest()->getIndex()<<endl;
     }
 
     return res;
