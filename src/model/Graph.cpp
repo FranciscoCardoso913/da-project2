@@ -1,6 +1,7 @@
 #include <stack>
 #include <climits>
 #include <valarray>
+#include <cfloat>
 #include "Graph.h"
 #include "MutablePriorityQueue.h"
 
@@ -77,8 +78,24 @@ void Graph::reset()
     }
 }
 
-vector<int> Graph::oddDegreeVertices(vector<Edge> &edges) const
-{
+
+void Graph::dfs(Node* station, vector<Node*> &path) const {
+
+    station->setVisited(true);
+    path.push_back(station);
+
+    for (Edge* edge : station->getMST()) {
+        Node* nextStation = edge->getDest();
+        if (!nextStation->isVisited()) {
+            dfs(nextStation, path);
+        }
+    }
+
+
+}
+
+vector<int> Graph::oddDegreeVertices(vector<Edge> &edges) const {
+
     vector<int> oddDegreeVertices;
     vector<int> degreeCount(nodes.size(), 0);
     for (const auto &edge : edges)
@@ -219,10 +236,12 @@ double Graph::calculateWeight(vector<Node*> &tsp)
     return weight;
 }
 
+
 pair<vector<Node*>, double> Graph::christofidesTSP()
+
 {
-    // Step 1: Find the minimum spanning tree
-    vector<Edge> minimumSpanningTree = findMinimumSpanningTree();
+    /*// Step 1: Find the minimum spanning tree
+    vector<Edge> minimumSpanningTree = findMinimumSpanningTree(nodes[0]);
 
     // Step 2: Find the set of vertices with odd degree in the minimum spanning tree
     vector<int> oddNodes = oddDegreeVertices(minimumSpanningTree);
@@ -242,70 +261,46 @@ pair<vector<Node*>, double> Graph::christofidesTSP()
     // Step 6: Convert the Eulerian circuit into a TSP tour
     vector<Node*> tspTour = tspTours(eulerianCircuit);
 
-    return make_pair(tspTour, calculateWeight(tspTour));
+    return make_pair(tspTour, calculateWeight(tspTour));*/
+
 }
-vector<Edge> Graph::findMinimumSpanningTree()
-{
-    // Reset auxiliary info
-    for (auto v : nodes)
-    {
+vector<Edge*> Graph::findMinimumSpanningTree(Node* source) {
+
+    if (nodes.empty()) return vector<Edge*>();
+
+    MutablePriorityQueue<Node> q;
+
+
+    for (auto v : nodes) {
         v->setDist(INF);
         v->setPath(nullptr);
         v->setVisited(false);
+        q.insert(v);
     }
 
-    // start with an arbitrary vertex
-    Node *s = nodes.front();
-    s->setDist(0);
+    source->setDist(0);
 
-    // initialize priority queue
-    MutablePriorityQueue<Node> q;
-    q.insert(s);
+    q.decreaseKey(source);
 
     // process vertices in the priority queue
-    while (!q.empty())
-    {
+    while (!q.empty()) {
         auto v = q.extractMin();
         v->setVisited(true);
-        for (auto &e : v->getAdj())
-        {
-            Node *w = e->getDest();
-            if (!w->isVisited())
-            {
-                auto oldDist = w->getDist();
-                if ( e->getCapacity() < oldDist)
-                {
-                    w->setDist( e->getCapacity());
-                    w->setPath(e);
-                    if (oldDist == INF)
-                    {
-                        q.insert(w);
-                    }
-                    else
-                    {
-                        q.decreaseKey(w);
-                    }
-                }
+        for (auto& e : v->getAdj()) {
+            Node* w = e->getDest();
+            if (!w->isVisited() && e->getCapacity() < w->getDist()) {
+                w->setDist(e->getCapacity());
+                w->setPath(e);
+                q.decreaseKey(w);
             }
         }
     }
 
-    for (auto node : nodes)
-    {
-        cout << node->getIndex() << ":" << node->getDist() << endl;
-    }
-
-    vector<Edge> res;
-    for (auto node : nodes)
-    {
-        if (node->getPath() != nullptr)
-        {
-            res.push_back(*node->getPath());
+    vector<Edge*> res;
+    for (auto node : nodes) {
+        if (node->getPath() != nullptr) {
+            res.push_back(node->getPath());
         }
-    }
-    for (auto edge : res)
-    {
-        cout << edge.getOrig()->getIndex() << "-" << edge.getDest()->getIndex() << endl;
     }
 
     return res;
@@ -384,6 +379,7 @@ Node *Graph::findNearestNeighbor(Node *node, vector<Node *> &unvisitedNodes)
     }
     return nearestNeighbor;
 }
+
 
 // Triangular Approximation Heuristic for TSP
 pair<vector<Node *>, double> Graph::tspTriangularApproximation()
@@ -521,8 +517,9 @@ void Graph::completeRealEdges()
 
 }
 
-void Graph::completeToyEdges()
-{
+
+void Graph::completeToyEdges() {
+
 
     while (edges.size() < nodes.size())
         edges.push_back(vector<Edge *>(nodes.size(), nullptr));

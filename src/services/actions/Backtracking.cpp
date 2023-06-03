@@ -1,5 +1,6 @@
 
 #include "Backtracking.h"
+#include "../../view/DrawUtils.h"
 
 Backtracking::Backtracking(Graph *&graph):  graph(&graph) {};
 
@@ -91,12 +92,12 @@ void Backtracking::execute() {
 
     backtracking_tsp(srcNode, srcNode, graphSize, 1, 0, minCost, currPath, path);
 
-    cout << "Minimum Cost: " << minCost << endl;
+    system("clear");
+    cout << "\033[0m";
+    cout << drawHeader(112, "Triangular Approximation") << endl;
+    cout << "Cost: " << minCost << endl;
+    cout << drawFooter(112);
 
-    cout << "Path: ";
-    for (int i = 0; i < path.size(); i++) {
-        cout << path[i] << " ";
-    }
-    cout << endl;
+    wait();
 
 }

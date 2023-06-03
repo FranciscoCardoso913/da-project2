@@ -70,6 +70,7 @@ void Christofide::execute() {
     cout<<endl<<initial_solution.second;
 
     wait();
+
     //cout<<"Res"<<(*graph)->tspTriangularApproximation().second;
 
 }

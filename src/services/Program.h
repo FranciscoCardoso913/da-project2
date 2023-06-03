@@ -16,7 +16,7 @@ private:
     stack<enum menus> menuPage;
     Graph toyGraphs[3];
     Graph graphs[3];
-    Graph bigGraph;
+    Graph fullyConnectedGraphs[12];
     Graph *currentGraph;
 public:
     /**

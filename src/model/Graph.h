@@ -90,12 +90,12 @@ public:
     void removeLastNode();
 
     /**
-     * @param string origin - origin station's name
-     * @param string destination - destination station's name
-     * @brief Finds the shortest Path between two stations.
-     * @brief Complexity O(V+E) being V the number of stations and E the number of edges
+     * @param station starting station
+     * @param path vector with the path
+     * @brief dfs algorithm to find the Hamiltonian Path
+     * @brief Complexity
      */
-    int bfs(Node *station);
+    void dfs(Node* station, vector<Node*> &path) const;
 
     /**
      * @brief Find the parent node of a given node in the disjoint set.
@@ -133,7 +133,7 @@ public:
      *
      * @brief O(E log V), where E is the number of edges in the graph and V is the number of nodes.
      */
-    vector<Edge> findMinimumSpanningTree();
+    vector<Edge*> findMinimumSpanningTree(Node* source);
 
     pair<vector<Node*>, double> christofidesTSP();
 
@@ -144,6 +144,7 @@ public:
 
     void completeToyEdges();
 
+
     double calculateTourCost(vector<Node*> &tour);
 
     vector<pair<int, int>> generate2OptMoves(int size);
@@ -151,6 +152,9 @@ public:
     void apply2OptMove(vector<Node*> &tour, pair<int, int> move);
 
     void LinKernighan(bool * run, double * solution,pair<vector<Node *>, double> &initialTour );
+
+    double calculateDistance( Node* node1,  Node* node2) ;
+
 
 protected:
     vector<Node *> nodes;
@@ -170,9 +174,12 @@ protected:
     vector<int> oddDegreeVertices( vector<Edge> &edges) const;
     vector<Edge> minimumPerfectMatching (vector<int> nodes) ;
     vector<int> findEulerianCircuit( vector<Edge> &edges);
+
     vector<Node*> tspTours(vector<int> &eulerianCircuit);
     double calculateWeight(vector<Node*> &tsp);
-    double calculateDistance( Node* node1,  Node* node2) ;
+
+    double calculateWeight(vector<int> &tsp);
+
     Node* findNearestNeighbor( Node* node,  vector<Node*>& unvisitedNodes) ;
 };
 
