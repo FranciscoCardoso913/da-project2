@@ -92,7 +92,7 @@ void Program::loadGraphs(int *percentage) {
     currentGraph=&this->graphs[0];
     this->graphs[1] = Graph();
     Scrapper().scrape(this->graphs[1], "../files/real_graphs/graph2/nodes.csv", "../files/real_graphs/graph2/edges.csv",0);
-    //this->graphs[1].completeRealEdges();
+
     *percentage=40;
     this->graphs[2] = Graph();
     Scrapper().scrape(this->graphs[2], "../files/real_graphs/graph3/nodes.csv", "../files/real_graphs/graph3/edges.csv",0);

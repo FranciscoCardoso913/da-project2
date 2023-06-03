@@ -432,29 +432,93 @@ pair<vector<Node *>, double> Graph::tspTriangularApproximation()
     for (int i = 0; i < tspTour.size() - 1; i++)
     {
         weight += calculateDistance(tspTour[i], tspTour[i + 1]);
+        tspTour[i]->tspIndex=i;
     }
+    pair<vector<Node*>,double> tsp={tspTour, weight};
 
-    return {tspTour, weight};
+    return tsp;
+}
+void Graph::greddyImprovement(bool* run,double *solution,pair<vector<Node*>,double> &tsp){
+    vector<Edge> edgesVector;
+    for(auto edges_ : edges){
+        for(auto edge: edges_){
+            if(edge!= nullptr)edgesVector.push_back(*edge);
+        }
+    }
+    sort(edgesVector.begin(),edgesVector.end(),[](Edge a, Edge b){
+        return a.getCapacity() > b.getCapacity();
+    });
+    int i=edgesVector.size();
+    while (!edgesVector.empty() and *run){
+
+
+        Edge edge=edgesVector.back();
+        edgesVector.pop_back();
+        if(edge.getDest()->tspIndex==0 || tsp.first[edge.getOrig()->tspIndex+1]->tspIndex==0) continue;
+        double weightBefore=0;
+        if(findEdge(tsp.first[edge.getOrig()->tspIndex ],tsp.first[edge.getOrig()->tspIndex +1 ])== nullptr){
+            continue;
+        }
+        weightBefore+= findEdge(tsp.first[edge.getOrig()->tspIndex ],tsp.first[edge.getOrig()->tspIndex +1 ])->getCapacity();
+        if(findEdge(tsp.first[edge.getOrig()->tspIndex +1 ],tsp.first[edge.getOrig()->tspIndex +2 ])== nullptr){
+            continue;
+        }
+        weightBefore+= findEdge(tsp.first[edge.getOrig()->tspIndex +1 ],tsp.first[edge.getOrig()->tspIndex +2 ])->getCapacity();
+        if(findEdge(tsp.first[edge.getDest()->tspIndex -1 ],tsp.first[edge.getDest()->tspIndex  ])== nullptr){
+            continue;
+        }
+        weightBefore+= findEdge(tsp.first[edge.getDest()->tspIndex -1 ],tsp.first[edge.getDest()->tspIndex  ])->getCapacity();
+        if(findEdge(tsp.first[edge.getDest()->tspIndex ],tsp.first[edge.getDest()->tspIndex +1 ])== nullptr){
+            continue;
+        }
+        weightBefore+= findEdge(tsp.first[edge.getDest()->tspIndex ],tsp.first[edge.getDest()->tspIndex +1 ])->getCapacity();
+
+        double  weightAfter=0;
+        if(findEdge(tsp.first[edge.getOrig()->tspIndex ],tsp.first[edge.getDest()->tspIndex  ])==nullptr){
+            continue;
+        }
+        weightAfter+= findEdge(tsp.first[edge.getOrig()->tspIndex ],tsp.first[edge.getDest()->tspIndex  ])->getCapacity();
+        if(findEdge(tsp.first[edge.getDest()->tspIndex ],tsp.first[edge.getOrig()->tspIndex +2 ])==nullptr){
+
+            continue;
+        }
+        weightAfter+= findEdge(tsp.first[edge.getDest()->tspIndex ],tsp.first[edge.getOrig()->tspIndex +2 ])->getCapacity();
+        if(findEdge(tsp.first[edge.getDest()->tspIndex -1 ],tsp.first[edge.getOrig()->tspIndex +1 ])==nullptr){
+            continue;
+        }
+        weightAfter+= findEdge(tsp.first[edge.getDest()->tspIndex -1 ],tsp.first[edge.getOrig()->tspIndex +1 ])->getCapacity();
+        if(findEdge(tsp.first[edge.getOrig()->tspIndex +1],tsp.first[edge.getDest()->tspIndex +1 ])==nullptr){
+            continue;
+        }
+        weightAfter+= findEdge(tsp.first[edge.getOrig()->tspIndex +1],tsp.first[edge.getDest()->tspIndex +1 ])->getCapacity();
+        double diff= weightAfter-weightBefore;
+
+        if(diff<0) {
+                swap(tsp.first[edge.getOrig()->tspIndex + 1], tsp.first[edge.getDest()->tspIndex]);
+
+                int aux = edge.getOrig()->tspIndex;
+                edge.getOrig()->tspIndex = edge.getDest()->tspIndex;
+                edge.getDest()->tspIndex = aux;
+                tsp.second += diff;
+                *solution=tsp.second;
+        }
+
+    }
 }
 
 void Graph::completeRealEdges()
 {
+    while (edges.size()<nodes.size()) edges.push_back(vector<Edge*>(nodes.size(), nullptr));
 
-    for (int i = 0; i < nodes.size(); i++)
-    {
-        for (int j = i + 1; j < nodes.size(); j++)
-        {
-            if (findEdge(nodes[i], nodes[j]) == NULL)
-            {
-                double dist = calculateDistance(nodes[i], nodes[j]);
-                Edge *edge = new Edge(nodes[i], nodes[j], dist);
-                nodes[i]->addEdge(nodes[j], dist);
-                nodes[j]->addEdge(nodes[i], dist);
-                edges[i][j] = edge;
-                edges[j][i] = edge;
-            }
+    for (int i = 0; i < nodes.size(); i++) {
+        while (edges[i].size() < nodes.size()) edges[i].push_back(nullptr);
+    }
+    for (int i = 0; i < nodes.size(); i++) {
+        for (int j = i; j < nodes.size(); j++) {
+            if(edges[i][j]== nullptr) addBidirectionalEdge(nodes[i],nodes[j], calculateDistance(nodes[i],nodes[j]));
         }
     }
+
 }
 
 void Graph::completeToyEdges()
@@ -502,9 +566,9 @@ void Graph::apply2OptMove(vector<Node *> &tour, pair<int, int> move)
     }
 }
 
-pair<vector<Node *>, double> Graph::LinKernighan(bool *run, double * solution)
+void Graph::LinKernighan(bool *run, double * solution,pair<vector<Node *>, double> &initialTour )
 {
-    pair<vector<Node *>, double> initialTour = this->tspTriangularApproximation();
+
     vector<Node *> tour = initialTour.first;
 
     vector<Node *> bestTour = tour;
@@ -541,5 +605,7 @@ pair<vector<Node *>, double> Graph::LinKernighan(bool *run, double * solution)
             apply2OptMove(tour, move);
         }
     }
-    return make_pair(bestTour, bestCost);
+    initialTour.second=bestCost;
+    initialTour.first=bestTour;
+
 }

@@ -138,6 +138,7 @@ public:
     pair<vector<Node*>, double> christofidesTSP();
 
     pair<vector<Node*>,double>  tspTriangularApproximation() ;
+    void greddyImprovement(bool * run,double * solution, pair<vector<Node *>, double> &tsp );
 
     void completeRealEdges();
 
@@ -149,7 +150,7 @@ public:
 
     void apply2OptMove(vector<Node*> &tour, pair<int, int> move);
 
-    pair<vector<Node*>, double> LinKernighan(bool * run, double *solution);
+    void LinKernighan(bool * run, double * solution,pair<vector<Node *>, double> &initialTour );
 
 protected:
     vector<Node *> nodes;

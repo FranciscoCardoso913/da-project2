@@ -157,7 +157,7 @@ public:
 
     int queueIndex;
     double lon,lat;
-
+    int tspIndex;
 protected:
 
    int index;
@@ -171,6 +171,7 @@ protected:
     bool visited = false;    // used by DFS, BFS, Prim ...
     bool processing = false; // used by isDAG (in addition to the visited attribute)
     int dist = 0;
+
     Edge *path = nullptr;
 
     std::vector<Edge *> incoming; // incoming Edges
