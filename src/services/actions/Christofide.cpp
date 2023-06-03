@@ -10,6 +10,7 @@
 Christofide::Christofide(Graph *&currentGraph) :graph(&currentGraph){};
 
 void Christofide::execute() {
+
     bool run=true;
     double solution=0;
     pair<vector<Node*>,double> initial_solution= (*graph)->tspTriangularApproximation();
