@@ -16,6 +16,11 @@ Edge *Node::addEdge(Node *d, double w)
     return newEdge;
 }
 
+bool Node::addMSTEdge(Edge *mstEdge) {
+    mst.push_back(mstEdge);
+    return 1;
+}
+
 int Node::getIndex() const {
     return this->index;
 }
@@ -60,14 +65,19 @@ void Node::removeOutgoingEdges()
     }
 }
 
-bool Node::operator<(Node Station) const
+bool Node::operator<(Node node) const
 {
-    return this->queueIndex < Station.queueIndex;
+    return this->dist < node.dist;
 }
 
 std::vector<Edge *> Node::getAdj() const
 {
     return this->adj;
+}
+
+std::vector<Edge *> Node::getMST() const
+{
+    return this->mst;
 }
 
 bool Node::isVisited() const
@@ -85,7 +95,7 @@ double Node::getDist() const
     return this->dist;
 }
 
-Edge *Node::getPath() const
+Edge* Node::getPath() const
 {
     return this->path;
 }

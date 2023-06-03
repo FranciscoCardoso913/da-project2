@@ -1,6 +1,7 @@
 #include <stack>
 #include <climits>
 #include <valarray>
+#include <cfloat>
 #include "Graph.h"
 #include "MutablePriorityQueue.h"
 
@@ -77,6 +78,21 @@ void Graph::reset()
             edge->setFlow(0);
         }
     }
+}
+
+void Graph::dfs(Node* station, vector<Node*> &path) const {
+
+    station->setVisited(true);
+    path.push_back(station);
+
+    for (Edge* edge : station->getMST()) {
+        Node* nextStation = edge->getDest();
+        if (!nextStation->isVisited()) {
+            dfs(nextStation, path);
+        }
+    }
+
+
 }
 
 vector<int> Graph::oddDegreeVertices(vector<Edge> &edges) const {
@@ -215,11 +231,11 @@ double Graph::calculateWeight( vector<int> &tsp)
     return weight;
 }
 
-
+/*
 pair<vector<int>, double> Graph::christofidesTSP()
 {
     // Step 1: Find the minimum spanning tree
-    vector<Edge> minimumSpanningTree = findMinimumSpanningTree();
+    vector<Edge*> minimumSpanningTree = findMinimumSpanningTree();
 
     // Step 2: Find the set of vertices with odd degree in the minimum spanning tree
     vector<int> oddNodes = oddDegreeVertices(minimumSpanningTree);
@@ -240,22 +256,24 @@ pair<vector<int>, double> Graph::christofidesTSP()
     vector<int> tspTour = tspTours(eulerianCircuit);
 
     return make_pair(tspTour, calculateWeight(tspTour));
-}
-vector<Edge> Graph::findMinimumSpanningTree() {
-    // Reset auxiliary info
+}*/
+vector<Edge*> Graph::findMinimumSpanningTree(Node* source) {
+
+    if (nodes.empty()) return vector<Edge*>();
+
+    MutablePriorityQueue<Node> q;
+
+
     for (auto v : nodes) {
         v->setDist(INF);
         v->setPath(nullptr);
         v->setVisited(false);
+        q.insert(v);
     }
 
-    // start with an arbitrary vertex
-    Node* s = nodes.front();
-    s->setDist(0);
+    source->setDist(0);
 
-    // initialize priority queue
-    MutablePriorityQueue<Node> q;
-    q.insert(s);
+    q.decreaseKey(source);
 
     // process vertices in the priority queue
     while (!q.empty()) {
@@ -263,33 +281,19 @@ vector<Edge> Graph::findMinimumSpanningTree() {
         v->setVisited(true);
         for (auto& e : v->getAdj()) {
             Node* w = e->getDest();
-            if (!w->isVisited()) {
-                auto oldDist = w->getDist();
-                if (e->getOrig()->getDist() + e->getCapacity() < oldDist) {
-                    w->setDist(e->getOrig()->getDist()+ e->getCapacity());
-                    w->setPath(e);
-                    if (oldDist == INF) {
-                        q.insert(w);
-                    } else {
-                        q.decreaseKey(w);
-                    }
-                }
+            if (!w->isVisited() && e->getCapacity() < w->getDist()) {
+                w->setDist(e->getCapacity());
+                w->setPath(e);
+                q.decreaseKey(w);
             }
         }
     }
 
-    for (auto node : nodes) {
-        cout << node->getIndex() << ":" << node->getDist() << endl;
-    }
-
-    vector<Edge> res;
+    vector<Edge*> res;
     for (auto node : nodes) {
         if (node->getPath() != nullptr) {
-            res.push_back(*node->getPath());
+            res.push_back(node->getPath());
         }
-    }
-    for(auto edge:res){
-        cout<<edge.getOrig()->getIndex()<<"-"<<edge.getDest()->getIndex()<<endl;
     }
 
     return res;
@@ -362,74 +366,6 @@ Node* Graph:: findNearestNeighbor( Node* node,  vector<Node*>& unvisitedNodes) {
         }
     }
     return nearestNeighbor;
-}
-
-// Triangular Approximation Heuristic for TSP
-pair<vector<Node*>,double> Graph:: tspTriangularApproximation() {
-    // Create a vector to store the TSP tour
-    vector<Node*> tspTour;
-
-    // Get the nodes from the graph
-
-
-    // Choose a starting node (can be any node)
-    Node* startNode = nodes[0];
-    Node* currentNode = startNode;
-
-    // Mark the starting node as visited
-    currentNode->setVisited(true);
-
-    // Add the starting node to the TSP tour
-    tspTour.push_back(currentNode);
-
-    // Create a vector to store the unvisited nodes
-    vector<Node*> unvisitedNodes(nodes.begin() + 1, nodes.end());
-
-    // Repeat until all nodes are visited
-    while (!unvisitedNodes.empty()) {
-
-        // Find the nearest unvisited neighbor of the current node
-        Node* nearestNeighbor = findNearestNeighbor(currentNode, unvisitedNodes);
-
-        // Mark the nearest neighbor as visited
-        nearestNeighbor->setVisited(true);
-
-        // Add the nearest neighbor to the TSP tour
-        tspTour.push_back(nearestNeighbor);
-
-        // Set the nearest neighbor as the current node
-        currentNode = nearestNeighbor;
-
-        // Remove the nearest neighbor from the unvisited nodes
-        unvisitedNodes.erase(find(unvisitedNodes.begin(), unvisitedNodes.end(), currentNode));
-    }
-
-    // Add the start node to complete the tour
-    tspTour.push_back(startNode);
-    double weight=0;
-    for(int i=0; i<tspTour.size()-1;i++){
-        weight+= calculateDistance(tspTour[i], tspTour[i+1]);
-    }
-
-    return {tspTour, weight};
-}
-
-void Graph::completeRealEdges() {
-
-    for (int i = 0; i < nodes.size(); i++) {
-        for (int j = i + 1; j < nodes.size(); j++) {
-            if (findEdge(nodes[i], nodes[j]) == NULL) {
-                double dist = calculateDistance(nodes[i], nodes[j]);
-                Edge *edge = new Edge(nodes[i], nodes[j], dist);
-                nodes[i]->addEdge(nodes[j], dist);
-                nodes[j]->addEdge(nodes[i], dist);
-                edges[i][j] = edge;
-                edges[j][i] = edge;
-            }
-
-        }
-    }
-
 }
 
 void Graph::completeToyEdges() {
