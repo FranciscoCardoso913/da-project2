@@ -2,6 +2,7 @@
 #include <climits>
 #include <valarray>
 #include <cfloat>
+#include <unordered_map>
 #include "Graph.h"
 #include "MutablePriorityQueue.h"
 
@@ -95,13 +96,13 @@ void Graph::dfs(Node* station, vector<Node*> &path) const {
 
 }
 
-vector<int> Graph::oddDegreeVertices(vector<Edge> &edges) const {
+vector<int> Graph::oddDegreeVertices(vector<Edge*> &edges) const {
     vector<int> oddDegreeVertices;
     vector<int> degreeCount(nodes.size(), 0);
     for (const auto& edge : edges) {
 
-        degreeCount[edge.getOrig()->getIndex()]++;
-        degreeCount[edge.getDest()->getIndex()]++;
+        degreeCount[edge->getOrig()->getIndex()]++;
+        degreeCount[edge->getDest()->getIndex()]++;
     }
     for (int i = 0; i < nodes.size(); i++)
     {
@@ -114,9 +115,9 @@ vector<int> Graph::oddDegreeVertices(vector<Edge> &edges) const {
 }
 
 
-vector<Edge> Graph::minimumPerfectMatching(vector<int> oddNodes)
+vector<Edge*> Graph::minimumPerfectMatching(vector<int> oddNodes)
 {
-    vector<Edge> perfectMatching;
+    vector<Edge*> perfectMatching;
     reset();
     for (int i = 0; i < oddNodes.size() ; i += 1)
     {
@@ -136,7 +137,7 @@ vector<Edge> Graph::minimumPerfectMatching(vector<int> oddNodes)
             Edge* edge= findEdge(src, findNode(oddNodes[min]));
             if(edge== nullptr) continue;
             double weight = edge->getCapacity();
-            perfectMatching.push_back(Edge(src, findNode(oddNodes[min]), weight));
+            perfectMatching.push_back(edge);
             src->setProcessing(true);
             findNode(oddNodes[min])->setProcessing(true);
         }
@@ -170,39 +171,47 @@ vector<Edge> Graph::minimumPerfectMatching(vector<int> oddNodes)
             }
         }
 
-        perfectMatching.push_back(Edge(findNode(oddNodes[unmatchedVertex]), findNode(closestVertex), minWeight));
+        perfectMatching.push_back(findEdge(findNode(oddNodes[unmatchedVertex]), findNode(closestVertex)));
     }
     return perfectMatching;
 }
 
 
-vector<int> Graph::findEulerianCircuit( vector<Edge> &edges)
+// Helper function to find the Eulerian circuit using Hierholzer's algorithm
+void findEulerianCircuitHelper(int node, unordered_map<int, vector<Edge*>>& adjacencyList, vector<int>& circuit)
 {
+    while (!adjacencyList[node].empty())
+    {
+        Edge* edge = adjacencyList[node].back();
+        adjacencyList[node].pop_back();
+        findEulerianCircuitHelper(edge->getDest()->getIndex(), adjacencyList, circuit);
+    }
+    circuit.push_back(node);
+}
+
+// Function to find the Eulerian circuit in a graph represented by a list of edges
+vector<int> Graph:: findEulerianCircuit(vector<Edge*>& edges)
+{
+    // Create an adjacency list to represent the graph
+    unordered_map<int, vector<Edge*>> adjacencyList;
+    for (Edge* edge : edges)
+    {
+        adjacencyList[edge->getOrig()->getIndex()].push_back(edge);
+    }
+
+    // Find the starting node for the Eulerian circuit
+    int startNode = edges[0]->getOrig()->getIndex();
+
+    // Find the Eulerian circuit using Hierholzer's algorithm
     vector<int> circuit;
-    vector<vector<int>> adjList(nodes.size());
+    findEulerianCircuitHelper(startNode, adjacencyList, circuit);
 
-    for (const auto &edge : edges)
-    {
-        adjList[edge.getOrig()->getIndex()].push_back(edge.getDest()->getIndex());
-        adjList[edge.getDest()->getIndex()].push_back(edge.getOrig()->getIndex());
-    }
-    int currVertex = 0;
-    circuit.push_back(currVertex);
-
-    while (!adjList[currVertex].empty())
-    {
-        int nextVertex = adjList[currVertex].back();
-        adjList[currVertex].pop_back();
-
-        auto it = find(adjList[nextVertex].begin(), adjList[nextVertex].end(), currVertex);
-        adjList[nextVertex].erase(it);
-
-        circuit.push_back(nextVertex);
-        currVertex = nextVertex;
-    }
+    // Reverse the circuit to obtain the correct order
+    reverse(circuit.begin(), circuit.end());
 
     return circuit;
 }
+
 
 vector<int> Graph::tspTours( vector<int> &eulerianCircuit)
 {
@@ -231,21 +240,21 @@ double Graph::calculateWeight( vector<int> &tsp)
     return weight;
 }
 
-/*
+
 pair<vector<int>, double> Graph::christofidesTSP()
 {
     // Step 1: Find the minimum spanning tree
-    vector<Edge*> minimumSpanningTree = findMinimumSpanningTree();
+    vector<Edge*> minimumSpanningTree = findMinimumSpanningTree(nodes[0]);
 
     // Step 2: Find the set of vertices with odd degree in the minimum spanning tree
     vector<int> oddNodes = oddDegreeVertices(minimumSpanningTree);
 
     // Step 3: Find a minimum-weight perfect matching among the odd degree vertices
 
-    vector<Edge> perfectMatching = minimumPerfectMatching(oddNodes);
+    vector<Edge*> perfectMatching = minimumPerfectMatching(oddNodes);
 
     // Step 4: Combine the minimum spanning tree and the perfect matching to form a multigraph
-    vector<Edge> multigraph;
+    vector<Edge*> multigraph;
     multigraph.insert(multigraph.end(), minimumSpanningTree.begin(), minimumSpanningTree.end());
     multigraph.insert(multigraph.end(), perfectMatching.begin(), perfectMatching.end());
 
@@ -256,7 +265,7 @@ pair<vector<int>, double> Graph::christofidesTSP()
     vector<int> tspTour = tspTours(eulerianCircuit);
 
     return make_pair(tspTour, calculateWeight(tspTour));
-}*/
+}
 vector<Edge*> Graph::findMinimumSpanningTree(Node* source) {
 
     if (nodes.empty()) return vector<Edge*>();

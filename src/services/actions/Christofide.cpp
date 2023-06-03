@@ -7,13 +7,14 @@
 Christofide::Christofide(Graph *&currentGraph) :graph(&currentGraph){};
 
 void Christofide::execute() {
-    /*pair<vector<int>,double>res=  (*graph)->christofidesTSP();
+    pair<vector<int>,double>res=  (*graph)->christofidesTSP();
     for(auto x:res.first){
         cout<<x<<'-';
     }
-    cout<<endl<<res.second;
+    cout<<endl<<res.second<<endl;
+    cout<<res.first.size()<<endl;
 
-    wait();*/
+    wait();
     //cout<<"Res"<<(*graph)->tspTriangularApproximation().second;
 
 }

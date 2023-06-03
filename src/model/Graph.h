@@ -160,9 +160,9 @@ protected:
 
 
 
-    vector<int> oddDegreeVertices( vector<Edge> &edges) const;
-    vector<Edge> minimumPerfectMatching (vector<int> nodes) ;
-    vector<int> findEulerianCircuit( vector<Edge> &edges);
+    vector<int> oddDegreeVertices( vector<Edge*> &edges) const;
+    vector<Edge*> minimumPerfectMatching (vector<int> nodes) ;
+    vector<int> findEulerianCircuit( vector<Edge*> &edges);
     vector<int> tspTours(vector<int> &eulerianCircuit);
     double calculateWeight(vector<int> &tsp);
     Node* findNearestNeighbor( Node* node,  vector<Node*>& unvisitedNodes) ;
