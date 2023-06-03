@@ -1,6 +1,10 @@
 
 #include "Backtracking.h"
+
 #include "../../view/DrawPaths.h"
+
+#include "../../view/DrawUtils.h"
+
 
 Backtracking::Backtracking(Graph *&graph):  graph(&graph) {};
 
@@ -12,13 +16,13 @@ void Backtracking::backtracking_tsp(int srcNode, int currNode, unsigned int grap
 
         Edge *finalEdge = (*graph)->findEdge((*graph)->findNode(currPath[count-1]), (*graph)->findNode(srcNode));
 
-        double finalCost = finalEdge->getCapacity();
+        double finalCost = finalEdge->getCapacity() + cost;
 
-        if ((cost + finalCost) < minCost) {
-            minCost = cost+finalCost;
+        if (finalCost < minCost) {
+            minCost = finalCost;
 
             path.clear();
-            for(int i = 0; i < count-1; i++) {
+            for(int i = 0; i < currPath.size(); i++) {
                 path.push_back(currPath[i]);
             }
             path.push_back(srcNode);
@@ -92,7 +96,9 @@ void Backtracking::execute() {
 
     backtracking_tsp(srcNode, srcNode, graphSize, 1, 0, minCost, currPath, path);
 
+
     DrawPaths().pageController(make_pair(path,minCost));
+
 
 
 }

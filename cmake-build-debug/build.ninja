@@ -139,6 +139,12 @@ build CMakeFiles/da_project2.dir/src/services/actions/NearestNeighbor.cpp.o: CXX
   OBJECT_DIR = CMakeFiles/da_project2.dir
   OBJECT_FILE_DIR = CMakeFiles/da_project2.dir/src/services/actions
 
+build CMakeFiles/da_project2.dir/src/services/actions/TriangularApproximation.cpp.o: CXX_COMPILER__da_project2_Debug /home/francisco/Desktop/projects/cpp/da-project2/src/services/actions/TriangularApproximation.cpp || cmake_object_order_depends_target_da_project2
+  DEP_FILE = CMakeFiles/da_project2.dir/src/services/actions/TriangularApproximation.cpp.o.d
+  FLAGS = -g -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles/da_project2.dir
+  OBJECT_FILE_DIR = CMakeFiles/da_project2.dir/src/services/actions
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target da_project2
@@ -147,7 +153,7 @@ build CMakeFiles/da_project2.dir/src/services/actions/NearestNeighbor.cpp.o: CXX
 #############################################
 # Link the executable da_project2
 
-build da_project2: CXX_EXECUTABLE_LINKER__da_project2_Debug CMakeFiles/da_project2.dir/src/main.cpp.o CMakeFiles/da_project2.dir/src/services/Program.cpp.o CMakeFiles/da_project2.dir/src/view/Menu.cpp.o CMakeFiles/da_project2.dir/src/services/actions/Action.cpp.o CMakeFiles/da_project2.dir/src/model/Graph.cpp.o CMakeFiles/da_project2.dir/src/services/actions/ChangeMenu.cpp.o CMakeFiles/da_project2.dir/src/view/DrawUtils.cpp.o CMakeFiles/da_project2.dir/src/services/Scrapper.cpp.o CMakeFiles/da_project2.dir/src/model/Node.cpp.o CMakeFiles/da_project2.dir/src/model/Edge.cpp.o CMakeFiles/da_project2.dir/src/services/actions/ChooseGraph.cpp.o CMakeFiles/da_project2.dir/src/services/actions/Christofide.cpp.o CMakeFiles/da_project2.dir/src/services/actions/Backtracking.cpp.o CMakeFiles/da_project2.dir/src/view/DrawPaths.cpp.o CMakeFiles/da_project2.dir/src/services/actions/NearestNeighbor.cpp.o
+build da_project2: CXX_EXECUTABLE_LINKER__da_project2_Debug CMakeFiles/da_project2.dir/src/main.cpp.o CMakeFiles/da_project2.dir/src/services/Program.cpp.o CMakeFiles/da_project2.dir/src/view/Menu.cpp.o CMakeFiles/da_project2.dir/src/services/actions/Action.cpp.o CMakeFiles/da_project2.dir/src/model/Graph.cpp.o CMakeFiles/da_project2.dir/src/services/actions/ChangeMenu.cpp.o CMakeFiles/da_project2.dir/src/view/DrawUtils.cpp.o CMakeFiles/da_project2.dir/src/services/Scrapper.cpp.o CMakeFiles/da_project2.dir/src/model/Node.cpp.o CMakeFiles/da_project2.dir/src/model/Edge.cpp.o CMakeFiles/da_project2.dir/src/services/actions/ChooseGraph.cpp.o CMakeFiles/da_project2.dir/src/services/actions/Christofide.cpp.o CMakeFiles/da_project2.dir/src/services/actions/Backtracking.cpp.o CMakeFiles/da_project2.dir/src/view/DrawPaths.cpp.o CMakeFiles/da_project2.dir/src/services/actions/NearestNeighbor.cpp.o CMakeFiles/da_project2.dir/src/services/actions/TriangularApproximation.cpp.o
   FLAGS = -g
   OBJECT_DIR = CMakeFiles/da_project2.dir
   POST_BUILD = :

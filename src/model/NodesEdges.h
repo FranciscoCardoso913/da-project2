@@ -43,6 +43,8 @@ public:
      */
     std::vector<Edge *> getAdj() const;
 
+    std::vector<Edge *> getMST() const;
+
     int getIndex()const;
 
     /**
@@ -141,6 +143,9 @@ public:
      */
     Edge *addEdge(Node *dest, double w);
 
+
+    bool addMSTEdge(Edge *mstEdge);
+
     /**
      * @brief Auxiliary function to remove an outgoing Edge to a Station
      * @param destName Station name
@@ -157,7 +162,7 @@ public:
 
     int queueIndex;
     double lon,lat;
-
+    int tspIndex;
 protected:
 
    int index;
@@ -165,12 +170,14 @@ protected:
    string label;
     // identifier
     std::vector<Edge *> adj; // outgoing Edges
+    std::vector<Edge *> mst; // MST Edges
 
     // auxiliary fields
     bool disabled = false;
     bool visited = false;    // used by DFS, BFS, Prim ...
     bool processing = false; // used by isDAG (in addition to the visited attribute)
     int dist = 0;
+
     Edge *path = nullptr;
 
     std::vector<Edge *> incoming; // incoming Edges
