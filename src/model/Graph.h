@@ -69,8 +69,8 @@ public:
     vector<Node *> getNodes() const;
 
     /**
-     * @brief Sets the attributes visited and processing of the node to false and the flow of the edges to 0
-     * @brief Complexity O(V+E) being V the number of nodes and E the number of edges
+     * @brief Sets the attributes visited and processing of the node to false
+     * @brief Complexity O(V) being V the number of nodes
      */
     void reset();
 
@@ -86,7 +86,7 @@ public:
 
 
     /**
-     * @brief Find the minimum spanning tree (MST) of the graph using the Prim algorithm
+     * @brief Find the minimum spanning tree (MST) of the graph using the Prims algorithm
      * @param source Starting node
      * @return A vector of Edges which representing the edges in the minimum spanning tree.
      * @brief O(E log N), where E is the number of edges in the graph and N is the number of nodes.
@@ -97,7 +97,7 @@ public:
      * the nodes that haded an odd number of connections together forming pairs, adds the pairs to the MST making all nodes even
      * degree and then calculates a path that travers all the edges only once,finally it removes the repeated nodes from the path
      * and adds the first node to the last position of the path
-     * @brief Applies the Christofide algorithm to solve the the TSP
+     * @brief Applies the Christofides algorithm to solve the the TSP
      * @return a pair being the first element a vector of nodes which consist of the path, and being the second element the
      * weight of the path
      * @brief Complexity O(N² + E log N) being N the number of nodes and E the number of edges

@@ -64,3 +64,5 @@
 579	1672	1685893627195425756	CMakeFiles/da_project2.dir/src/services/actions/Christofide.cpp.o	c27800cb50e7e78e
 1003	1762	1685893627288759856	CMakeFiles/da_project2.dir/src/services/actions/NearestNeighbor.cpp.o	639825d8017ef5
 1762	1845	1685893627368760513	da_project2	f921dd23c7ff0396
+0	861	1685893735372979865	CMakeFiles/da_project2.dir/src/model/Graph.cpp.o	52fdaf1e5c88b2b6
+861	935	1685893735446313799	da_project2	f921dd23c7ff0396

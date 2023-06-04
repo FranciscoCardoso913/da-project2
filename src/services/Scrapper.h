@@ -46,8 +46,14 @@ public:
      * @brief Complexity O(1)
      */
     void getValue(string &value, istringstream &data);
-
-    void scrapeEdgesWithoutNodes(Graph &graph,string &edges_value, bool ignore);
+    /**
+     * @brief Scrapes the edges without having the nodes, adds the nodes as they appear in the edges
+     * @param graph graph where the information will be stored
+     * @param edge_file file with the edges
+     * @param ignore if the user wants to ignore the first line of the file
+     * @brief Complexity O(E) being E the number of edges that exists
+     */
+    void scrapeEdgesWithoutNodes(Graph &graph,string &edge_file, bool ignore);
 };
 
 #endif // DA_PROJECT1_SCRAPPER_H

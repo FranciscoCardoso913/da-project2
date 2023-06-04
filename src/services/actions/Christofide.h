@@ -20,12 +20,12 @@ private:
 
 public:
     /**
-     * @brief Constructor of the Christofide object
+     * @brief Constructor of the Christofides object
      * @param currentGraph pointer that points to the graph being used
      */
     Christofide(Graph * &currentGraph);
     /**
-     * @brief Applies the Christofide Algorithm to solve the TSP, and is the user gives permission upgrades the results
+     * @brief Applies the Christofides Algorithm to solve the TSP, and is the user gives permission upgrades the results
      * with a greedy algorithm and the LinKernighan algorithm
      * @complexity O( N²*2^n + E (log E + log N) ) being N the number of nodes and E the number of edges
      */
