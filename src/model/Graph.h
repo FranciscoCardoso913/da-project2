@@ -14,7 +14,7 @@ typedef  pair<vector<int>,double> Path;
 class Graph
 {
 public:
-    string name;
+
     ~Graph();
 
     /**
@@ -74,17 +74,6 @@ public:
      */
     void reset();
 
-    /**
-     * @return Vector with all the edges
-     * @brief Complexity O(1)
-     */
-    vector<vector <Edge *>> getEdgeVector() const;
-
-    /**
-     * @brief Removes the last node inserted in the StationSet
-     * @brief Complexity O(1)
-     */
-    void removeLastNode();
 
     /**
      * @param node starting node
@@ -94,51 +83,33 @@ public:
      */
     void dfs(Node* station, vector<Node*> &path) const;
 
-    /**
-     * @brief Find the parent node of a given node in the disjoint set.
-     *
-     * This function finds the parent node of a given node in the disjoint set using path compression.
-     *
-     * @param parent The vector representing the parent nodes in the disjoint set.
-     * @param i The index of the node to find the parent for.
-     * @return The index of the parent node.
-     *
-     * @brief O(log n), where n is the number of nodes in the disjoint set.
-     */
-    int findParent(vector<int> &parent, int i);
-
-    /**
-     * @brief Merge two sets in the disjoint set.
-     *
-     * This function merges two sets in the disjoint set using union by rank.
-     *
-     * @param parent The vector representing the parent nodes in the disjoint set.
-     * @param x The index of the first node to merge.
-     * @param y The index of the second node to merge.
-     *
-     * @brief O(log n), where n is the number of nodes in the disjoint set.
-     */
-    void mergeSets(vector<int> &parent, int x, int y);
 
 
     /**
-     * @brief Find the minimum spanning tree (MST) of the graph.
-     *
-     * This function finds the minimum spanning tree of the graph using Prim's algorithm.
-     *
+     * @brief Find the minimum spanning tree (MST) of the graph using the Prim algorithm
+     * @param source Starting node
      * @return A vector of Edges which representing the edges in the minimum spanning tree.
-     *
-     * @brief O((E+V)log V), where E is the number of edges in the graph and V is the number of nodes.
+     * @brief O(E log N), where E is the number of edges in the graph and N is the number of nodes.
      */
-    vector<Edge*> findMinimumSpanningTree(Node* source);
+    vector<Edge*> MST(Node* source);
 
-
+    /**Creates an MST, then checks which nodes from the mst are connected to an odd number of other nodes, after that matches all
+     * the nodes that haded an odd number of connections together forming pairs, adds the pairs to the MST making all nodes even
+     * degree and then calculates a path that travers all the edges only once,finally it removes the repeated nodes from the path
+     * and adds the first node to the last position of the path
+     * @brief Applies the Christofide algorithm to solve the the TSP
+     * @return a pair being the first element a vector of nodes which consist of the path, and being the second element the
+     * weight of the path
+     * @brief Complexity O(N² + E log N) being N the number of nodes and E the number of edges
+     */
     pair<vector<Node*>, double> christofidesTSP();
 
-    /**
+    /**Select an initial node and adds to the path, then repeatedly selects the nearest node to the last selected node that has yet
+     * to be selected and adds it to the path, in the end adds the initial node to the end of the path
      * @brief Applies the nearest neighbor algorithm to solve the TSP
-     * @return a pair being the first element a vector of nodes which consist of the path, and being thr second element the
+     * @return a pair being the first element a vector of nodes which consist of the path, and being the second element the
      * weight of the path
+     * @brief Complexity O(N²) being N the number of Nodes
      */
     pair<vector<Node*>,double>  nearestNeighborTSP() ;
     /**
@@ -154,7 +125,6 @@ public:
     void greedyImprovement(bool * run,double * solution, pair<vector<Node *>, double> &tsp );
 
 
-    void completeRealEdges();
     /**
      * @brief completes the toy edges missing from the scrapper
      * @brief Complexity O(N²) being N the number of nodes
@@ -214,17 +184,42 @@ protected:
 
     /**
      * @brief deletes the graph
-     * @brief Complexity (V+E) being V the number of stations and E the number of edges
+     * @brief Complexity (V+E) being V the number of nodes and E the number of edges
      */
     void deleteGraph();
 
 
 
+    /**
+     * @brief Calculate the nodes that have an odd number of edges in the edges given
+     * @param edges vector with the edges
+     * @return the indexes of the nodes that have an odd number of edges
+     * @brief Complexity O(E) being E the number of edges given
+     */
+    vector<int> oddDegreeNodes( vector<Edge*> &edges) const;
 
-    vector<int> oddDegreeVertices( vector<Edge*> &edges) const;
-    vector<Edge*> minimumPerfectMatching (vector<int> nodes) ;
-    vector<int> findEulerianCircuit( vector<Edge*> &edges);
-    vector<Node*> tspTours(vector<int> &eulerianCircuit);
+    /**
+     * @brief Given an vector of nodes it matches the nodes with a singular other node forming pairs between the nodes
+     * @param nodes vector containing the nodes to be matched
+     * @return The edges formed by the matching
+     * @brief Complexity O(N²) being N the number of nodes in the vector
+     */
+    vector<Edge*> perfectMatching (vector<int> nodes) ;
+    /**
+     * @brief Given a vector of edges, forms a path that traverses every edge once
+     * @param edges Edges to form the path
+     * @return The path formed
+     * @brief Complexity O(E) being E the number of edges in the vector
+     */
+    vector<int> eulerianCircuit( vector<Edge*> &edges);
+
+    /**
+     * @brief Takes a path represented by a vector of int and removes the repeated nodes, in the end it adds
+     * the first node to end forming a cycle path
+     * @param circuit The path to be processed
+     * @return A vector of Nodes containing the new path
+     */
+    vector<Node*> tspTours(vector<int> &circuit);
 
     /**
      * @brief Calculates the total weight of a tour
@@ -240,7 +235,7 @@ protected:
      * @return A pointer to the node closest to node given
      * @brief Complexity O(N) being N the number of nodes
      */
-    Node* findNearestNeighbor( Node* node) ;
+    Node* nearestNeighbor( Node* node) ;
 };
 
 void deleteMatrix(int **m, int n);

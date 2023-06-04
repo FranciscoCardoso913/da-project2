@@ -8,7 +8,7 @@ void TriangularApproximation::execute() {
 
 
         Node* sourceNode = (*graph)->findNode(0);
-        vector<Edge*> mst = (*graph)->findMinimumSpanningTree(sourceNode);
+        vector<Edge*> mst = (*graph)->MST(sourceNode);
 
         for(auto edge : mst) {
             Node* orig = edge->getOrig();
