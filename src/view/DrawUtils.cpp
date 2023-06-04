@@ -1,7 +1,3 @@
-//
-// Created by franciscocardoso on 07-04-2023.
-//
-
 #include <vector>
 #include "DrawUtils.h"
 

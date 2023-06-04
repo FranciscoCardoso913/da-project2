@@ -1,5 +1,4 @@
 #include "NodesEdges.h"
-#include "../view/DrawUtils.h"
 
 Edge::Edge(Node *orig, Node *dest, double w) : orig(orig), dest(dest), capacity(w) {}
 
@@ -23,22 +22,6 @@ Edge *Edge::getReverse() const
     return this->reverse;
 }
 
-bool Edge::isDisabled() const
-{
-    return this->disabled;
-}
-
-int Edge::getFlow() const
-{
-    return flow;
-}
-
-
-void Edge::setDisabled(bool _disabled)
-{
-    this->disabled = _disabled;
-}
-
 void Edge::setReverse(Edge *_reverse)
 {
     this->reverse = _reverse;
@@ -48,7 +31,6 @@ void Edge::setFlow(int _flow)
 {
     this->flow = _flow;
 }
-
 
 void Edge::setCapacity(int _capacity)
 {

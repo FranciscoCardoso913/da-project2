@@ -1,12 +1,11 @@
 #include <stack>
 #include <climits>
 #include <valarray>
-#include <cfloat>
 #include "Graph.h"
 #include "MutablePriorityQueue.h"
 
 
-Node *Graph::findNode(const int &index) const
+Node* Graph::findNode(const int &index) const
 {
     if (index >= nodes.size())
         return nullptr;
@@ -14,7 +13,7 @@ Node *Graph::findNode(const int &index) const
     return nodes[index];
 }
 
-Edge *Graph::findEdge( Node *src,  Node *dst) const
+Edge* Graph::findEdge( Node *src,  Node *dst) const
 {
     if (src == nullptr || dst == nullptr)
         return nullptr;
@@ -22,12 +21,11 @@ Edge *Graph::findEdge( Node *src,  Node *dst) const
     return edges[src->getIndex()][dst->getIndex()];
 }
 
-bool Graph::addNode(Node *node)
+void Graph::addNode(Node *node)
 {
     while (node->getIndex() >= nodes.size())
         nodes.push_back(nullptr);
     nodes[node->getIndex()] = node;
-    return true;
 }
 
 Edge* Graph::addEdge(Node *src, Node *dest, double w)
@@ -43,11 +41,6 @@ Edge* Graph::addEdge(Node *src, Node *dest, double w)
         edges[src->getIndex()][dest->getIndex()]=edge;
         return edge;
 
-}
-
-vector<vector<Edge *>> Graph::getEdgeVector() const
-{
-    return edges;
 }
 
 bool Graph::addBidirectionalEdge(Node *src, Node *dst, double w)
@@ -80,6 +73,11 @@ void Graph::reset()
     }
 }
 
+vector<vector<Edge *>> Graph::getEdgeVector() const
+{
+    return edges;
+}
+
 void Graph::dfs(Node* station, vector<Node*> &path) const {
 
     station->setVisited(true);
@@ -92,8 +90,107 @@ void Graph::dfs(Node* station, vector<Node*> &path) const {
         }
     }
 
+}
+
+vector<Edge*> Graph::findMinimumSpanningTree(Node* source) {
+
+    if (nodes.empty()) return vector<Edge*>();
+
+    MutablePriorityQueue<Node> q;
+
+
+    for (auto v : nodes) {
+        v->setDist(INF);
+        v->setPath(nullptr);
+        v->setVisited(false);
+        q.insert(v);
+    }
+
+    source->setDist(0);
+
+    q.decreaseKey(source);
+
+    // process vertices in the priority queue
+    while (!q.empty()) {
+        auto v = q.extractMin();
+        v->setVisited(true);
+        for (auto& e : v->getAdj()) {
+            Node* w = e->getDest();
+            if (!w->isVisited() && e->getCapacity() < w->getDist()) {
+                w->setDist(e->getCapacity());
+                w->setPath(e);
+                q.decreaseKey(w);
+            }
+        }
+    }
+
+    vector<Edge*> res;
+    for (auto node : nodes) {
+        if (node->getPath() != nullptr) {
+            res.push_back(node->getPath());
+        }
+    }
+
+    return res;
+}
+
+/*
+pair<vector<int>, double> Graph::christofidesTSP()
+{
+    // Step 1: Find the minimum spanning tree
+    vector<Edge*> minimumSpanningTree = findMinimumSpanningTree();
+
+    // Step 2: Find the set of vertices with odd degree in the minimum spanning tree
+    vector<int> oddNodes = oddDegreeVertices(minimumSpanningTree);
+
+    // Step 3: Find a minimum-weight perfect matching among the odd degree vertices
+
+    vector<Edge> perfectMatching = minimumPerfectMatching(oddNodes);
+
+    // Step 4: Combine the minimum spanning tree and the perfect matching to form a multigraph
+    vector<Edge> multigraph;
+    multigraph.insert(multigraph.end(), minimumSpanningTree.begin(), minimumSpanningTree.end());
+    multigraph.insert(multigraph.end(), perfectMatching.begin(), perfectMatching.end());
+
+    // Step 5: Find an Eulerian circuit in the multigraph
+    vector<int> eulerianCircuit = findEulerianCircuit(multigraph);
+
+    // Step 6: Convert the Eulerian circuit into a TSP tour
+    vector<int> tspTour = tspTours(eulerianCircuit);
+
+    return make_pair(tspTour, calculateWeight(tspTour));
+}*/
+
+void Graph::completeToyEdges() {
+
+    while(edges.size()<nodes.size()) edges.push_back(vector<Edge*>(nodes.size(), nullptr));
+    for (int i = 0; i < nodes.size(); i++ ) {
+        while (edges[i].size()<nodes.size()) edges[i].push_back(nullptr);
+    }
 
 }
+
+// Function to calculate the Euclidean distance between two nodes
+double Graph:: calculateDistance( Node* node1,  Node* node2) {
+    Edge * line=findEdge(node1,node2);
+    if(line!= nullptr) return line->getCapacity();
+    double lat2=node2->lat;
+    double lat1= node1->lat;
+    double lon1= node1->lon;
+    double  lon2= node2->lon;
+    double dLat = (lat2 - lat1) * M_PI / 180.0;
+    double dLon = (lon2 - lon1) * M_PI / 180.0;
+
+    lat1 = lat1 * M_PI / 180.0;
+    lat2 = lat2 * M_PI / 180.0;
+
+    double a = pow(sin(dLat / 2), 2) +
+               pow(sin(dLon / 2), 2) * cos(lat1) * cos(lat2);
+    double rad = 6371000;
+    double c = 2 * asin(sqrt(a));
+    return rad * c;
+}
+
 
 vector<int> Graph::oddDegreeVertices(vector<Edge> &edges) const {
     vector<int> oddDegreeVertices;
@@ -112,7 +209,6 @@ vector<int> Graph::oddDegreeVertices(vector<Edge> &edges) const {
     }
     return oddDegreeVertices;
 }
-
 
 vector<Edge> Graph::minimumPerfectMatching(vector<int> oddNodes)
 {
@@ -175,7 +271,6 @@ vector<Edge> Graph::minimumPerfectMatching(vector<int> oddNodes)
     return perfectMatching;
 }
 
-
 vector<int> Graph::findEulerianCircuit( vector<Edge> &edges)
 {
     vector<int> circuit;
@@ -231,74 +326,19 @@ double Graph::calculateWeight( vector<int> &tsp)
     return weight;
 }
 
-/*
-pair<vector<int>, double> Graph::christofidesTSP()
-{
-    // Step 1: Find the minimum spanning tree
-    vector<Edge*> minimumSpanningTree = findMinimumSpanningTree();
-
-    // Step 2: Find the set of vertices with odd degree in the minimum spanning tree
-    vector<int> oddNodes = oddDegreeVertices(minimumSpanningTree);
-
-    // Step 3: Find a minimum-weight perfect matching among the odd degree vertices
-
-    vector<Edge> perfectMatching = minimumPerfectMatching(oddNodes);
-
-    // Step 4: Combine the minimum spanning tree and the perfect matching to form a multigraph
-    vector<Edge> multigraph;
-    multigraph.insert(multigraph.end(), minimumSpanningTree.begin(), minimumSpanningTree.end());
-    multigraph.insert(multigraph.end(), perfectMatching.begin(), perfectMatching.end());
-
-    // Step 5: Find an Eulerian circuit in the multigraph
-    vector<int> eulerianCircuit = findEulerianCircuit(multigraph);
-
-    // Step 6: Convert the Eulerian circuit into a TSP tour
-    vector<int> tspTour = tspTours(eulerianCircuit);
-
-    return make_pair(tspTour, calculateWeight(tspTour));
-}*/
-vector<Edge*> Graph::findMinimumSpanningTree(Node* source) {
-
-    if (nodes.empty()) return vector<Edge*>();
-
-    MutablePriorityQueue<Node> q;
-
-
-    for (auto v : nodes) {
-        v->setDist(INF);
-        v->setPath(nullptr);
-        v->setVisited(false);
-        q.insert(v);
-    }
-
-    source->setDist(0);
-
-    q.decreaseKey(source);
-
-    // process vertices in the priority queue
-    while (!q.empty()) {
-        auto v = q.extractMin();
-        v->setVisited(true);
-        for (auto& e : v->getAdj()) {
-            Node* w = e->getDest();
-            if (!w->isVisited() && e->getCapacity() < w->getDist()) {
-                w->setDist(e->getCapacity());
-                w->setPath(e);
-                q.decreaseKey(w);
-            }
+// Function to find the nearest unvisited neighbor of a node
+Node* Graph:: findNearestNeighbor( Node* node,  vector<Node*>& unvisitedNodes) {
+    double minDistance = numeric_limits<double>::max();
+    Node* nearestNeighbor = nullptr;
+    for (Node* neighbor : unvisitedNodes) {
+        double distance = calculateDistance(node, neighbor);
+        if (distance < minDistance) {
+            minDistance = distance;
+            nearestNeighbor = neighbor;
         }
     }
-
-    vector<Edge*> res;
-    for (auto node : nodes) {
-        if (node->getPath() != nullptr) {
-            res.push_back(node->getPath());
-        }
-    }
-
-    return res;
+    return nearestNeighbor;
 }
-
 void deleteMatrix(int **m, int n)
 {
     if (m != nullptr)
@@ -321,58 +361,15 @@ void deleteMatrix(double **m, int n)
     }
 }
 
-Graph::~Graph()
-{
-    deleteMatrix(distMatrix, nodes.size());
-    deleteMatrix(pathMatrix, nodes.size());
-}
 constexpr double EARTH_RADIUS = 6371000.0;
+
 
 double toRadians(double degrees) {
     return degrees * M_PI / 180.0;
 }
 
-// Function to calculate the Euclidean distance between two nodes
-double Graph:: calculateDistance( Node* node1,  Node* node2) {
-    Edge * line=findEdge(node1,node2);
-    if(line!= nullptr) return line->getCapacity();
-    double lat2=node2->lat;
-    double lat1= node1->lat;
-    double lon1= node1->lon;
-    double  lon2= node2->lon;
-    double dLat = (lat2 - lat1) * M_PI / 180.0;
-    double dLon = (lon2 - lon1) * M_PI / 180.0;
-
-    lat1 = lat1 * M_PI / 180.0;
-    lat2 = lat2 * M_PI / 180.0;
-
-    double a = pow(sin(dLat / 2), 2) +
-               pow(sin(dLon / 2), 2) * cos(lat1) * cos(lat2);
-    double rad = 6371000;
-    double c = 2 * asin(sqrt(a));
-    return rad * c;
-}
-
-
-// Function to find the nearest unvisited neighbor of a node
-Node* Graph:: findNearestNeighbor( Node* node,  vector<Node*>& unvisitedNodes) {
-    double minDistance = numeric_limits<double>::max();
-    Node* nearestNeighbor = nullptr;
-    for (Node* neighbor : unvisitedNodes) {
-        double distance = calculateDistance(node, neighbor);
-        if (distance < minDistance) {
-            minDistance = distance;
-            nearestNeighbor = neighbor;
-        }
-    }
-    return nearestNeighbor;
-}
-
-void Graph::completeToyEdges() {
-
-    while(edges.size()<nodes.size()) edges.push_back(vector<Edge*>(nodes.size(), nullptr));
-    for (int i = 0; i < nodes.size(); i++ ) {
-        while (edges[i].size()<nodes.size()) edges[i].push_back(nullptr);
-    }
-
+Graph::~Graph()
+{
+    deleteMatrix(distMatrix, nodes.size());
+    deleteMatrix(pathMatrix, nodes.size());
 }
