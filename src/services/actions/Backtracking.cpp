@@ -1,10 +1,5 @@
-
 #include "Backtracking.h"
-
 #include "../../view/DrawPaths.h"
-
-#include "../../view/DrawUtils.h"
-
 
 Backtracking::Backtracking(Graph *&graph):  graph(&graph) {};
 

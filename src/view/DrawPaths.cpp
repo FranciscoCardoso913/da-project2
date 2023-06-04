@@ -1,7 +1,3 @@
-//
-// Created by franciscocardoso on 02-04-2023.
-//
-
 #include "DrawPaths.h"
 
 void DrawPaths::pageController( Path path) const

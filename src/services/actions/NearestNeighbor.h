@@ -1,7 +1,3 @@
-//
-// Created by francisco on 02-06-2023.
-//
-
 #ifndef DA_PROJECT2_NEARESTNEIGHBOR_H
 #define DA_PROJECT2_NEARESTNEIGHBOR_H
 

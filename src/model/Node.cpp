@@ -73,16 +73,17 @@ Edge *Node::addEdge(Node *dest, double w)
 void Node::addMSTEdge(Edge *mstEdge) {
     mst.push_back(mstEdge);
 }
+
 double Node::getLon()const{return this->lon;}
+
 double Node::getLat() const{return this->lat;}
+
 int Node:: getTSPIndex() const{return this->tspIndex;}
+
 void Node::setTSPIndex(int TSPIndex){
     this->tspIndex=TSPIndex;
 }
 
-/*
- * Auxiliary function to remove an outgoing Edge of a Station.
- */
 void Node::removeOutgoingEdges()
 {
     auto it = adj.begin();

@@ -1,7 +1,3 @@
-//
-// Created by francisco on 31-05-2023.
-//
-
 #ifndef DA_PROJECT2_CHRISTOFIDE_H
 #define DA_PROJECT2_CHRISTOFIDE_H
 

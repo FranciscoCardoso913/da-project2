@@ -1,7 +1,3 @@
-//
-// Created by franciscocardoso on 16-03-2023.
-//
-
 #include "Scrapper.h"
 
 void Scrapper::scrape(Graph &graph, string node_file, string edge_file,int option, bool ignore)
@@ -61,32 +57,6 @@ void Scrapper::scrapeEdges(Graph &graph, string edges_file)
             Edge(graph.findNode(stoi(dst)), graph.findNode(stoi(src)), stod(w))
         );
     }
-}
-
-void Scrapper::getValue(string &value, istringstream &data)
-{
-    getline(data, value, ',');
-    int pos = value.find('"');
-    if (pos != string::npos)
-        value.erase(pos, 1);
-    int pos2 = value.find('"');
-    if (pos != string::npos and pos2 == string::npos)
-    {
-        string aux;
-        getline(data, aux, '"');
-        value += ',' + aux;
-    }
-    else if (pos2 != string::npos)
-    {
-        value.erase(pos2, 1);
-    }
-    pos = value.find('\r');
-    if (pos != string::npos)
-    {
-        value.erase(pos, 1);
-    }
-    if (value == "-")
-        value = "";
 }
 
 void Scrapper:: scrapeEdgesWithoutNodes(Graph &graph,string &edges_file, bool ignore){

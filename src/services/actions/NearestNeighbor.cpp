@@ -1,7 +1,3 @@
-//
-// Created by francisco on 02-06-2023.
-//
-
 #include "NearestNeighbor.h"
 #include "../../view/DrawPaths.h"
 #include <future>

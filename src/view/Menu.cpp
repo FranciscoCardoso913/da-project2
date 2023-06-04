@@ -1,7 +1,3 @@
-//
-// Created by ze on 18-03-2023.
-//
-
 #include "Menu.h"
 
 Menu::Menu(string path)

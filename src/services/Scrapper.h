@@ -39,14 +39,6 @@ public:
      */
     void scrapeEdges(Graph &graph, string edge_file);
 
-    /**
-     * @brief Gets the data from the files checking for error and special cases
-     * @param value where the data is going to be stored
-     * @param data the edge of the file containing the information
-     * @brief Complexity O(1)
-     */
-    void getValue(string &value, istringstream &data);
-
     void scrapeEdgesWithoutNodes(Graph &graph,string &edges_value, bool ignore);
 };
 

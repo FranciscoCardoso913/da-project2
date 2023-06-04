@@ -26,22 +26,24 @@ public:
     Program();
 
     /**
+     * @brief Runs the program
+     * @brief Complexity O(1)
+     */
+    void run();
+
+    /**
      * @brief Creates the menus of the program
      * @brief Complexity O(1)
      */
     void createMenus();
 
     /**
-     * @brief Runs the program
-     * @brief Complexity O(1)
-     */
-    void run();
-    /**
      * @brief Creates all graphs needed and scrapes the information from the files populationg the graphs with that
      * @param percentage percentage of completion
      * @brief Complexity O(V+E) being V the number of Nodes in the Graphs and E the number of edges
      */
     void loadGraphs(int *percentage);
+
     /**
      * @brief Destructor of program
      * @brief Complexity O(|A|) being A the actions;

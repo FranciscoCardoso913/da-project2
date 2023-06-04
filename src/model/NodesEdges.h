@@ -81,7 +81,7 @@ public:
      * @return Edge* pointer to edge that forms the path
      * @brief Complexity O(1)
      */
-    Edge *getPath() const;
+    Edge* getPath() const;
 
     /**
      * @brief Set the Visited object true or false
@@ -103,17 +103,6 @@ public:
      * @brief Complexity O(1)
      */
     void setDist(double dist);
-    /**
-     * @brief Removes all outgoing edges of node
-     * @brief Complexity O(n)
-     */
-    void removeOutgoingEdges();
-    /**
-    * @brief Deletes the Edge from the node's Adjacent and Incoming Edges
-    * @param Edge
-    * @brief Complexity O(L) being L the number of Edges incoming to the Destination node
-    */
-    void deleteEdge(Edge *Edge);
 
     /**
      * @brief Set the last connected Path to the Node
@@ -136,30 +125,47 @@ public:
      * @param mstEdge MST Edge
      */
     void addMSTEdge(Edge *mstEdge);
+
     /**
     *
     * @return Node longitude
     * @brief Complexity O(1)
     */
     double getLon()const;
+
     /**
      *
      * @return Node latitude
      * @brief Complexity O(1)
      */
     double getLat() const;
+
     /**
      *
      * @return Node TSP index
      * @brief Complexity O(1)
      */
     int getTSPIndex() const;
+
     /**
      * @brief Sets node TSPIndex
      * @param TSPIndex the new TSPIndex
      * @brief Complexity O(1)
      */
     void setTSPIndex(int TSPIndex);
+
+    /**
+     * @brief Removes all outgoing edges of node
+     * @brief Complexity O(n)
+     */
+    void removeOutgoingEdges();
+
+    /**
+    * @brief Deletes the Edge from the node's Adjacent and Incoming Edges
+    * @param Edge
+    * @brief Complexity O(L) being L the number of Edges incoming to the Destination node
+    */
+    void deleteEdge(Edge *Edge);
 
     int queueIndex;
 

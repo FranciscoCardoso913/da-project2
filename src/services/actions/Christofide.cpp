@@ -1,7 +1,3 @@
-//
-// Created by francisco on 31-05-2023.
-//
-
 #include <future>
 #include <csignal>
 #include <fcntl.h>

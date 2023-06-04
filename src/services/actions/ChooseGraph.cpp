@@ -1,8 +1,3 @@
-//
-// Created by ze on 18-03-2023.
-//
-
-
 #include "ChooseGraph.h"
 
 ChooseGraph:: ChooseGraph(Graph * &currentGraph_, Graph &newGraph_)
@@ -14,6 +9,6 @@ ChooseGraph:: ChooseGraph(Graph * &currentGraph_, Graph &newGraph_)
 void ChooseGraph::execute()
 {
     *currentGraph= &newGraph;
-    cout<<"Graph changes with success!\n";
+    cout<<"Graph has been changed!\n";
     wait();
 }
