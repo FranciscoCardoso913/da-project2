@@ -19,7 +19,7 @@ public:
 
     /**
      * @brief Auxiliary function to find a Node with a given index.
-     * @param position the index of the Node we want to find
+     * @param index the index of the Node we want to find
      * @return if the Node is found returns a pointer to the Node, otherwise returns nullptr
      * @brief Complexity O(1)
      */
