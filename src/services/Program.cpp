@@ -82,20 +82,25 @@ void Program::createMenus()
     graphMenu.addMenuItem(new ChooseGraph(currentGraph, graphs[0]));
     graphMenu.addMenuItem(new ChooseGraph(currentGraph, graphs[1]));
     graphMenu.addMenuItem(new ChooseGraph(currentGraph, graphs[2]));
-    graphMenu.addMenuItem(new ChooseGraph(currentGraph, fullyConnectedGraphs[0]));
-    graphMenu.addMenuItem(new ChooseGraph(currentGraph, fullyConnectedGraphs[1]));
-    graphMenu.addMenuItem(new ChooseGraph(currentGraph, fullyConnectedGraphs[2]));
-    graphMenu.addMenuItem(new ChooseGraph(currentGraph, fullyConnectedGraphs[3]));
-    graphMenu.addMenuItem(new ChooseGraph(currentGraph, fullyConnectedGraphs[4]));
-    graphMenu.addMenuItem(new ChooseGraph(currentGraph, fullyConnectedGraphs[5]));
-    graphMenu.addMenuItem(new ChooseGraph(currentGraph, fullyConnectedGraphs[6]));
-    graphMenu.addMenuItem(new ChooseGraph(currentGraph, fullyConnectedGraphs[7]));
-    graphMenu.addMenuItem(new ChooseGraph(currentGraph, fullyConnectedGraphs[8]));
-    graphMenu.addMenuItem(new ChooseGraph(currentGraph, fullyConnectedGraphs[9]));
-    graphMenu.addMenuItem(new ChooseGraph(currentGraph, fullyConnectedGraphs[10]));
-    graphMenu.addMenuItem(new ChooseGraph(currentGraph, fullyConnectedGraphs[11]));
+    graphMenu.addMenuItem(new ChangeMenu(menuPage, EXTRA_GRAPHS));
     graphMenu.addMenuItem(new ChangeMenu(menuPage, POP_MENU));
     menus.push_back(graphMenu);
+    Menu extraGraphsMenu = Menu("../menus/extraGraphs.txt");
+    extraGraphsMenu.addMenuItem(new ChooseGraph(currentGraph, fullyConnectedGraphs[0]));
+    extraGraphsMenu.addMenuItem(new ChooseGraph(currentGraph, fullyConnectedGraphs[1]));
+    extraGraphsMenu.addMenuItem(new ChooseGraph(currentGraph, fullyConnectedGraphs[2]));
+    extraGraphsMenu.addMenuItem(new ChooseGraph(currentGraph, fullyConnectedGraphs[3]));
+    extraGraphsMenu.addMenuItem(new ChooseGraph(currentGraph, fullyConnectedGraphs[4]));
+    extraGraphsMenu.addMenuItem(new ChooseGraph(currentGraph, fullyConnectedGraphs[5]));
+    extraGraphsMenu.addMenuItem(new ChooseGraph(currentGraph, fullyConnectedGraphs[6]));
+    extraGraphsMenu.addMenuItem(new ChooseGraph(currentGraph, fullyConnectedGraphs[7]));
+    extraGraphsMenu.addMenuItem(new ChooseGraph(currentGraph, fullyConnectedGraphs[8]));
+    extraGraphsMenu.addMenuItem(new ChooseGraph(currentGraph, fullyConnectedGraphs[9]));
+    extraGraphsMenu.addMenuItem(new ChooseGraph(currentGraph, fullyConnectedGraphs[10]));
+    extraGraphsMenu.addMenuItem(new ChooseGraph(currentGraph, fullyConnectedGraphs[11]));
+    extraGraphsMenu.addMenuItem(new ChangeMenu(menuPage, POP_MENU));
+    menus.push_back(extraGraphsMenu);
+
 }
 
 void Program::loadGraphs(int *percentage) {

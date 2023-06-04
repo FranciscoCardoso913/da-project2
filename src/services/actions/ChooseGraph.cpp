@@ -14,4 +14,6 @@ ChooseGraph:: ChooseGraph(Graph * &currentGraph_, Graph &newGraph_)
 void ChooseGraph::execute()
 {
     *currentGraph= &newGraph;
+    cout<<"Graph changes with success!\n";
+    wait();
 }

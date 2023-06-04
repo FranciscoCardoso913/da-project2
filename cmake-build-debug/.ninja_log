@@ -19,3 +19,16 @@
 535	1471	1685879669326203159	CMakeFiles/da_project2.dir/src/services/actions/Christofide.cpp.o	c27800cb50e7e78e
 1	937	1685879904385253906	CMakeFiles/da_project2.dir/src/model/Graph.cpp.o	52fdaf1e5c88b2b6
 937	1058	1685879904505255208	da_project2	f921dd23c7ff0396
+1	397	1685881260804484434	CMakeFiles/da_project2.dir/src/services/actions/ChooseGraph.cpp.o	a69446f4fd3a8cc6
+1	733	1685881261137819894	CMakeFiles/da_project2.dir/src/services/actions/Christofide.cpp.o	c27800cb50e7e78e
+1	742	1685881261147819958	CMakeFiles/da_project2.dir/src/services/actions/NearestNeighbor.cpp.o	639825d8017ef5
+0	912	1685881261317821043	CMakeFiles/da_project2.dir/src/services/Program.cpp.o	978b95db660eba6e
+912	987	1685881261391154845	da_project2	f921dd23c7ff0396
+1	453	1685881341641703815	CMakeFiles/da_project2.dir/src/services/actions/ChangeMenu.cpp.o	6b656ed8db768db4
+1	508	1685881341698370894	CMakeFiles/da_project2.dir/src/main.cpp.o	f930566208a11f0a
+1	574	1685881341765038044	CMakeFiles/da_project2.dir/src/view/Menu.cpp.o	99f2b8025d64a734
+1	627	1685881341818371766	CMakeFiles/da_project2.dir/src/services/actions/ChooseGraph.cpp.o	a69446f4fd3a8cc6
+1	962	1685881342151707524	CMakeFiles/da_project2.dir/src/services/actions/Christofide.cpp.o	c27800cb50e7e78e
+1	1076	1685881342265041683	CMakeFiles/da_project2.dir/src/services/Program.cpp.o	978b95db660eba6e
+453	1189	1685881342378375841	CMakeFiles/da_project2.dir/src/services/actions/NearestNeighbor.cpp.o	639825d8017ef5
+1189	1267	1685881342458376424	da_project2	f921dd23c7ff0396
