@@ -377,23 +377,20 @@ double Graph::calculateDistance(Node *node1, Node *node2)
 }
 
 void Graph::deleteGraph() {
+    for(auto edges_: edges){
+        edges_.clear();
+    }
     for (auto node : nodes)
     {
-        node->removeOutgoingEdges();
         node->getAdj().clear();
     }
     for (auto node : nodes)
     {
         delete node;
     }
-    nodes.clear();
-    for(auto edges_: edges){
-        for(auto edge: edges_){
-            delete edge;
-        }
-        edges_.clear();
-    }
     edges.clear();
+    nodes.clear();
+
 }
 
 vector<int> Graph::oddDegreeNodes(vector<Edge*> &edges) const {
