@@ -14,14 +14,16 @@ private:
 
 public:
     /**
+<<<<<<< HEAD
      * @brief Constructor of the ChooseGraph object
      * @param currentGraph Pointer pointing to the current Graph
      * @param newGraph the new Graph the pointer will point to
      */
     ChooseGraph(Graph * &currentGraph, Graph &newGraph);
+
     /**
-     * @brief Makes the pointer pointing to the current graph point to the new graph
-     * @complexity O(1)
+     * @brief Changes the current graph to the new graph
+     * @brief Complexity: O(1)
      */
     void execute() override;
 };

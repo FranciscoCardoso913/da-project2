@@ -4,14 +4,14 @@
 
 #include "Scrapper.h"
 
-void Scrapper::scrape(Graph &graph, string node_file, string edge_file,int option)
+void Scrapper::scrape(Graph &graph, string node_file, string edge_file,int option, bool ignore)
 {
     if(option==0) {
         scrapeNodes(graph, node_file);
         scrapeEdges(graph, edge_file);
     }
     else{
-        scrapeEdgesWithoutNodes( graph,  edge_file);
+        scrapeEdgesWithoutNodes( graph,  edge_file, ignore);
     }
 }
 
@@ -89,12 +89,14 @@ void Scrapper::getValue(string &value, istringstream &data)
         value = "";
 }
 
-void Scrapper:: scrapeEdgesWithoutNodes(Graph &graph,string &edges_file ){
+void Scrapper:: scrapeEdgesWithoutNodes(Graph &graph,string &edges_file, bool ignore){
     vector<Edge> edges;
     ifstream file(edges_file);
     string line;
     string src,dst,w;
-    getline(file, line);
+    if (ignore) {
+        getline(file, line);
+    }
 
     while (getline(file, line))
     {

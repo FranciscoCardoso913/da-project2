@@ -16,7 +16,7 @@ void Backtracking::backtracking_tsp(int srcNode, int currNode, unsigned int grap
 
         Edge *finalEdge = (*graph)->findEdge((*graph)->findNode(currPath[count-1]), (*graph)->findNode(srcNode));
 
-        double finalCost = finalEdge->getCapacity() + cost;
+        double finalCost = finalEdge->getWeight() + cost;
 
         if (finalCost < minCost) {
             minCost = finalCost;
@@ -46,7 +46,7 @@ void Backtracking::backtracking_tsp(int srcNode, int currNode, unsigned int grap
 
             currPath.push_back(i);
 
-            backtracking_tsp(srcNode, i, graphSize, count+1, cost + edge->getCapacity(), minCost, currPath, path);
+            backtracking_tsp(srcNode, i, graphSize, count+1, cost + edge->getWeight(), minCost, currPath, path);
 
             node->setVisited(false);
 

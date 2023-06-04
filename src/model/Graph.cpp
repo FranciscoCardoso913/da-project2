@@ -69,10 +69,6 @@ void Graph::reset()
     {
         node->setVisited(false);
         node->setProcessing(false);
-        for (Edge *edge : node->getAdj())
-        {
-            edge->setFlow(0);
-        }
     }
 }
 
@@ -132,7 +128,7 @@ vector<Edge*> Graph::perfectMatching(vector<int> oddNodes)
                 Edge* edge=findEdge(src, dest);
                 if(edge== nullptr) continue;
 
-                int weight = edge->getCapacity();
+                int weight = edge->getWeight();
                 if (weight < min_weight) {
                     min = j;
                     min_weight=weight;
@@ -230,7 +226,7 @@ double Graph::calculateWeight(vector<Node*> &tsp)
     double weight = 0.0;
     for (int i = 0; i < tsp.size() - 1; i++)
     {
-        weight += findEdge(findNode(tsp[i]->getIndex()), findNode(tsp[i + 1]->getIndex()))->getCapacity();
+        weight += findEdge(findNode(tsp[i]->getIndex()), findNode(tsp[i + 1]->getIndex()))->getWeight();
     }
     return weight;
 }
@@ -283,8 +279,8 @@ vector<Edge*> Graph::MST(Node* source) {
         v->setVisited(true);
         for (auto& e : v->getAdj()) {
             Node* w = e->getDest();
-            if (!w->isVisited() && e->getCapacity() < w->getDist()) {
-                w->setDist(e->getCapacity());
+            if (!w->isVisited() && e->getWeight() < w->getDist()) {
+                w->setDist(e->getWeight());
                 w->setPath(e);
                 q.decreaseKey(w);
             }
@@ -354,7 +350,7 @@ double Graph::calculateDistance(Node *node1, Node *node2)
 {
     Edge *line = findEdge(node1, node2);
     if (line != nullptr)
-        return line->getCapacity();
+        return line->getWeight();
     double lat2 = node2->getLat();
     double lat1 = node1->getLat();
     double lon1 = node1->getLon();
@@ -440,7 +436,7 @@ void Graph::greedyImprovement(bool* run,double *solution,pair<vector<Node*>,doub
         }
     }
     sort(edgesVector.begin(),edgesVector.end(),[](Edge a, Edge b){
-        return a.getCapacity() > b.getCapacity();
+        return a.getWeight() > b.getWeight();
     });
 
     while (!edgesVector.empty() and *run){
@@ -453,50 +449,50 @@ void Graph::greedyImprovement(bool* run,double *solution,pair<vector<Node*>,doub
         if(findEdge(tsp.first[edge.getOrig()->getTSPIndex() ],tsp.first[edge.getOrig()->getTSPIndex() +1 ])== nullptr){
             continue;
         }
-        weightBefore+= findEdge(tsp.first[edge.getOrig()->getTSPIndex() ],tsp.first[edge.getOrig()->getTSPIndex() +1 ])->getCapacity();
+        weightBefore+= findEdge(tsp.first[edge.getOrig()->getTSPIndex() ],tsp.first[edge.getOrig()->getTSPIndex() +1 ])->getWeight();
         if(findEdge(tsp.first[edge.getOrig()->getTSPIndex() +1 ],tsp.first[edge.getOrig()->getTSPIndex() +2 ])== nullptr){
             continue;
         }
-        weightBefore+= findEdge(tsp.first[edge.getOrig()->getTSPIndex() +1 ],tsp.first[edge.getOrig()->getTSPIndex() +2 ])->getCapacity();
+        weightBefore+= findEdge(tsp.first[edge.getOrig()->getTSPIndex() +1 ],tsp.first[edge.getOrig()->getTSPIndex() +2 ])->getWeight();
         if(findEdge(tsp.first[edge.getDest()->getTSPIndex() -1 ],tsp.first[edge.getDest()->getTSPIndex()  ])== nullptr){
             continue;
         }
-        weightBefore+= findEdge(tsp.first[edge.getDest()->getTSPIndex() -1 ],tsp.first[edge.getDest()->getTSPIndex()  ])->getCapacity();
+        weightBefore+= findEdge(tsp.first[edge.getDest()->getTSPIndex() -1 ],tsp.first[edge.getDest()->getTSPIndex()  ])->getWeight();
         if(findEdge(tsp.first[edge.getDest()->getTSPIndex() ],tsp.first[edge.getDest()->getTSPIndex() +1 ])== nullptr){
             continue;
         }
-        weightBefore+= findEdge(tsp.first[edge.getDest()->getTSPIndex() ],tsp.first[edge.getDest()->getTSPIndex() +1 ])->getCapacity();
+        weightBefore+= findEdge(tsp.first[edge.getDest()->getTSPIndex() ],tsp.first[edge.getDest()->getTSPIndex() +1 ])->getWeight();
 
         double  weightAfter=0;
         if(findEdge(tsp.first[edge.getOrig()->getTSPIndex() ],tsp.first[edge.getDest()->getTSPIndex()  ])==nullptr){
             continue;
         }
-        weightAfter+= findEdge(tsp.first[edge.getOrig()->getTSPIndex() ],tsp.first[edge.getDest()->getTSPIndex()  ])->getCapacity();
+        weightAfter+= findEdge(tsp.first[edge.getOrig()->getTSPIndex() ],tsp.first[edge.getDest()->getTSPIndex()  ])->getWeight();
         if(findEdge(tsp.first[edge.getDest()->getTSPIndex() ],tsp.first[edge.getOrig()->getTSPIndex() +2 ])==nullptr){
 
             continue;
         }
-        weightAfter+= findEdge(tsp.first[edge.getDest()->getTSPIndex() ],tsp.first[edge.getOrig()->getTSPIndex() +2 ])->getCapacity();
+        weightAfter+= findEdge(tsp.first[edge.getDest()->getTSPIndex() ],tsp.first[edge.getOrig()->getTSPIndex() +2 ])->getWeight();
         if(findEdge(tsp.first[edge.getDest()->getTSPIndex() -1 ],tsp.first[edge.getOrig()->getTSPIndex() +1 ])==nullptr){
             continue;
         }
-        weightAfter+= findEdge(tsp.first[edge.getDest()->getTSPIndex() -1 ],tsp.first[edge.getOrig()->getTSPIndex() +1 ])->getCapacity();
+        weightAfter+= findEdge(tsp.first[edge.getDest()->getTSPIndex() -1 ],tsp.first[edge.getOrig()->getTSPIndex() +1 ])->getWeight();
         if(findEdge(tsp.first[edge.getOrig()->getTSPIndex() +1],tsp.first[edge.getDest()->getTSPIndex() +1 ])==nullptr){
             continue;
         }
-        weightAfter+= findEdge(tsp.first[edge.getOrig()->getTSPIndex() +1],tsp.first[edge.getDest()->getTSPIndex() +1 ])->getCapacity();
+        weightAfter+= findEdge(tsp.first[edge.getOrig()->getTSPIndex() +1],tsp.first[edge.getDest()->getTSPIndex() +1 ])->getWeight();
         double diff= weightAfter-weightBefore;
 
 
 
         if(diff<0) {
-                swap(tsp.first[edge.getOrig()->getTSPIndex() + 1], tsp.first[edge.getDest()->getTSPIndex()]);
+            swap(tsp.first[edge.getOrig()->getTSPIndex() + 1], tsp.first[edge.getDest()->getTSPIndex()]);
 
-                int aux = edge.getOrig()->getTSPIndex();
-                edge.getOrig()->setTSPIndex( edge.getDest()->getTSPIndex());
-                edge.getDest()->setTSPIndex(  aux);
-                tsp.second += diff;
-                *solution=tsp.second;
+            int aux = edge.getOrig()->getTSPIndex();
+            edge.getOrig()->setTSPIndex( edge.getDest()->getTSPIndex());
+            edge.getDest()->setTSPIndex(  aux);
+            tsp.second += diff;
+            *solution=tsp.second;
         }
 
     }

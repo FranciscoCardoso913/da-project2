@@ -14,22 +14,22 @@ class Scrapper
 {
 public:
     /**
-     * @brief Scrapes the information from the Nodes and the edges from the files and stores it in the graph
+     * @brief Scrapes the information from the stations and the edges from the files and stores it in the graph
      * @param graph graph were all the information is going to be stored
-     * @param node_file the file containing the nodes
+     * @param station_file the file containing the stations
      * @param edge_file the file containing the edges
-     * @param option Indicates if the nodes will have to be scrapped from the edge file or not
+     * @param ignore if the user wants to ignore the first line of the file
      * @brief Complexity O(V+E) being V the number of stations and E the number of edges that exists
      */
-    void scrape(Graph &graph, string node_file, string edge_file,int option);
+    void scrape(Graph &graph, string station_file, string edge_file,int option, bool ignore);
 
     /**
-     * @brief Scrapes the information from the Nodes and stores it in the graph
+     * @brief Scrapes the information from the stations and stores it in the graph
      * @param graph graph were all the information is going to be stored
-     * @param node_file the file containing the nodes
-     * @brief Complexity O(V) being V the number of nodes that exists
+     * @param station_file the file containing the stations
+     * @brief Complexity O(V) being V the number of stations that exists
      */
-    void scrapeNodes(Graph &graph, string node_file);
+    void scrapeNodes(Graph &graph, string station_file);
 
     /**
      * @brief Scrapes the information from the edges and stores it in the graph
@@ -46,12 +46,8 @@ public:
      * @brief Complexity O(1)
      */
     void getValue(string &value, istringstream &data);
-    /**
-     * @brief Scrapes the edges without having the Nodes, adding the Nodes as they appear in the edges
-     * @param graph graph were all the information is going to be stored
-     * @param edges_file file containing all the edges
-     */
-    void scrapeEdgesWithoutNodes(Graph &graph,string &edges_file );
+
+    void scrapeEdgesWithoutNodes(Graph &graph,string &edges_value, bool ignore);
 };
 
 #endif // DA_PROJECT1_SCRAPPER_H
