@@ -44,7 +44,7 @@ void NearestNeighbor::execute() {
     double currSolution = 0;
     while (run)
     {
-        if ((time(NULL) - curr) > 0 or currSolution   != solution)
+        if ((time(NULL) - curr) > 0 )
         {
 
 

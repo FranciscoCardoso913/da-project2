@@ -14,9 +14,10 @@ private:
 
 public:
     /**
-     * @brief Action to choose a graph
-     * @param currentGraph The current graph
-     * @param newGraph The new graph to be chosen
+<<<<<<< HEAD
+     * @brief Constructor of the ChooseGraph object
+     * @param currentGraph Pointer pointing to the current Graph
+     * @param newGraph the new Graph the pointer will point to
      */
     ChooseGraph(Graph * &currentGraph, Graph &newGraph);
 

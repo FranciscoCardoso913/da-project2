@@ -21,7 +21,7 @@ private:
 public:
     /**
      * @brief Constructor of the class Program
-     * @brief Complexity O(V) being V the number of stations in the Graph
+     * @brief Complexity O(V + E) being V the number of nodes in the Graphs and E the number of edges
      */
     Program();
 
@@ -36,7 +36,11 @@ public:
      * @brief Complexity O(1)
      */
     void run();
-
+    /**
+     * @brief Creates all graphs needed and scrapes the information from the files populationg the graphs with that
+     * @param percentage percentage of completion
+     * @brief Complexity O(V+E) being V the number of Nodes in the Graphs and E the number of edges
+     */
     void loadGraphs(int *percentage);
     /**
      * @brief Destructor of program

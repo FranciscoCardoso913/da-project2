@@ -14,6 +14,7 @@ enum menus
 {
     MAIN_MENU,
     CHOOSE_GRAPH,
+    EXTRA_GRAPHS,
     POP_MENU
 };
 
