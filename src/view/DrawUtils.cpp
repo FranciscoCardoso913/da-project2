@@ -51,7 +51,7 @@ string drawFooter(int size)
     return display;
 }
 
-string drawFields(vector<pair<string, int>> fields, int i)
+string drawFields(vector<pair<int, int>> fields, int i)
 {
     string display = "";
     if (i % 2 == 0)
@@ -61,7 +61,7 @@ string drawFields(vector<pair<string, int>> fields, int i)
     for (auto field : fields)
     {
         display += field.first;
-        for (int i = 0; i < field.second - field.first.length() + specialChars(field.first); i++)
+        for (int i = 0; i < field.second - to_string(field.first).length() + specialChars(to_string(field.first)); i++)
             display += " ";
         display += "│";
     }

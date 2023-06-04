@@ -8,7 +8,11 @@
 #include "actions/ChooseGraph.h"
 #include "actions/Backtracking.h"
 #include "actions/Christofide.h"
+
+#include "actions/NearestNeighbor.h"
+
 #include "actions/TriangularApproximation.h"
+
 
 
 Program::Program()
@@ -65,6 +69,7 @@ void Program::createMenus()
     Menu menu = Menu("../menus/main.txt");
     menu.addMenuItem(new Backtracking(this->currentGraph));
     menu.addMenuItem(new TriangularApproximation(this->currentGraph));
+    menu.addMenuItem(new NearestNeighbor(this->currentGraph));
     menu.addMenuItem(new Christofide(this->currentGraph));
     menu.addMenuItem(new ChangeMenu(menuPage, CHOOSE_GRAPH));
     menu.addMenuItem(new ChangeMenu(menuPage, POP_MENU));
@@ -96,13 +101,20 @@ void Program::createMenus()
 void Program::loadGraphs(int *percentage) {
 
     *percentage=0;
+    //Scrapper().scrape(this->graphs[0], "../files/real_graphs/graph1/nodes.csv", "../files/Extra_Fully_Connected_Graphs/edges_25.csv",1);
+    //this->graphs[0].completeRealEdges();
     this->graphs[0] = Graph();
     Scrapper().scrape(this->graphs[0], "../files/real_graphs/graph1/nodes.csv", "../files/real_graphs/graph1/edges.csv",0);
-    *percentage=5;
+
+
+    *percentage=  15;
     currentGraph=&this->graphs[0];
     this->graphs[1] = Graph();
     Scrapper().scrape(this->graphs[1], "../files/real_graphs/graph2/nodes.csv", "../files/real_graphs/graph2/edges.csv",0);
-    *percentage=10;
+
+    *percentage=40;
+
+
     this->graphs[2] = Graph();
     Scrapper().scrape(this->graphs[2], "../files/real_graphs/graph3/nodes.csv", "../files/real_graphs/graph3/edges.csv",0);
     *percentage=20;

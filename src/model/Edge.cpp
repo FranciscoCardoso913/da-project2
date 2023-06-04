@@ -1,15 +1,15 @@
 #include "NodesEdges.h"
 
-Edge::Edge(Node *orig, Node *dest, double w) : orig(orig), dest(dest), capacity(w) {}
+Edge::Edge(Node *orig, Node *dest, double w) : orig(orig), dest(dest), weight(w) {}
 
 Node *Edge::getDest() const
 {
     return this->dest;
 }
 
-double Edge::getCapacity() const
+double Edge::getWeight() const
 {
-    return this->capacity;
+    return this->weight;
 }
 
 Node *Edge::getOrig() const
@@ -27,13 +27,8 @@ void Edge::setReverse(Edge *_reverse)
     this->reverse = _reverse;
 }
 
-void Edge::setFlow(int _flow)
+void Edge::setWeight(int weight)
 {
-    this->flow = _flow;
-}
-
-void Edge::setCapacity(int _capacity)
-{
-    this->capacity = _capacity;
+    this->weight = weight;
 }
 

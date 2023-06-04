@@ -17,45 +17,53 @@ class Edge;
 class Node
 {
 public:
+
     /**
-     * @brief Constructor of a Station object
-     * @param name the name of the station
-     * @param district the district of the station
-     * @param municipality the municipality of the station
-     * @param township the township of the station
-     * @param station_edge the edge of the station
+     * @brief Construct a new Node object
+     * @param index Node index
+     * @param lon Node longitude
+     * @param lat Node latitude
+     * @brief Complexity O(1)
      */
-    Node(int position, double lon=0,double lat=0,string label="");
+    Node(int index, double lon=0,double lat=0);
 
 
     /**
      * @brief Less then operator
-     * @param Station the station which is being compared to the current object.
-     * @return true if name is alphabetically lesser then the object being compared
-     * @return false if name is alphabetically bigger then the object being compared
+     * @param Node the Node which is being compared to the current object.
+     * @return true if the current Node has a smaller distance then the Node being compared to, false otherwise.
      * @brief Complexity O(1)
      */
     bool operator<(Node node) const; // // required by MutablePriorityQueue
 
     /**
-     * @return Vector of Adjacent Edges to the Station
+     * @return Vector of Adjacent Edges to the Node
      * @brief Complexity O(1)
      */
     std::vector<Edge *> getAdj() const;
 
+    /**
+     * @return Vector of MST Edges to the Node
+     * @brief Complexity O(1)
+     */
     std::vector<Edge *> getMST() const;
 
+    /**
+     * @brief Get the Node index
+     * @return Node index
+     * @brief Complexity O(1)
+     */
     int getIndex()const;
 
     /**
-     * @brief checks if the station has been visited
+     * @brief checks if the Node has been visited
      * @return visited parameter status
      * @brief Complexity O(1)
      */
     bool isVisited() const;
 
     /**
-     * @brief Check if station is being processed
+     * @brief Check if Node is being processed
      * @return processing parameter status
      * @brief Complexity O(1)
      */
@@ -63,40 +71,17 @@ public:
 
     /**
      * @brief Get the current distance from a source
-     * @return distance from source Station
+     * @return distance from source Node
      * @brief Complexity O(1)
      */
     double getDist() const;
 
     /**
-     * @brief Get the last connected Path to this Station
+     * @brief Get the last connected Path to this Node
      * @return Edge* pointer to edge that forms the path
      * @brief Complexity O(1)
      */
     Edge *getPath() const;
-
-    /**
-     * @brief Get the vector of incoming Edges to the Station
-     * @return vector of pointers to station's incoming edges
-     * @brief Complexity O(1)
-     */
-    std::vector<Edge *> getIncoming() const;
-
-
-
-    /**
-     * @brief Disable or enable Station
-     * @param _disabled the state to be set
-     * @brief Complexity O(1)
-     */
-    void setDisabled(bool _disabled);
-
-    /**
-     * @brief Check if the Station is Disabled
-     * @return true if is disabled, false otherwise
-     * @brief Complexity O(1)
-     */
-    bool isDisabled() const;
 
     /**
      * @brief Set the Visited object true or false
@@ -120,73 +105,46 @@ public:
     void setDist(double dist);
 
     /**
-     * @brief Set the last connected Path to the Station
+     * @brief Set the last connected Path to the Node
      * @param path last connected path
      * @brief Complexity O(1)
      */
     void setPath(Edge *path);
 
     /**
-     * @brief Change the value of the station's edge
-     * @param _station_edge new value of the station's edge
-     * @brief Complexity O(1)
-     */
-    void setStationEdge(string _station_edge);
-
-    /**
-     * @brief Auxiliary function to add an outgoing Edge to a Station
-     * @param dest Destination Station
-     * @param w  Edge capacity
-     * @param s  Service
+     * @brief Auxiliary function to add an outgoing Edge to a Node
+     * @param dest Destination Node
+     * @param w  Edge weight
      * @return Edge*
      * @brief Complexity O(1)
      */
-    Edge *addEdge(Node *dest, double w);
-
-
-    bool addMSTEdge(Edge *mstEdge);
+    Edge *addEdge(Node *d, double w);
 
     /**
-     * @brief Auxiliary function to remove an outgoing Edge to a Station
-     * @param destName Station name
-     * @return true if successful, and false if such Edge does not exist.
-     * @brief Complexity O(n)
+     * @brief Auxiliary function to add an MST Edge to a Node
+     * @param mstEdge MST Edge
      */
-    bool removeEdge(int dest);
-
-    /**
-     * @brief Removes all outgoing edges of Station
-     * @brief Complexity O(n)
-     */
-    void removeOutgoingEdges();
+    void addMSTEdge(Edge *mstEdge);
 
     int queueIndex;
     double lon,lat;
-
+    int tspIndex;
 protected:
 
    int index;
 
-   string label;
-    // identifier
     std::vector<Edge *> adj; // outgoing Edges
     std::vector<Edge *> mst; // MST Edges
 
     // auxiliary fields
-    bool disabled = false;
     bool visited = false;    // used by DFS, BFS, Prim ...
     bool processing = false; // used by isDAG (in addition to the visited attribute)
     int dist = 0;
+
     Edge *path = nullptr;
 
     std::vector<Edge *> incoming; // incoming Edges
 
-    /**
-     * @brief Deletes the Edge from the Station's Adjacent and Incoming Edges
-     * @param Edge
-     * @brief Complexity O(L) being L the number of Edges incoming to the Destination Station
-     */
-    void deleteEdge(Edge *Edge);
 };
 
 class Edge
@@ -195,7 +153,7 @@ public:
     Edge(Node *orig, Node *dest, double w);
 
     /**
-     * @return pointer to Destination's station
+     * @return pointer to Destination's Node
      * @brief Complexity O(1)
      */
     Node *getDest() const;
@@ -204,10 +162,10 @@ public:
      * @return Edge Capacity
      * @brief Complexity O(1)
      */
-    double getCapacity() const;
+    double getWeight() const;
 
     /**
-     * @return pointer to Origin's Station
+     * @return pointer to Origin's Node
      * @brief Complexity O(1)
      */
     Node *getOrig() const;
@@ -219,61 +177,26 @@ public:
     Edge *getReverse() const;
 
     /**
-     * @return True if Edge is Disabled, false otherwise
-     * @brief Complexity O(1)
-     */
-    bool isDisabled() const;
-
-    /**
-     * @return Current Flow passing in the Edge
-     * @brief Complexity O(1)
-     */
-    int getFlow() const;
-
-
-    /**
-     * @brief Changes disabled parameter to true or false depending on the value passed by _disabled
-     * @param _disabled desired value for disabled
-     * @brief Complexity O(1)
-     */
-    void setDisabled(bool _disabled);
-
-    /**
      * @brief Changes Edge's reverse edge to the edge passed into _reverse
      * @param _reverse Reverse Edge to be attributed
      * @brief Complexity O(1)
      */
     void setReverse(Edge *_reverse);
 
-    /**
-     * @brief Sets current edge's flow to _flow
-     * @param _flow desired flow to be attributed
-     * @brief Complexity O(1)
-     */
-    void setFlow(int _flow);
-
 
     /**
-     * @brief Sets current edge's capacity to _capacity
-     * @param _capacity desired capacity to be attributed
+     * @brief Sets current edge's weight to _capacity
+     * @param _capacity desired weight to be attributed
      * @brief Complexity O(1)
      */
-    void setCapacity(int _capacity);
-
-    /**
-     * @brief Prints the information of the Edge
-     * @brief Complexity O(1)
-     */
-    void print(int i);
+    void setWeight(int _capacity);
 
 private:
 
-    Node *dest;           // destination Station
-    double capacity;         // Edge capacity, can also be used for capacity
-    bool disabled = false;   // is the edge disabled?
-    Node *orig;           // Origin station
+    Node *dest;           // destination Node
+    double weight;         // Edge weight
+    Node *orig;           // Origin Node
     Edge *reverse = nullptr; // Opposite Edge
-    double flow;             // for flow-related problems
 };
 
 #endif /* DA_PROJECT1_NODES_EDGES */

@@ -1,6 +1,10 @@
 
 #include "Backtracking.h"
+
+#include "../../view/DrawPaths.h"
+
 #include "../../view/DrawUtils.h"
+
 
 Backtracking::Backtracking(Graph *&graph):  graph(&graph) {};
 
@@ -12,7 +16,7 @@ void Backtracking::backtracking_tsp(int srcNode, int currNode, unsigned int grap
 
         Edge *finalEdge = (*graph)->findEdge((*graph)->findNode(currPath[count-1]), (*graph)->findNode(srcNode));
 
-        double finalCost = finalEdge->getCapacity() + cost;
+        double finalCost = finalEdge->getWeight() + cost;
 
         if (finalCost < minCost) {
             minCost = finalCost;
@@ -42,7 +46,7 @@ void Backtracking::backtracking_tsp(int srcNode, int currNode, unsigned int grap
 
             currPath.push_back(i);
 
-            backtracking_tsp(srcNode, i, graphSize, count+1, cost + edge->getCapacity(), minCost, currPath, path);
+            backtracking_tsp(srcNode, i, graphSize, count+1, cost + edge->getWeight(), minCost, currPath, path);
 
             node->setVisited(false);
 
@@ -92,12 +96,9 @@ void Backtracking::execute() {
 
     backtracking_tsp(srcNode, srcNode, graphSize, 1, 0, minCost, currPath, path);
 
-    system("clear");
-    cout << "\033[0m";
-    cout << drawHeader(112, "Triangular Approximation") << endl;
-    cout << "Cost: " << minCost << endl;
-    cout << drawFooter(112);
 
-    wait();
+    DrawPaths().pageController(make_pair(path,minCost));
+
+
 
 }

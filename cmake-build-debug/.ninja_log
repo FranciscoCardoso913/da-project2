@@ -1,0 +1,25 @@
+# ninja log v5
+1	715	1685820357864324012	CMakeFiles/da_project2.dir/src/services/actions/NearestNeighbor.cpp.o	639825d8017ef5
+1	639	1685820255446890818	CMakeFiles/da_project2.dir/src/view/Menu.cpp.o	99f2b8025d64a734
+1	352	1685820255160222093	CMakeFiles/da_project2.dir/src/services/actions/ChangeMenu.cpp.o	6b656ed8db768db4
+618	1029	1685820255836893618	CMakeFiles/da_project2.dir/src/model/Edge.cpp.o	8d79fa36462da944
+1	1292	1685820256100228844	CMakeFiles/da_project2.dir/src/model/Graph.cpp.o	52fdaf1e5c88b2b6
+1470	1544	1685724940830275510	da_project2	dddb97037ca1a4e0
+352	618	1685820255426890675	CMakeFiles/da_project2.dir/src/view/DrawUtils.cpp.o	9d7b12e9f506539f
+1	1408	1685820256213562992	CMakeFiles/da_project2.dir/src/services/Program.cpp.o	978b95db660eba6e
+0	11	1685820371077760437	build.ninja	744c51079fa3c6a8
+639	1308	1685820256116895631	CMakeFiles/da_project2.dir/src/services/actions/ChooseGraph.cpp.o	a69446f4fd3a8cc6
+1	480	1685820255286889669	CMakeFiles/da_project2.dir/src/services/actions/Action.cpp.o	c9ee9f722b5b3db2
+1	352	1685820255160222093	CMakeFiles/da_project2.dir/src/main.cpp.o	f930566208a11f0a
+989	1417	1685820256226896421	CMakeFiles/da_project2.dir/src/services/actions/Backtracking.cpp.o	fc852dfa90241bbd
+1029	1388	1685820256196896206	CMakeFiles/da_project2.dir/src/view/DrawPaths.cpp.o	23d63ad27c9b7433
+480	989	1685820255796893332	CMakeFiles/da_project2.dir/src/model/Node.cpp.o	435b219654621bf4
+352	749	1685820255556891607	CMakeFiles/da_project2.dir/src/services/Scrapper.cpp.o	4da0a11936c171db
+1	496	1685820357644322303	CMakeFiles/da_project2.dir/src/services/actions/Christofide.cpp.o	c27800cb50e7e78e
+0	286	1685820372921108223	CMakeFiles/da_project2.dir/src/services/actions/TriangularApproximation.cpp.o	1e00ce227da58632
+286	357	1685820372991108772	da_project2	f921dd23c7ff0396
+0	351	1685820838705173511	CMakeFiles/da_project2.dir/src/services/actions/TriangularApproximation.cpp.o	1e00ce227da58632
+0	850	1685820839201844838	CMakeFiles/da_project2.dir/src/model/Graph.cpp.o	52fdaf1e5c88b2b6
+850	920	1685820839271845494	da_project2	f921dd23c7ff0396
+0	692	1685821450569243206	CMakeFiles/da_project2.dir/src/services/actions/NearestNeighbor.cpp.o	639825d8017ef5
+692	763	1685821450642577507	da_project2	f921dd23c7ff0396
