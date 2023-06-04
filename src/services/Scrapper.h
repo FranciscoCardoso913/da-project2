@@ -14,22 +14,22 @@ class Scrapper
 {
 public:
     /**
-     * @brief Scrapes the information from the stations and the edges from the files and stores it in the graph
+     * @brief Scrapes the information from the nodes and the edges from the files and stores it in the graph
      * @param graph graph were all the information is going to be stored
-     * @param station_file the file containing the stations
+     * @param node_file the file containing the nodes
      * @param edge_file the file containing the edges
      * @param ignore if the user wants to ignore the first line of the file
-     * @brief Complexity O(V+E) being V the number of stations and E the number of edges that exists
+     * @brief Complexity O(V+E) being V the number of nodes and E the number of edges that exists
      */
-    void scrape(Graph &graph, string station_file, string edge_file,int option, bool ignore);
+    void scrape(Graph &graph, string node_file, string edge_file,int option, bool ignore);
 
     /**
-     * @brief Scrapes the information from the stations and stores it in the graph
+     * @brief Scrapes the information from the nodes and stores it in the graph
      * @param graph graph were all the information is going to be stored
-     * @param station_file the file containing the stations
-     * @brief Complexity O(V) being V the number of stations that exists
+     * @param node_file the file containing the nodes
+     * @brief Complexity O(V) being V the number of nodes that exists
      */
-    void scrapeNodes(Graph &graph, string station_file);
+    void scrapeNodes(Graph &graph, string node_file);
 
     /**
      * @brief Scrapes the information from the edges and stores it in the graph

@@ -73,15 +73,15 @@ void Graph::reset()
 }
 
 
-void Graph::dfs(Node* station, vector<Node*> &path) const {
+void Graph::dfs(Node* node, vector<Node*> &path) const {
 
-    station->setVisited(true);
-    path.push_back(station);
+    node->setVisited(true);
+    path.push_back(node);
 
-    for (Edge* edge : station->getMST()) {
-        Node* nextStation = edge->getDest();
-        if (!nextStation->isVisited()) {
-            dfs(nextStation, path);
+    for (Edge* edge : node->getMST()) {
+        Node* nextnode = edge->getDest();
+        if (!nextnode->isVisited()) {
+            dfs(nextnode, path);
         }
     }
 
@@ -345,12 +345,11 @@ Graph::~Graph()
 }
 
 
-// Function to calculate the Euclidean distance between two nodes
 double Graph::calculateDistance(Node *node1, Node *node2)
 {
-    Edge *line = findEdge(node1, node2);
-    if (line != nullptr)
-        return line->getWeight();
+    Edge *edge = findEdge(node1, node2);
+    if (edge != nullptr)
+        return edge->getWeight();
     double lat2 = node2->getLat();
     double lat1 = node1->getLat();
     double lon1 = node1->getLon();

@@ -81,7 +81,7 @@ void Node::setTSPIndex(int TSPIndex){
 }
 
 /*
- * Auxiliary function to remove an outgoing Edge of a Station.
+ * Auxiliary function to remove an outgoing Edge of a node.
  */
 void Node::removeOutgoingEdges()
 {

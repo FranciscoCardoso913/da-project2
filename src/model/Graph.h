@@ -37,7 +37,7 @@ public:
     /**
      * @brief Adds a Node to the graph
      * @param node node to be added.
-     * @return true if successful, and false if a Station with that content already exists.
+     * @return true if successful, and false if a node with that content already exists.
      * @brief Complexity O(1)
      */
     bool addNode(Node *node);
@@ -69,7 +69,7 @@ public:
     vector<Node *> getNodes() const;
 
     /**
-     * @brief Sets the attributes visited and processing of the station to false and the flow of the edges to 0
+     * @brief Sets the attributes visited and processing of the node to false and the flow of the edges to 0
      * @brief Complexity O(V+E) being V the number of nodes and E the number of edges
      */
     void reset();
@@ -81,7 +81,7 @@ public:
      * @brief dfs algorithm to find the Hamiltonian Path
      * @brief Complexity O(V+E) being V the number of nodes and E the number of edges
      */
-    void dfs(Node* station, vector<Node*> &path) const;
+    void dfs(Node* node, vector<Node*> &path) const;
 
 
 

@@ -64,7 +64,7 @@ void Backtracking::execute() {
 
     string source;
     while (true) {
-        cout << "Insert the Source Station: ";
+        cout << "Insert the Source node: ";
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
         getline(cin, source);
         if (source.empty()) {
