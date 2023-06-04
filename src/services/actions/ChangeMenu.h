@@ -16,7 +16,6 @@ public:
     /**
      * @brief Constructor of ChangeMenu, a class that extends Action
      * @param currMenusPage stack with the current pages of the Menu
-     * @param graph graph with all the information of the stations and the lines
      * @param nextMenu the page we want to go next
      * @brief Complexity O(1)
      */

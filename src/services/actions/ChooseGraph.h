@@ -13,8 +13,17 @@ private:
     Graph  newGraph;
 
 public:
+    /**
+     * @brief Action to choose a graph
+     * @param currentGraph The current graph
+     * @param newGraph The new graph to be chosen
+     */
     ChooseGraph(Graph * &currentGraph, Graph &newGraph);
 
+    /**
+     * @brief Changes the current graph to the new graph
+     * @brief Complexity: O(1)
+     */
     void execute() override;
 };
 

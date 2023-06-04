@@ -38,7 +38,7 @@ void TriangularApproximation::execute() {
             if (edge == nullptr) {
                 cost += (*graph)->calculateDistance(HamiltonianPath[i], HamiltonianPath[i+1]);
             }
-            else cost += edge->getCapacity();
+            else cost += edge->getWeight();
         }
         convert.first.push_back(HamiltonianPath.back()->getIndex());
         convert.second=cost;
